@@ -1,4 +1,4 @@
-from lark import Lark, Transformer
+from lark import Transformer
 
 
 class ToMyLang(Transformer):
@@ -35,13 +35,3 @@ class ToMyLang(Transformer):
         # right = float(tree[1].value)
         # print(left + right)
         print(left)
-
-
-parser = Lark(open("./mylang.lark"), parser="lalr", transformer=ToMyLang())
-
-parser.parse(r"変数 x に 10 を代入")
-parser.parse(r"変数 y に 10 を代入")
-parser.parse(r"変数 z に 10 を代入")
-parser.parse(r"x を表示")
-parser.parse(r"40 を表示")
-parser.parse(r"10 に 3 を足す")
