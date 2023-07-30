@@ -1,7 +1,7 @@
 from lark import Transformer
 
 
-class ToMyLang(Transformer):
+class MyLangTransformer(Transformer):
     def __init__(self):
         self.variables = {}
 
