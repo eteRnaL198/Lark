@@ -1,3 +1,4 @@
 before(): call(void foo(int)) {
-  printf("aspect\n");
+  int a = 1;
+  printf("aspect a=%d\n", a);
 }

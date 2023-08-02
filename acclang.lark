@@ -1,22 +1,23 @@
+// https://github.com/lark-parser/lark/blob/master/lark/grammars/common.lark
+
 ?start: aspect
-aspect: advice"():" pointcut"(" ")" "{" body+ "}"
+aspect: advice pointcut "{" body "}"
 
 advice: before | after | around
-before: "before"
-after: "after"
-around: "around"
-body: /.+/
+before: "before():"
+after: "after():"
+around: "around():"
+body: /.+/+
 
 pointcut: joinpoint+
 joinpoint: call | execution | get | set
-call: "call"
-execution: "execution"
-get: "get"
-set: "set"
+call: "call("function_signature")"
+execution: "execution()"
+get: "get()"
+set: "set()"
 
+function_signature: WORD~2 "("WORD")"
 
 // %import common.CNAME
-%import common.WORD
-%import common._STRING_INNER
-%import common.WS
+%import common (WORD, WS)
 %ignore WS

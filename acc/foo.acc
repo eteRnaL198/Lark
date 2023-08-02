@@ -1,4 +1,0 @@
-before(): call() { 
-  a = 3;
-  printf("a=%d\n", a);
-}

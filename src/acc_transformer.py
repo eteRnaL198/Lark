@@ -3,21 +3,44 @@ from lark import Transformer
 
 class AccTransformer(Transformer):
     def __init__(self):
-        self.variables = {}
+        self.aspects = []
+
+    def aspect(self, tree):
+        advice, pointcut, body = tree[0], tree[1], tree[2]
+        print(
+            "aspect)",
+            "\n\tadvice:",
+            advice,
+            "\n\tpointcut:",
+            pointcut,
+            "\n\tbody:",
+            body,
+        )
 
     # advice
+    def advice(self, tree):
+        return tree[0]
+
     def before(self, tree):
-        print("before")
+        return "befeore"
 
     def after(self, tree):
-        pass
+        return "after"
 
     def around(self, tree):
-        pass
+        return "around"
 
     def body(self, tree):
-        print("body:", tree)
+        return [t.value for t in tree]
 
     # pointcut
     def pointcut(self, tree):
-        return
+        print("pointcut:", tree[0].children)
+        return tree
+
+    def call(self, tree):
+        # print("call:", tree[0].value)
+        return ("call:", tree)
+
+    def function_signature(self, tree):
+        return tree[0] + " " + tree[1] + "(" + tree[2] + ")"

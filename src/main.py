@@ -22,5 +22,5 @@ parser = Lark(
     transformer=AccTransformer(),
 )
 
-src = open(generate_path("/acc/foo.acc")).read()
+src = open(generate_path("/acc/aspect.acc")).read()
 parser.parse(src)
