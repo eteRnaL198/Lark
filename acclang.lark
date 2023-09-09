@@ -9,15 +9,16 @@ after: "after():"
 around: "around():"
 body: /.+/+
 
-pointcut: joinpoint+
-joinpoint: call | execution | get | set
+pointcut: primitive_pointcut+
+primitive_pointcut: call | execution | get | set | infunc
 call: "call("function_signature")"
 execution: "execution()"
 get: "get()"
 set: "set()"
+infunc: "infunc("function_name")"
 
-function_signature: WORD~2 "("WORD")"
+function_name: CNAME
+function_signature: WORD CNAME "("WORD")"
 
-// %import common.CNAME
-%import common (WORD, WS)
+%import common (CNAME, WORD, WS)
 %ignore WS

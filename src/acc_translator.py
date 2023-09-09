@@ -1,7 +1,7 @@
 from lark import Transformer
 
 
-class AccTransformer(Transformer):
+class AccTranslator(Transformer):
     def __init__(self):
         self.aspects = []
 
@@ -17,7 +17,7 @@ class AccTransformer(Transformer):
             body,
         )
 
-    # advice
+    ######################## advice ########################
     def advice(self, tree):
         return tree[0]
 
@@ -33,14 +33,27 @@ class AccTransformer(Transformer):
     def body(self, tree):
         return [t.value for t in tree]
 
-    # pointcut
+    ######################## pointcut ########################
     def pointcut(self, tree):
-        print("pointcut:", tree[0].children)
-        return tree
+        return [*tree]
+
+    def primitive_pointcut(self, tree):
+        return tree[0]
 
     def call(self, tree):
-        # print("call:", tree[0].value)
-        return ("call:", tree)
+        return {"name": "call", "arg": tree[0]}
+
+    def infunc(self, tree):
+        return {"name": "infunc", "arg": tree[0]}
+
+    def function_name(self, tree):
+        """
+        e.g.) foo_bar
+        """
+        return str(tree[0])
 
     def function_signature(self, tree):
+        """
+        e.g.) tree[void, foo, int] -> void foo(int)
+        """
         return tree[0] + " " + tree[1] + "(" + tree[2] + ")"

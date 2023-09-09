@@ -1,5 +1,5 @@
 # from my_lang_transformer import MyLangTransformer
-from acc_transformer import AccTransformer
+from acc_translator import AccTranslator
 from util.file_util import generate_path
 
 from lark import Lark
@@ -14,12 +14,11 @@ from lark import Lark
 # parser.parse(r"40 を表示")
 # parser.parse(r"10 に 3 を足す")
 
-
 grammar = generate_path("/acclang.lark")
 parser = Lark(
     grammar=open(grammar),
     parser="lalr",
-    transformer=AccTransformer(),
+    transformer=AccTranslator(),
 )
 
 src = open(generate_path("/acc/aspect.acc")).read()
