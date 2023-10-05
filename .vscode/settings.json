@@ -1,3 +1,11 @@
 {
-  "python.analysis.typeCheckingMode": "basic"
+  "python.analysis.typeCheckingMode": "basic",
+  "files.associations": {
+    "*.md": "markdown",
+    "osek_kernel.h": "c",
+    "check.h": "c",
+    "kernel.h": "c",
+    "interrupt.h": "c",
+    "complex": "c"
+  }
 }
