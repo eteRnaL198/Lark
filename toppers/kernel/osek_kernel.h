@@ -2,14 +2,14 @@
  *  TOPPERS Automotive Kernel
  *      Toyohashi Open Platform for Embedded Real-Time Systems
  *      Automotive Kernel
- * 
+ *
  *  Copyright (C) 2000-2003 by Embedded and Real-Time Systems Laboratory
  *                              Toyohashi Univ. of Technology, JAPAN
  *  Copyright (C) 2004 by Embedded and Real-Time Systems Laboratory
  *              Graduate School of Information Science, Nagoya Univ., JAPAN
  *  Copyright (C) 2004-2006 by Witz Corporation, JAPAN
- * 
- *  上記著作権者は，以下の (1)〜(4) の条件か，Free Software Foundation 
+ *
+ *  上記著作権者は，以下の (1)〜(4) の条件か，Free Software Foundation
  *  によって公表されている GNU General Public License の Version 2 に記
  *  述されている条件を満たす場合に限り，本ソフトウェア（本ソフトウェア
  *  を改変したものを含む．以下同じ）を使用・複製・改変・再配布（以下，
@@ -30,12 +30,12 @@
  *        報告すること．
  *  (4) 本ソフトウェアの利用により直接的または間接的に生じるいかなる損
  *      害からも，上記著作権者およびTOPPERSプロジェクトを免責すること．
- * 
+ *
  *  本ソフトウェアは，無保証で提供されているものである．上記著作権者お
  *  よびTOPPERSプロジェクトは，本ソフトウェアに関して，その適用可能性も
  *  含めて，いかなる保証も行わない．また，本ソフトウェアの利用により直
  *  接的または間接的に生じたいかなる損害に関しても，その責任を負わない．
- * 
+ *
  */
 
 /*
@@ -55,17 +55,18 @@
 /*
  *  カーネル内部共通のインクルードファイル
  */
-#include <kernel.h>
+// #include <kernel.h>
+#include "kernel.h"
 
 /*
  *  カーネル内で使用するデータ型の定義
  */
 #ifndef _MACRO_ONLY
-typedef void		*VP;			/* 型が定まらないものへのポインタ */
-typedef void		(*FP)(void);	/* プログラムの起動番地（ポインタ） */
-typedef UINT8		Priority;		/* 優先度（タスク，ISR） */
-typedef	UINT8		IPL;			/* 割込み優先レベル */
-#endif /* _MACRO_ONLY */
+typedef void *VP;         /* 型が定まらないものへのポインタ */
+typedef void (*FP)(void); /* プログラムの起動番地（ポインタ） */
+typedef UINT8 Priority;   /* 優先度（タスク，ISR） */
+typedef UINT8 IPL;        /* 割込み優先レベル */
+#endif                    /* _MACRO_ONLY */
 
 /*
  *  コンフォーマンスクラス依存情報の定義
@@ -75,44 +76,44 @@ typedef	UINT8		IPL;			/* 割込み優先レベル */
 /*
  *  一般的な定数の定義
  */
-#define	NULL			((void *) 0)		/* 無効ポインタ */
+#define NULL ((void *)0) /* 無効ポインタ */
 
 /*
  *  優先度値の定義
  */
-#define TPRI_MINTASK	((Priority) 0)		/* 最低タスク優先度 */
-#define TPRI_MAXTASK	((Priority)(TNUM_PRIORITY - 1))
-											/* 最高タスク優先度 */
-#define TPRI_SCHEDULER	((Priority) 127)	/* スケジューラの優先度 */
-#define TPRI_MINISR		((Priority) 128)	/* 最低割込み優先度 */
-#define TPRI_NULL		((Priority) UINT8_INVALID)
-											/* 無効優先度 */
+#define TPRI_MINTASK ((Priority)0) /* 最低タスク優先度 */
+#define TPRI_MAXTASK ((Priority)(TNUM_PRIORITY - 1))
+/* 最高タスク優先度 */
+#define TPRI_SCHEDULER ((Priority)127) /* スケジューラの優先度 */
+#define TPRI_MINISR ((Priority)128)    /* 最低割込み優先度 */
+#define TPRI_NULL ((Priority)UINT8_INVALID)
+/* 無効優先度 */
 
 /*
  *  イベントマスク値の定義
  */
-#define EVTMASK_NONE	((EventMaskType) 0)	/* イベントなし */
+#define EVTMASK_NONE ((EventMaskType)0) /* イベントなし */
 
 /*
  *  アプリケーションモード値の定義
  */
-#define APPMODE_NONE	((AppModeType) 0)	/* モードなし */
+#define APPMODE_NONE ((AppModeType)0) /* モードなし */
 
 /*
  *  IPL値の定義
  */
-#define IPL_ENA_ALL	((IPL) 0)		/* すべての割込みを許可 */
+#define IPL_ENA_ALL ((IPL)0) /* すべての割込みを許可 */
 
 /*
  *  実行中のコンテキスト（callevel）の値の定義
  */
-#define TCL_NULL		((UINT8) 0x00)	/* サービスコールを呼び出せない */
-#define TCL_TASK		((UINT8) 0x01)	/* タスク */
-#define TCL_ISR2		((UINT8) 0x02)	/* カテゴリ2 ISR */
-#define TCL_ERROR		((UINT8) 0x04)	/* ErrorHook */
-#define TCL_PREPOST		((UINT8) 0x08)	/* PreTaskHook，PostTaskHook */
-#define TCL_STARTUP		((UINT8) 0x10)	/* StartupHook */
-#define TCL_SHUTDOWN	((UINT8) 0x20)	/* ShutdownHook */
+#define TCL_NULL ((UINT8)0x00)  /* サービスコールを呼び出せない */
+#define TCL_TASK ((UINT8)0x01)  /* タスク */
+#define TCL_ISR2 ((UINT8)0x02)  /* カテゴリ2 ISR */
+#define TCL_ERROR ((UINT8)0x04) /* ErrorHook */
+#define TCL_PREPOST ((UINT8)0x08)  /* PreTaskHook，PostTaskHook */
+#define TCL_STARTUP ((UINT8)0x10)  /* StartupHook */
+#define TCL_SHUTDOWN ((UINT8)0x20) /* ShutdownHook */
 
 /*
  *  ターゲット依存情報の定義
@@ -123,26 +124,18 @@ typedef	UINT8		IPL;			/* 割込み優先レベル */
 /*
  *  OS実行制御のための変数（osctl.c）
  */
-extern UINT8		callevel;	/* 実行中のコンテキスト */
-extern AppModeType	appmode;	/* アプリケーションモード */
+extern UINT8 callevel;      /* 実行中のコンテキスト */
+extern AppModeType appmode; /* アプリケーションモード */
 
 /*
  *  OS内のクリティカルセクション操作関数
  */
-Inline void	lock_cpu(void);		/* クリティカルセクション開始 */
-Inline void	unlock_cpu(void);	/* クリティカルセクション終了 */
+Inline void lock_cpu(void);   /* クリティカルセクション開始 */
+Inline void unlock_cpu(void); /* クリティカルセクション終了 */
 
-Inline void
-lock_cpu(void)
-{
-	disable_int();
-}
+Inline void lock_cpu(void) { disable_int(); }
 
-Inline void
-unlock_cpu(void)
-{
-	enable_int();
-}
+Inline void unlock_cpu(void) { enable_int(); }
 
 /*
  *  エラーフック呼び出しのための宣言（osctl.c）
@@ -151,18 +144,18 @@ unlock_cpu(void)
  *  メータを _errorhook_par1〜3 に設定した後，call_errorhook を呼び出す．
  *  call_errorhook へは，エラーコードとサービスコールのIDを渡す．
  */
-extern void	call_errorhook(StatusType ercd, OSServiceIdType svcid);
+extern void call_errorhook(StatusType ercd, OSServiceIdType svcid);
 
 /*
  *  ポストタスクフック/プレタスクフック呼び出しのための宣言（osctl.c）
  */
-extern void	call_posttaskhook(void);
-extern void	call_pretaskhook(void);
+extern void call_posttaskhook(void);
+extern void call_pretaskhook(void);
 
 /*
  *  各モジュールの初期化（kernel_cfg.c）
  */
-extern void	object_initialize(void);
+extern void object_initialize(void);
 
 #endif /* _MACRO_ONLY */
 

@@ -21,5 +21,6 @@
 - 実行
 
   ```
-  python -m src
+  <!-- python -m src -->
+  Lark $ python src/c.py
   ```

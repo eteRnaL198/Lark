@@ -6,6 +6,10 @@
     "check.h": "c",
     "kernel.h": "c",
     "interrupt.h": "c",
-    "complex": "c"
+    "complex": "c",
+    "osek.h": "c",
+    "t_stddef.h": "c",
+    "tool_defs.h": "c",
+    "alarm.h": "c"
   }
 }
