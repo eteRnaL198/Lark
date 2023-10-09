@@ -3,7 +3,7 @@ import sys
 import pycparser_fake_libc
 from pycparser import c_ast, c_generator, c_parser, parse_file
 
-from util.file_util import generate_path
+from util.file_util import generate_full_path
 
 
 class FuncDefVisitor(c_ast.NodeVisitor):
@@ -15,7 +15,7 @@ if __name__ == "__main__":
     if len(sys.argv) > 1:
         filename = sys.argv[1]
     else:
-        filename = generate_path("/acc/base.c")
+        filename = generate_full_path("/acc/base.c")
         # filename = generate_path("/toppers/kernel/alarm.c")
 
     ast = parse_file(
