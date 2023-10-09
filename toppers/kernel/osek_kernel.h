@@ -55,8 +55,7 @@
 /*
  *  カーネル内部共通のインクルードファイル
  */
-// #include <kernel.h>
-#include "kernel.h"
+#include <kernel.h>
 
 /*
  *  カーネル内で使用するデータ型の定義
