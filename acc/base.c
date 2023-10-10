@@ -19,4 +19,7 @@ int foo(int a) {
   return 0;
 }
 
-void bar() { return 2; }
+void bar(float b) {
+  b += 0.1;
+  return b;
+}

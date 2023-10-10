@@ -10,12 +10,15 @@ if __name__ == "__main__":
     else:
         filename = "/acc/base.c"
 
-    # aspect_parser = AspectParser("/acc/aspect.acc")
-    # aspects = aspect_parser.parse()
+    aspect_parser = AspectParser("/acc/aspect.acc")
+    aspects = aspect_parser.parse()
 
     c_parser = CParser("/acc/base.c")
     # c_parser = CParser("/toppers/kernel/alarm.c")
-    c_parser.parse()
+    c_ast = c_parser.parse()
+
+    for asp in aspects:
+        print(asp.weave(c_ast))
 
     """file input/output"""
     # backup_file(filename)

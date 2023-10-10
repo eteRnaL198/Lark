@@ -1,20 +1,16 @@
 from lark import Transformer
 
 from aspect.aspect import Aspect
+from aspect.execution import Execution
+from aspect.func_signature import FuncSignature
 
 
 class AspectTranslator(Transformer):
+    def start(self, tree):
+        return [*tree]
+
     def aspect(self, tree):
         advice, pointcut, body = tree[0], tree[1], tree[2]
-        print(
-            "aspect)",
-            "\n\tadvice:",
-            advice,
-            "\n\tpointcut:",
-            pointcut,
-            "\n\tbody:",
-            body,
-        )
         return Aspect(advice, pointcut, body)
 
     ######################## advice ########################
@@ -36,7 +32,6 @@ class AspectTranslator(Transformer):
 
     ######################## pointcut ########################
     def pointcut(self, tree):
-        print("pointcut:", *tree)
         return [*tree]
 
     def primitive_pointcut(self, tree):
@@ -46,7 +41,7 @@ class AspectTranslator(Transformer):
         return {"name": "call", "arg": tree[0]}
 
     def execution(self, tree):
-        return {"name": "execution", "arg": tree[0]}
+        return Execution(tree[0])
 
     def infunc(self, tree):
         return {"name": "infunc", "arg": tree[0]}
@@ -63,7 +58,8 @@ class AspectTranslator(Transformer):
         """
         e.g.) tree[int, foo, char] -> int foo(char)
         """
-        return {"type": str(tree[0]), "name": tree[1], "args": tree[2]}
+        type, name, args = str(tree[0]), tree[1], tree[2]
+        return FuncSignature(type, name, args)
 
     def func_args(self, tree):
         """

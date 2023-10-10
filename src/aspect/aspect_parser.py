@@ -1,12 +1,13 @@
 # from my_lang_transformer import MyLangTransformer
 from lark import Lark
 
+from aspect.aspect import Aspect
 from aspect.aspect_translator import AspectTranslator
 from util.file_util import generate_full_path
 
 
 class AspectParser:
-    """アスペクトファイルを構文解析する
+    """アスペクトファイルの構文解析器
     Args:
         filename (str): アスペクトファイルの相対パス
     """
@@ -15,14 +16,16 @@ class AspectParser:
         self.filename = filename
 
     def parse(self):
-        grammar = generate_full_path("/src/aspect/acclang.lark")
+        """構文解析を実行
+        Returns:
+            aspects (list[Aspect]): アスペクトのリスト
+        """
+        grammar_path = generate_full_path("/src/aspect/acclang.lark")
         parser = Lark(
-            grammar=open(grammar),
+            grammar=open(grammar_path),
             parser="lalr",
             transformer=AspectTranslator(),
         )
-
         src = open(generate_full_path(self.filename)).read()
-        print(parser.parse(src))
-
-        # return aspects
+        aspects: list[Aspect] = parser.parse(src)  # type: ignore
+        return aspects
