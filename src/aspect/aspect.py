@@ -27,4 +27,4 @@ class Aspect:
         joinpoints: list[int] = []
         for pt in self.pointcut:
             joinpoints.append(pt.search(ast))
-        return {"line": joinpoints, "body": self.body}
+        return {"lines": joinpoints, "body": self.body}
