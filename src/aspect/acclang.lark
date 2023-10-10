@@ -1,6 +1,6 @@
 // https://github.com/lark-parser/lark/blob/master/lark/grammars/common.lark
 
-?start: aspect
+?start: aspect*
 aspect: advice pointcut "{" body "}"
 
 advice: before | after | around
@@ -11,14 +11,15 @@ body: /.+/+
 
 pointcut: primitive_pointcut+
 primitive_pointcut: call | execution | get | set | infunc
-call: "call("function_signature")"
-execution: "execution()"
+call: "call("func_signature")"
+execution: "execution("func_signature")"
 get: "get()"
 set: "set()"
-infunc: "infunc("function_name")"
+infunc: "infunc("func_name")"
 
-function_name: CNAME
-function_signature: WORD CNAME "("WORD")"
+func_signature: WORD func_name "("func_args")"
+func_name: CNAME
+func_args: (WORD ("," WORD)*)?
 
 %import common (CNAME, WORD, WS)
 %ignore WS

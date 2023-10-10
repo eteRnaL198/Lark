@@ -13,19 +13,20 @@ if __name__ == "__main__":
     # aspect_parser = AspectParser("/acc/aspect.acc")
     # aspects = aspect_parser.parse()
 
-    # base_filename = CParser("/acc/base.c")
-    # base_filename = CParser("/toppers/kernel/alarm.c")
-    # base_filename.parse()
+    c_parser = CParser("/acc/base.c")
+    # c_parser = CParser("/toppers/kernel/alarm.c")
+    c_parser.parse()
 
-    backup_file(filename)
+    """file input/output"""
+    # backup_file(filename)
 
-    target_path = generate_full_path(filename)
-    with open(target_path, mode="r") as f:
-        src = f.readlines()
+    # target_path = generate_full_path(filename)
+    # with open(target_path, mode="r") as f:
+    #     src = f.readlines()
 
-    # weave(line, aspect["body"])
-    src.insert(5, 'printf("hoge");\n')
-    src.insert(14 + 1, 'printf("piyo");\n')
+    # # weave(line, aspect.body)
+    # src.insert(5, 'printf("hoge");\n')
+    # src.insert(14 + 1, 'printf("piyo");\n')
 
-    with open(target_path, mode="w") as f:
-        f.writelines(src)
+    # with open(target_path, mode="w") as f:
+    #     f.writelines(src)

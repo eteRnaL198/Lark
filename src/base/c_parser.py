@@ -26,7 +26,7 @@ class CParser:
         )
 
         v = FuncDefVisitor()
-        v.visit(ast)
+        print(v.visit(ast))
 
         # ast.show()
 

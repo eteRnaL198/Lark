@@ -1,10 +1,9 @@
 from lark import Transformer
 
+from aspect.aspect import Aspect
 
-class AccTranslator(Transformer):
-    def __init__(self):
-        self.aspects = []
 
+class AspectTranslator(Transformer):
     def aspect(self, tree):
         advice, pointcut, body = tree[0], tree[1], tree[2]
         print(
@@ -16,13 +15,15 @@ class AccTranslator(Transformer):
             "\n\tbody:",
             body,
         )
+        return Aspect(advice, pointcut, body)
 
     ######################## advice ########################
     def advice(self, tree):
         return tree[0]
 
     def before(self, tree):
-        return "befeore"
+        # TODO return Before()
+        return "before"
 
     def after(self, tree):
         return "after"
@@ -35,6 +36,7 @@ class AccTranslator(Transformer):
 
     ######################## pointcut ########################
     def pointcut(self, tree):
+        print("pointcut:", *tree)
         return [*tree]
 
     def primitive_pointcut(self, tree):
@@ -43,17 +45,29 @@ class AccTranslator(Transformer):
     def call(self, tree):
         return {"name": "call", "arg": tree[0]}
 
+    def execution(self, tree):
+        return {"name": "execution", "arg": tree[0]}
+
     def infunc(self, tree):
         return {"name": "infunc", "arg": tree[0]}
 
-    def function_name(self, tree):
+    ######################## func ########################
+
+    def func_name(self, tree):
         """
-        e.g.) foo_bar
+        e.g.) set_foo
         """
         return str(tree[0])
 
-    def function_signature(self, tree):
+    def func_signature(self, tree):
         """
-        e.g.) tree[void, foo, int] -> void foo(int)
+        e.g.) tree[int, foo, char] -> int foo(char)
         """
-        return tree[0] + " " + tree[1] + "(" + tree[2] + ")"
+        return {"type": str(tree[0]), "name": tree[1], "args": tree[2]}
+
+    def func_args(self, tree):
+        """
+        return:
+            e.g.) ['int', 'float', 'char']
+        """
+        return [str(t) for t in tree]
