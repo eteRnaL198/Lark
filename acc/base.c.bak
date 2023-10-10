@@ -3,6 +3,7 @@
 #include "bar.h"
 
 int main() {
+  printf("hoge");
   printf("main) hello world\n");
   int var;
   var = 2;
@@ -11,6 +12,7 @@ int main() {
 }
 
 int foo(int a) {
+  printf("piyo");
   int x = a;
   int y;
   y = a;
@@ -19,4 +21,4 @@ int foo(int a) {
   return 0;
 }
 
-void bar(int b) { return b; }
+void bar() { return 2; }
