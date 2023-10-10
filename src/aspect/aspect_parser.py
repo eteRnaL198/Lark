@@ -8,7 +8,7 @@ from util.file_util import generate_full_path
 class AspectParser:
     """アスペクトファイルを構文解析する
     Args:
-        filename: アスペクトファイルの相対パス
+        filename (str): アスペクトファイルの相対パス
     """
 
     def __init__(self, filename):
@@ -24,3 +24,5 @@ class AspectParser:
 
         src = open(generate_full_path(self.filename)).read()
         parser.parse(src)
+
+        # return aspects

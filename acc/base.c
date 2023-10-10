@@ -19,4 +19,4 @@ int foo(int a) {
   return 0;
 }
 
-void bar() { return 2; }
+void bar(int b) { return b; }
