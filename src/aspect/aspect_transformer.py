@@ -5,7 +5,7 @@ from aspect.execution import Execution
 from aspect.func_signature import FuncSignature
 
 
-class AspectTranslator(Transformer):
+class AspectTransformer(Transformer):
     def start(self, tree):
         return [*tree]
 

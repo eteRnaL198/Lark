@@ -2,7 +2,7 @@
 from lark import Lark
 
 from aspect.aspect import Aspect
-from aspect.aspect_translator import AspectTranslator
+from aspect.aspect_transformer import AspectTransformer
 from util.file_util import generate_full_path
 
 
@@ -24,7 +24,7 @@ class AspectParser:
         parser = Lark(
             grammar=open(grammar_path),
             parser="lalr",
-            transformer=AspectTranslator(),
+            transformer=AspectTransformer(),
         )
         src = open(generate_full_path(self.filename)).read()
         aspects: list[Aspect] = parser.parse(src)  # type: ignore
