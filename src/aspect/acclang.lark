@@ -1,13 +1,13 @@
 // https://github.com/lark-parser/lark/blob/master/lark/grammars/common.lark
 
 ?start: aspect*
-aspect: advice pointcut "{" body "}"
+aspect: advice_type pointcut "{" advice_body "}"
 
-advice: before | after | around
+advice_type: before | after | around
 before: "before():"
 after: "after():"
 around: "around():"
-body: /.+/+
+advice_body: /.+/+
 
 pointcut: primitive_pointcut+
 primitive_pointcut: call | execution | get | set | infunc

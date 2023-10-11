@@ -10,11 +10,11 @@ class AspectTranslator(Transformer):
         return [*tree]
 
     def aspect(self, tree):
-        advice, pointcut, body = tree[0], tree[1], tree[2]
-        return Aspect(advice, pointcut, body)
+        advice_type, pointcut, advice_body = tree[0], tree[1], tree[2]
+        return Aspect(advice_type, pointcut, advice_body)
 
     ######################## advice ########################
-    def advice(self, tree):
+    def advice_type(self, tree):
         return tree[0]
 
     def before(self, tree):
@@ -27,7 +27,7 @@ class AspectTranslator(Transformer):
     def around(self, tree):
         return "around"
 
-    def body(self, tree):
+    def advice_body(self, tree):
         return [t.value for t in tree]
 
     ######################## pointcut ########################

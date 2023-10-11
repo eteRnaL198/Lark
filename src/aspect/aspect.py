@@ -4,16 +4,16 @@ from aspect.pointcut import Pointcut
 
 
 class Aspect:
-    def __init__(self, advice, pointcut, body):
+    def __init__(self, type, pointcut, body):
         """
         Args:
-            advice (str): アドバイスの種類
+            type (str): アドバイスの種類
             pointcut (list[Pointcut]): ポイントカット
             body (str): アドバイスの内容
         """
-        self.advice = advice
+        self.advice_type = type
         self.pointcut: list[Pointcut] = pointcut
-        self.body = body
+        self.advice_body = body
 
     def weave(self, ast: c_ast.FileAST):
         """
@@ -27,4 +27,4 @@ class Aspect:
         joinpoints: list[int] = []
         for pt in self.pointcut:
             joinpoints.append(pt.search(ast))
-        return {"lines": joinpoints, "body": self.body}
+        return {"lines": joinpoints, "body": self.advice_body}
