@@ -1,7 +1,9 @@
-before(): execution(int foo(int, char)) {
-  printf("aspect a=%d\n", a);
-}
+aspect Foo {
+  before(): execution(int foo(int, char)) {
+    printf("aspect a=%d\n", a);
+  }
 
-before(): execution(void bar(float)) {
-  printf("before execution of bar");
+  before(): execution(void bar(float)) {
+    printf("before execution of bar");
+  }
 }

@@ -1,13 +1,44 @@
 from lark import Transformer
 
-from aspect.aspect import Aspect
-from aspect.execution import Execution
-from aspect.func_signature import FuncSignature
+from customizer.aspect.aspect import Aspect
+from customizer.func_signature import FuncSignature
+from customizer.pointcut.execution import Execution
 
 
 class AspectTransformer(Transformer):
     def start(self, tree):
         return [*tree]
+
+    ######################## aspect ########################
+    def aspect_type(self, tree):
+        return tree[0]
+
+    def abstract_aspect(self, tree):
+        """
+        abstract aspect Foo {
+            Aspects
+        }
+        """
+        NotImplementedError("abstract_aspect")
+
+    def concrete_aspect(self, tree):
+        """
+        aspect Bar extends Foo {
+            Aspects
+        }
+        """
+        NotImplementedError("concrete_aspect")
+
+    def pure_aspect(self, tree):
+        """aspect Baz {
+            Aspects
+        }"""
+        asp_name = str(tree[0])
+        asps = tree[1]
+        return [asp_name, asps]
+
+    def aspect_name(self, tree):
+        return str(tree[0])
 
     def aspect(self, tree):
         advice_type, pointcut, advice_body = tree[0], tree[1], tree[2]
@@ -32,9 +63,18 @@ class AspectTransformer(Transformer):
 
     ######################## pointcut ########################
     def pointcut(self, tree):
-        return [*tree]
+        """
+        Return:
+            e.g.) [Call, Execution, etc...]
+        """
+        primitive_pointcuts = [*tree]
+        return primitive_pointcuts
 
     def primitive_pointcut(self, tree):
+        """
+        Return:
+            e.g.) Call or Execution or etc...
+        """
         return tree[0]
 
     def call(self, tree):

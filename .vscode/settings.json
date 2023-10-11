@@ -11,5 +11,8 @@
     "t_stddef.h": "c",
     "tool_defs.h": "c",
     "alarm.h": "c"
+  },
+  "files.exclude": {
+    "**/__pycache__": true
   }
 }

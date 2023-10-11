@@ -1,6 +1,8 @@
-from aspect.func_signature import FuncSignature
-from aspect.pointcut import Pointcut
-from base.func_def_visitor import FuncDefVisitor
+from typing import List
+
+from base.lang_processor.func_def_visitor import FuncDefVisitor
+from customizer.func_signature import FuncSignature
+from customizer.pointcut.pointcut import Pointcut
 
 
 class Execution(Pointcut):
@@ -14,7 +16,7 @@ class Execution(Pointcut):
         self.visitor = FuncDefVisitor()
         self.func_signature: FuncSignature = signature
 
-    def search(self, ast):
+    def search(self, ast) -> List[int]:
         """ポイントカットにマッチするジョインポイントを探索
         Args:
             ast (c_ast.FileAST): 構文木
@@ -22,7 +24,7 @@ class Execution(Pointcut):
             joinpoints (list[int]): ジョインポイント(行目)のリスト
         """
         self.visitor.visit(ast)
-        joinpoints: list[int] = []
+        joinpoints: List[int] = []
         for func in self.visitor.functions:
             if func.name == self.func_signature.name:
                 joinpoints.append(func.line)

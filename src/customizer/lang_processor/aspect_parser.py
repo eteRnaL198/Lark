@@ -1,8 +1,7 @@
-# from my_lang_transformer import MyLangTransformer
 from lark import Lark
 
-from aspect.aspect import Aspect
-from aspect.aspect_transformer import AspectTransformer
+from customizer.aspect.pure_aspect import PureAspect
+from customizer.lang_processor.aspect_transformer import AspectTransformer
 from util.file_util import generate_full_path
 
 
@@ -20,12 +19,13 @@ class AspectParser:
         Returns:
             aspects (list[Aspect]): アスペクトのリスト
         """
-        grammar_path = generate_full_path("/src/aspect/acclang.lark")
+        grammar_path = generate_full_path("/src/customizer/lang_processor/acclang.lark")
         parser = Lark(
             grammar=open(grammar_path),
             parser="lalr",
             transformer=AspectTransformer(),
         )
         src = open(generate_full_path(self.filename)).read()
-        aspects: list[Aspect] = parser.parse(src)  # type: ignore
+        aspects: list[PureAspect] = parser.parse(src)  # type: ignore
+        # TODO 型整理 typingをimportする
         return aspects
