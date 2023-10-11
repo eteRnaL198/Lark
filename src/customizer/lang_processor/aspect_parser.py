@@ -1,3 +1,5 @@
+from typing import Union
+
 from lark import Lark
 
 from customizer.aspect.pure_aspect import PureAspect
@@ -26,6 +28,6 @@ class AspectParser:
             transformer=AspectTransformer(),
         )
         src = open(generate_full_path(self.filename)).read()
-        aspects: list[PureAspect] = parser.parse(src)  # type: ignore
-        # TODO 型整理 typingをimportする
-        return aspects
+        aspects: Union[list[PureAspect], PureAspect] = parser.parse(src)  # type: ignore
+        # TODO 型整理
+        return aspects if isinstance(aspects, list) else [aspects]

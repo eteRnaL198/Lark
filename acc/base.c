@@ -11,7 +11,7 @@ int main() {
 }
 
 int foo(int a) {
-  int x = a;
+printf("aspect a=%d\n", a);  int x = a;
   int y;
   y = a;
   printf("foo) x = %d\n", x);

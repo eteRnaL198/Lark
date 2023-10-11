@@ -1,12 +1,14 @@
 from lark import Transformer
 
 from customizer.aspect.aspect import Aspect
+from customizer.aspect.pure_aspect import PureAspect
 from customizer.func_signature import FuncSignature
 from customizer.pointcut.execution import Execution
 
 
 class AspectTransformer(Transformer):
     def start(self, tree):
+        print([*tree])
         return [*tree]
 
     ######################## aspect ########################
@@ -35,7 +37,7 @@ class AspectTransformer(Transformer):
         }"""
         asp_name = str(tree[0])
         asps = tree[1]
-        return [asp_name, asps]
+        return PureAspect(asp_name, asps)
 
     def aspect_name(self, tree):
         return str(tree[0])

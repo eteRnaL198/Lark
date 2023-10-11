@@ -7,3 +7,9 @@ aspect Foo {
     printf("before execution of bar");
   }
 }
+
+aspect Bar {
+  before(): execution(void baz()) {
+    printf("before execution of baz");
+  }
+}
