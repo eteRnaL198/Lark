@@ -4,6 +4,12 @@ aspect Foo {
   }
 
   before(): execution(void bar(float)) {
-    printf("aspect before execution of bar");
+    printf("before execution of bar");
+  }
+}
+
+aspect Bar {
+  before(): execution(void baz()) {
+    printf("before execution of baz");
   }
 }

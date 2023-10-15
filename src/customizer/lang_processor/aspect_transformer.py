@@ -36,7 +36,7 @@ class AspectTransformer(Transformer):
             Aspects
         }"""
         asp_name = str(tree[0])
-        asps = tree[1]
+        asps = tree[1:]
         return PureAspect(asp_name, asps)
 
     def aspect_name(self, tree):
