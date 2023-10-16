@@ -23,11 +23,15 @@ class PureAspect:
         Returns:
             List[str]: アスペクトが織り込まれたソースコード
         """
+        accumulated_line = 0
         for aspect in self.aspects:
             lines = aspect.get_joinpoints(ast)
-            body = aspect.advice_body
-            accumulated_line = 0
+            advice = (
+                ["/* Start of aspect */\n"]
+                + aspect.advice_body
+                + ["/* End of aspect */\n"]
+            )
             for l in lines:
-                src.insert(l + accumulated_line, *body)
-                accumulated_line += len(body)
+                src[l + accumulated_line : l + accumulated_line] = advice
+                accumulated_line += len(advice)
         return src

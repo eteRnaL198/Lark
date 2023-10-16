@@ -11,7 +11,9 @@ int main() {
 }
 
 int foo(int a) {
+  /* Start of aspect */
   printf("aspect a=%d\n", a);
+  /* End of aspect */
   int x = a;
   int y;
   y = a;
@@ -21,6 +23,9 @@ int foo(int a) {
 }
 
 void bar(float b) {
+  /* Start of aspect */
+  printf("aspect before execution of bar");
+  /* End of aspect */
   b += 0.1;
   return b;
 }
