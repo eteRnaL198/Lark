@@ -1,9 +1,9 @@
 from pycparser import c_ast
 
-from base.function import Function
+from base.extractor.function import Function
 
 
-class FuncDefVisitor(c_ast.NodeVisitor):
+class FuncExtractor(c_ast.NodeVisitor):
     def __init__(self):
         self.functions: list[Function] = []
 
@@ -12,8 +12,19 @@ class FuncDefVisitor(c_ast.NodeVisitor):
         Note:
             メソッドの命名規則: visit_XXX
         """
-        self.__add(Function(node.decl.name, node.decl.coord.line))
-        # self.generic_visit(node)
+        # print(node.decl.type.type.type.names[0])  # 返り値の型
+        self.__add(
+            Function(
+                node.decl.name,
+                node.decl.coord.line,
+                node.body.block_items[-1].coord.line,
+            )
+        )
+        self.generic_visit(node)
+
+    def visit_Return(self, node):
+        self.functions[-1].add_return_lines(node.coord.line)
+        self.generic_visit(node)
 
     # def visit_FuncDecl(self, node):
     #     print("FuncDecl: ", node.args, node.coord)

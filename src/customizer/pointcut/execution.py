@@ -1,6 +1,6 @@
 from typing import List
 
-from base.lang_processor.func_def_visitor import FuncDefVisitor
+from base.extractor.func_extractor import FuncExtractor
 from customizer.func_signature import FuncSignature
 from customizer.pointcut.pointcut import Pointcut
 
@@ -13,7 +13,6 @@ class Execution(Pointcut):
         Args:
             signature (FuncSignature): 関数のシグネチャ
         """
-        self.visitor = FuncDefVisitor()
         self.func_signature: FuncSignature = signature
 
     def search(self, ast) -> List[int]:
@@ -23,10 +22,14 @@ class Execution(Pointcut):
         Returns:
             joinpoints (list[int]): ジョインポイント(行目)のリスト
         """
-        self.visitor.visit(ast)
+        extractor = FuncExtractor()
+        extractor.visit(ast)
         joinpoints: List[int] = []
-        for func in self.visitor.functions:
+        for func in extractor.functions:
             if func.name == self.func_signature.name:
-                joinpoints.append(func.line)
+                # beforeのとき
+                # joinpoints.append(func.get_exec_start_line())
+                # afterのとき
+                joinpoints += [*func.get_exec_end_lines()]
         # TODO マッチしなかった場合の処理
         return joinpoints

@@ -6,10 +6,10 @@ from customizer.pointcut.pointcut import Pointcut
 
 
 class Aspect:
-    def __init__(self, type, pointcut, body: List[str]):
+    def __init__(self, type: str, pointcut, body: List[str]):
         """
         Args:
-            type (str): アドバイスの種類
+            type (str): アドバイスの種類(before, after, around)
             pointcut (List[Pointcut]): ポイントカット
             body (str): アドバイスの内容
         """
@@ -28,5 +28,5 @@ class Aspect:
         """
         joinpoints: List[int] = []
         for pt in self.pointcut:
-            joinpoints.append(*pt.search(ast))
+            joinpoints += [*pt.search(ast)]
         return joinpoints

@@ -3,7 +3,7 @@ aspect Foo {
     printf("aspect a=%d\n", a);
   }
 
-  before(): execution(void bar(float)) {
+  before(): execution(float bar(float)) {
     printf("aspect before execution of bar");
   }
 }

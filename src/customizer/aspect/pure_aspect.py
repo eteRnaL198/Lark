@@ -32,6 +32,8 @@ class PureAspect:
                 + ["/* End of aspect */\n"]
             )
             for l in lines:
-                src[l + accumulated_line : l + accumulated_line] = advice
+                src[
+                    l + accumulated_line : l + accumulated_line
+                ] = advice  # aroundのときは挿入ではなく置換
                 accumulated_line += len(advice)
         return src
