@@ -3,6 +3,7 @@ from typing import List
 from pycparser import c_ast
 
 from customizer.pointcut.pointcut import Pointcut
+from customizer.src import Src
 
 
 class Aspect:
@@ -19,7 +20,7 @@ class Aspect:
             map(lambda l: (l + "\n"), body)
         )  # 解析時に無視された改行コードを追加
 
-    def get_joinpoints(self, ast: c_ast.FileAST) -> List[int]:
+    def __get_joinpoints(self, ast: c_ast.FileAST) -> List[int]:
         """
         Args:
             ast (c_ast.FileAST): 構文木
@@ -30,3 +31,12 @@ class Aspect:
         for pt in self.pointcut:
             joinpoints += [*pt.search(ast)]
         return joinpoints
+
+    def weave(self, src: Src, ast: c_ast.FileAST):
+        lines = self.__get_joinpoints(ast)
+        advice = (
+            ["/* Start of aspect */\n"] + self.advice_body + ["/* End of aspect */\n"]
+        )
+        for l in lines:
+            src.insert(l, advice)
+        return src
