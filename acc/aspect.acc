@@ -10,5 +10,4 @@ aspect Foo {
   after(): execution(float bar(float)) {
     printf("aspect before execution of bar");
   }
-
 }
