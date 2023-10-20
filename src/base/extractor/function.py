@@ -5,21 +5,21 @@ class Function:
     """関数定義
     Args:
         name (str): 関数名
-        start_line (int): 関数が定義されている行
-        end_line (int): 関数の定義の末尾の行
+        definitioin_line (int): 関数が定義されている行
+        last_line (int): 関数の定義の末尾の行
         return_lines (List[int]): return文の行のリスト
     """
 
     def __init__(
         self,
         name,
-        start_line: int,
-        end_line: int,
+        definitioin_line: int,
+        last_line: int,
         return_lines: Union[List[int], None] = None,
     ):
         self.name = name
-        self.start_line = start_line
-        self.end_line = end_line
+        self.definitioin_line = definitioin_line
+        self.last_line = last_line
         self.return_lines = return_lines
 
     def add_return_lines(self, return_line: int):
@@ -28,10 +28,6 @@ class Function:
             if self.return_lines == None
             else self.return_lines + [return_line]
         )
-
-    def get_exec_start_line(self):
-        """関数が実行開始する行を返す"""
-        return self.start_line
 
     def get_exec_end_lines(self) -> List[int]:
         """関数が実行終了する直前の行のリストを返す
@@ -50,7 +46,7 @@ class Function:
             }
         """
         if self.return_lines == None:
-            return [self.end_line]
+            return [self.last_line]
         else:
             lines = list(map(lambda l: l - 1, self.return_lines))  # return文の直前の行を取得
             return lines

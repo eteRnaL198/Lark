@@ -10,6 +10,11 @@ int main() {
   return bar(1.0);
 }
 
+void baz() {
+  printf("I'm Baz Right Ear!");
+  printf("To infinity and beyond!");
+}
+
 void foo(int a) {
   int x = a;
   int y;
@@ -19,6 +24,7 @@ void foo(int a) {
 }
 
 int bar(float b) {
+  printf("bar) b = %f\n", b);
   if (b > 0.0) {
     return 0;
   } else {

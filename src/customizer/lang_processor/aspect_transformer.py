@@ -2,8 +2,8 @@ from lark import Transformer
 
 from customizer.aspect.aspect import Aspect
 from customizer.aspect.pure_aspect import PureAspect
-from customizer.func_signature import FuncSignature
 from customizer.pointcut.execution import Execution
+from customizer.pointcut.func_signature import FuncSignature
 
 
 class AspectTransformer(Transformer):

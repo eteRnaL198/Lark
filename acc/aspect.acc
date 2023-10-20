@@ -1,9 +1,14 @@
 aspect Foo {
+  around(): execution(int baz()) {
+    printf("I'm Buzz Lightyear");
+  }
+
   before(): execution(int foo(int, char)) {
     printf("aspect a=%d\n", a);
   }
 
-  before(): execution(float bar(float)) {
+  after(): execution(float bar(float)) {
     printf("aspect before execution of bar");
   }
+
 }
