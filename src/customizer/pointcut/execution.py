@@ -32,7 +32,6 @@ class Execution(Pointcut):
             exec_start_line = func.definitioin_line
             exec_end_lines = [*func.get_exec_end_lines()]
             whole = (exec_start_line, func.last_line)
-            for e_e_l in exec_end_lines:
-                joinpoints.append(Joinpoint(exec_start_line, e_e_l, whole))
+            joinpoints.append(Joinpoint(exec_start_line, exec_end_lines, whole))
         # TODO マッチしなかった場合の処理
         return joinpoints

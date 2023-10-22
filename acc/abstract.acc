@@ -1,0 +1,26 @@
+aspect Template_Func_Aspect {
+  Template_Func_Aspect(systemcall, os, msg, ret, sos) {
+    this.SYSTEMCALL = systemcall
+    this.filename = "#systemcall#_common_aspect.c"
+    this.OS = os
+    this.call_os = CALL_#OS#
+    this.set_flg() = #OS#_SET_FLG()
+
+    this.MSG = msg
+    this.RET = ret
+    this.os_return = get#sOS#_return
+    this.sOS = sos
+    this.AFTER_SENDING_MSG() = {}
+  }
+
+  after(): set(StatusType task_location)
+                  && infile(this.filename) {
+    if (tsk_location == this.call_os) {
+      this.set_flg()
+      request_sending#sOS#_service(glbtskid_store,
+                                OSServiceId_#SYSTEMCALL# MSG);
+      this.RET = (UINT8)(this.os_return value());
+      this.AFTER_SENDING_MSG()
+    }
+  }
+}

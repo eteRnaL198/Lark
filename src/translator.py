@@ -1,5 +1,4 @@
 import sys
-from typing import List
 
 from base.lang_processor.c_parser import CParser
 from customizer.lang_processor.aspect_parser import AspectParser
@@ -8,22 +7,23 @@ from util.file_util import backup_file, generate_full_path
 
 if __name__ == "__main__":
     if len(sys.argv) > 1:
-        filename = sys.argv[1]
+        aspect_file = sys.argv[1]
+        base_file = sys.argv[2]
     else:
-        filename = "/acc/base.c"
+        aspect_file = "/acc/aspect.acc"
+        base_file = "/acc/base.c"
 
     """Parse aspect file"""
-    aspect_parser = AspectParser("/acc/aspect.acc")
-    aspects = aspect_parser.parse()
+    aspects = (AspectParser(aspect_file)).parse()
 
     """Parse source file for customization"""
-    c_parser = CParser("/acc/base.c")
+    c_parser = CParser(base_file)
     # c_parser = CParser("/toppers/kernel/alarm.c")
     c_ast = c_parser.parse()
 
     """Execute customizations"""
-    backup_file(filename)
-    target_path = generate_full_path(filename)
+    backup_file(base_file)
+    target_path = generate_full_path(base_file)
     with open(target_path, mode="r") as f:
         target_src = f.readlines()
     customized_src = Src(target_src)

@@ -8,7 +8,6 @@ from customizer.pointcut.func_signature import FuncSignature
 
 class AspectTransformer(Transformer):
     def start(self, tree):
-        print([*tree])
         return [*tree]
 
     ######################## aspect ########################

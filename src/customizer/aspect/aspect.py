@@ -43,8 +43,8 @@ class Aspect:
                 src.insert(line, advice)
                 continue
             if self.advice_type == "after":
-                line = joinpoint.get_after()
-                src.insert(line, advice)
+                for line in joinpoint.get_after():
+                    src.insert(line, advice)
                 continue
             if self.advice_type == "around":
                 start, end = joinpoint.get_around()
