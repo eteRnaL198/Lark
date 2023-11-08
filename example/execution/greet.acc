@@ -1,0 +1,5 @@
+aspect Greet {
+  around(): execution(void greet()) {
+    printf("こんにちは\n");
+  }
+}

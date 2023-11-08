@@ -33,7 +33,7 @@ class Aspect:
             joinpoints += [*pt.search(ast)]
         return joinpoints
 
-    def weave(self, src: Src, ast: c_ast.FileAST):
+    def weave(self, src: Src, ast: c_ast.FileAST) -> Src:
         advice = (
             ["/* Start of aspect */\n"] + self.advice_body + ["/* End of aspect */\n"]
         )

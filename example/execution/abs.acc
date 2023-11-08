@@ -1,8 +1,4 @@
-aspect Execution {
-  around(): execution(void greet()) {
-    printf("こんにちは\n");
-  }
-
+aspect Absolute {
   before(): execution(int calc_abs(int)) {
     printf("num: %d\n", num);
   }

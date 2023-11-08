@@ -1,0 +1,11 @@
+bind Template_Func_Aspect<ActivateTask, MULTI, 0xFFFFFFFF, ercd, _multi>
+aspect dist_multi_ActivateTask {
+}
+macro {
+  AFTER_SENDING_MSG() {
+    if (ercd != E_OK) {
+      _errorhook_par1.tskid = TSKID(tskid_store);
+      call_errorhook(ercd, OSServiceId_ActivateTask);
+    }
+  }
+}
