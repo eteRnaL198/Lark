@@ -5,23 +5,26 @@
   ```
   python -V
   Python 3.8.18
+
+  poetry -V
+  Poetry (version 1.7.0)
   ```
 
-- 仮想環境のアクティブ化
+- 仮想環境の構築
 
   ```bash
+  python -m venv .venv
   source ./env/bin/activate
   ```
 
 - パッケージのインストール
 
   ```bash
-  pip install -r ./requirements.txt
+  poetry install
   ```
 
 - 実行
 
   ```
-  <!-- python -m src -->
-  $ python src/translator.py
+  $ py src/translator.py /example/execution/abs.acc /example/execution/abs.c
   ```

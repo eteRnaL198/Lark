@@ -1,0 +1,26 @@
+aspect ConcreteAspect extends AbstractAspect {
+  super(
+    "ActivateTask_common_aspect.c",
+    OSServiceId_ActivateTask,
+    CALL_MULTI,
+    MULTI_SET_FLG,
+    0xFFFFFFFF,
+    ercd,
+    request_sending_multi_service,
+    get_multi_return,
+    {
+      if (ercd != E_OK) {
+        _errorhook_par1.tskid = TSKID(tskid_store);
+        call_errorhook(ercd, OSServiceId_ActivateTask);
+      }
+    }
+  )
+
+  super(
+    val
+  )
+
+  after(): execution(int foo()) {
+    printf("concrete aspect");
+  }
+}
