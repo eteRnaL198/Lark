@@ -1,9 +1,8 @@
 #include <stdio.h>
 
 void greet() {
-/* Start of aspect */
-printf("こんにちは\n");
-/* End of aspect */
+  printf("hello\n");
+  return;
 }
 
 int main() {

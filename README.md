@@ -3,18 +3,19 @@
 - 実行環境
 
   ```
-  python 3.8.18
+  python -V
+  Python 3.8.18
   ```
 
 - 仮想環境のアクティブ化
 
-  ```
+  ```bash
   source ./env/bin/activate
   ```
 
 - パッケージのインストール
 
-  ```
+  ```bash
   pip install -r ./requirements.txt
   ```
 
@@ -22,5 +23,5 @@
 
   ```
   <!-- python -m src -->
-  Lark $ python src/c.py
+  $ python src/translator.py
   ```
