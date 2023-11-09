@@ -1,0 +1,13 @@
+abstract aspect Abstract {
+  constructor(
+    hoge,
+    piyo
+  )
+
+  abstract void func()
+
+  around(): execution(int baz()) {
+    printf("I'm Buzz Lightyear");
+  }
+
+}

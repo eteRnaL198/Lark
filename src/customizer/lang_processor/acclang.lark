@@ -2,17 +2,29 @@
 
 ?start: aspect_type+
 aspect_type: abstract_aspect | concrete_aspect | pure_aspect
-abstract_aspect: "abstract" "aspect" aspect_name "{" aspect* "}"
-concrete_aspect: "aspect" aspect_name "extends" aspect_name "{" aspect* "}"
-pure_aspect: "aspect" aspect_name "{" aspect* "}"
-aspect_name: CNAME
-aspect: advice_type pointcut "{" advice_body "}"
 
-advice_type: before | after | around
-before: "before():"
-after: "after():"
-around: "around():"
-advice_body: /.+/+
+abstract_aspect: "abstract" "aspect" aspect_name "{" constructor (abstract_method | aspect)* "}"
+constructor: CONSTRUCTOR "("constructor_args")"
+CONSTRUCTOR.1: "constructor"
+constructor_args: (CNAME ("," CNAME)*)?
+abstract_method: ABSTRACT_METHOD_MODIFIER func_signature
+ABSTRACT_METHOD_MODIFIER.1: "abstract"
+
+concrete_aspect: "aspect" aspect_name "extends" aspect_name "{" super (method | aspect)* "}"
+super: SUPER "("super_args")"
+SUPER.1: "super"
+super_args: (super_arg ("," super_arg)*)?
+super_arg: /.+/+
+
+pure_aspect: "aspect" aspect_name "{" (method | aspect)* "}"
+method: func_signature "{" body "}"
+aspect_name: CNAME
+aspect: advice_type pointcut "{" body "}"
+
+advice_type: (BEFORE | AFTER | AROUND)"():"
+BEFORE.1: "before"
+AFTER.1: "after"
+AROUND.1: "around"
 
 pointcut: primitive_pointcut+
 primitive_pointcut: call | execution | get | set | infunc
@@ -22,9 +34,12 @@ get: "get()"
 set: "set()"
 infunc: "infunc("func_name")"
 
-func_signature: WORD func_name "("func_args")"
+func_signature: CNAME func_name "("func_args")"
 func_name: CNAME
-func_args: (WORD ("," WORD)*)?
+func_args: (CNAME ("," CNAME)*)?
+body: /.+/+
 
-%import common (CNAME, WORD, WS)
+%import common (CNAME, WORD, WS, C_COMMENT, CPP_COMMENT)
 %ignore WS
+%ignore C_COMMENT // /* */
+%ignore CPP_COMMENT // //

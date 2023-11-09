@@ -49,19 +49,6 @@ class AspectTransformer(Transformer):
     def advice_type(self, tree):
         return tree[0]
 
-    def before(self, tree):
-        # TODO return Before()
-        return "before"
-
-    def after(self, tree):
-        return "after"
-
-    def around(self, tree):
-        return "around"
-
-    def advice_body(self, tree):
-        return [t.value for t in tree]
-
     ######################## pointcut ########################
     def pointcut(self, tree):
         """
@@ -108,3 +95,6 @@ class AspectTransformer(Transformer):
             e.g.) ['int', 'float', 'char']
         """
         return [str(t) for t in tree]
+
+    def body(self, tree):
+        return [t.value for t in tree]
