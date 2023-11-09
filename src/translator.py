@@ -10,15 +10,15 @@ if __name__ == "__main__":
         aspect_file = sys.argv[1]
         base_file = sys.argv[2]
     else:
-        aspect_file = "/acc/aspect.acc"
-        base_file = "/acc/base.c"
+        aspect_file = "acc/aspect.acc"
+        base_file = "acc/base.c"
 
     """Parse aspect file"""
     aspects = (AspectParser(aspect_file)).parse()
 
     """Parse source file for customization"""
     c_parser = CParser(base_file)
-    # c_parser = CParser("/toppers/kernel/alarm.c")
+    # c_parser = CParser("toppers/kernel/alarm.c")
     c_ast = c_parser.parse()
 
     """Execute customizations"""
