@@ -26,5 +26,5 @@
 - 実行
 
   ```
-  $ py src/translator.py /example/execution/greet.acc /example/execution/greet.c
+  $ py src/translator.py example/execution/greet.acc example/execution/greet.c
   ```

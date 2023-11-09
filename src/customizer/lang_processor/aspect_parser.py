@@ -21,7 +21,7 @@ class AspectParser:
         Returns:
             aspects (list[Aspect]): アスペクトのリスト
         """
-        grammar_path = generate_full_path("/src/customizer/lang_processor/acclang.lark")
+        grammar_path = generate_full_path("src/customizer/lang_processor/acclang.lark")
         parser = Lark(
             grammar=open(grammar_path),
             parser="lalr",

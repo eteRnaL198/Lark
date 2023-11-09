@@ -7,11 +7,12 @@ def generate_full_path(path):
 
     Arg:
       path (str): プロジェクトのルートからの相対パス
+      e.g. "acc/aspect.acc"
 
     Return:
       str: 引数pathへの絶対パス
     """
-    return str(Path(__file__).parents[2]) + path
+    return str(Path(__file__).parents[2]) + "/" + path
 
 
 def backup_file(path):
