@@ -3,7 +3,7 @@ abstract aspect AbstractFuncAspect {
     filename,
     os_service_id,
     location,
-    set_flag(),
+    set_flag,
     msg,
     ret,
     req_sending_service,
@@ -14,10 +14,10 @@ abstract aspect AbstractFuncAspect {
 
   after(): set(StatusType task_location) && infile(this.filename) {
     if (tsk_location == this.location) {
-      this.set_flag()
+      this.set_flag();
       this.req_sending_service(glbtskid_store, this.os_service_id, this.msg);
       this.ret = (UINT8)(this.get_return value());
-      this.after_sending_msg()
+      this.after_sending_msg();
     }
   }
 }

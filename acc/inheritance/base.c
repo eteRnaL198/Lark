@@ -1,13 +1,8 @@
 #include <stdio.h>
 
 void foo() {
-  int x = 5;
-  {
-    // int x = 1 + 2;
-    // return 10;
-    x = 3;
-  }
-  printf("foo: %d\n", x);
+  printf("foo\n");
+  return;
 }
 
 int main() {
