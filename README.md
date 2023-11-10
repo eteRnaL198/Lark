@@ -14,7 +14,7 @@
 
   ```bash
   python -m venv .venv
-  source ./env/bin/activate
+  source ./venv/bin/activate
   ```
 
 - パッケージのインストール
