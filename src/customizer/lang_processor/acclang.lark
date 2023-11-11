@@ -1,4 +1,5 @@
 // https://github.com/lark-parser/lark/blob/master/lark/grammars/common.lark
+// https://lark-parser.readthedocs.io/en/latest/grammar.html
 
 ?start: aspect_type+
 aspect_type: abstract_aspect | concrete_aspect | pure_aspect
