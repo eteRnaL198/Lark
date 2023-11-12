@@ -29,4 +29,5 @@ class AspectParser:
         )
         src = open(generate_full_path(self.filename)).read()
         aspects: Union[list[PureAspect], PureAspect] = parser.parse(src)  # type: ignore
+        # TODO ここで継承関係を解決
         return aspects if isinstance(aspects, list) else [aspects]

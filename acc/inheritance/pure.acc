@@ -1,0 +1,9 @@
+aspect PureAspect {
+  void func() {
+    printf("pure aspect method\n");
+  }
+  
+  after(): execution(int foo()) {
+    this.func();
+  }
+}

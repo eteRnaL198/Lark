@@ -1,6 +1,6 @@
 import sys
+from shutil import Error
 from typing import List
-from uu import Error
 
 from pycparser import c_ast
 
@@ -15,7 +15,7 @@ class Translator:
     def __init__(self):
         self.aspect_files: list[str] = []
         self.base_files: list[str] = []
-        if len(sys.argv) == 1:
+        if len(sys.argv) == 1:  # TODO delete
             self.aspect_files = ["acc/pure/foo.acc", "acc/pure/bar.acc"]
             self.base_files = ["acc/pure/base.c", "acc/pure/base2.c"]
         else:
@@ -55,4 +55,4 @@ if __name__ == "__main__":
     translator = Translator()
     aspects = translator.parse_aspects()
     c_asts = translator.parse_bases()
-    translator.translate(aspects, c_asts)
+    # translator.translate(aspects, c_asts)

@@ -2,14 +2,14 @@ abstract aspect AbstractAspect {
   constructor(
     var,
     display,
-    msg,
+    msg
   )
 
-  abstract void func()
-
+  abstract void method()
+  
   before(): execution(int foo()) {
     this.var = 10;
-    this.func();
+    this.method();
     this.display(this.msg);
   }
 }

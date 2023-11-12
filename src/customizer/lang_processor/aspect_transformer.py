@@ -1,6 +1,8 @@
 from lark import Transformer
 
+from customizer.aspect.abstract_method import AbstractMethod
 from customizer.aspect.aspect import Aspect
+from customizer.aspect.method import Method
 from customizer.aspect.pure_aspect import PureAspect
 from customizer.pointcut.execution import Execution
 from customizer.pointcut.func_signature import FuncSignature
@@ -74,13 +76,21 @@ class AspectTransformer(Transformer):
     def infunc(self, tree):
         return {"name": "infunc", "arg": tree[0]}
 
-    ######################## func ########################
+    ######################## method ########################
+    def method(self, tree):
+        """
+        e.g.) tree[FuncSignature, str] → int foo(char) { ... }
+        """
+        type, names, args, body = tree[0].type, tree[0].name, tree[0].args, tree[1]
+        return Method(type, names, args, body)
 
-    def func_name(self, tree):
+    def abstract_method(self, tree):
         """
-        e.g.) set_foo
+        e.g.) tree[abstract, FuncSignature] → int foo(char)
         """
-        return str(tree[0])
+        return AbstractMethod(tree[1].type, tree[1].name, tree[1].args)
+
+    ######################## func ########################
 
     def func_signature(self, tree):
         """
@@ -88,6 +98,12 @@ class AspectTransformer(Transformer):
         """
         type, name, args = str(tree[0]), tree[1], tree[2]
         return FuncSignature(type, name, args)
+
+    def func_name(self, tree):
+        """
+        e.g.) set_foo
+        """
+        return str(tree[0])
 
     def func_args(self, tree):
         """

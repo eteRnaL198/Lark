@@ -5,8 +5,8 @@ aspect ConcreteAspect extends AbstractAspect {
     "identifier param"
   )
 
-  void func() {
-    printf("func param\n");
+  void method() {
+    printf("method\n");
   }
   
   after(): execution(int foo()) {
