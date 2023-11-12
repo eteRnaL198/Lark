@@ -1,5 +1,6 @@
 import sys
 from typing import List
+from uu import Error
 
 from pycparser import c_ast
 
@@ -12,15 +13,19 @@ from util.file_util import backup_file, generate_full_path
 
 class Translator:
     def __init__(self):
-        if len(sys.argv) > 1:
-            self.aspect_files = [sys.argv[1]]  # TODO 拡張子分岐
-            self.base_files = [sys.argv[2]]
-            # for arg in sys.argv[1:]:
-            #     print(self.aspect_file.endswith(".acc"))
-            #     print(self.base_file.endswith(".c"))
+        self.aspect_files: list[str] = []
+        self.base_files: list[str] = []
+        if len(sys.argv) == 1:
+            self.aspect_files = ["acc/pure/foo.acc", "acc/pure/bar.acc"]
+            self.base_files = ["acc/pure/base.c", "acc/pure/base2.c"]
         else:
-            self.aspect_files = ["acc/foo.acc", "acc/bar.acc"]
-            self.base_files = ["acc/base.c", "acc/base2.c"]
+            for arg in sys.argv[1:]:
+                if arg.endswith(".acc"):
+                    self.aspect_files.append(arg)
+                elif arg.endswith(".c"):
+                    self.base_files.append(arg)
+            if len(self.aspect_files) == 0 or len(self.base_files) == 0:
+                raise Error("No aspect file or base file specified.")
 
     def parse_aspects(self):
         aspects: list[PureAspect] = []

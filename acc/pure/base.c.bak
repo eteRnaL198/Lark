@@ -11,13 +11,17 @@ int main() {
 }
 
 void baz() {
-  print("baaaaaz");
+  printf("I'm Baz Right Ear!");
+  printf("To infinity and beyond!");
   return;
 }
 
 void foo(int a) {
-  printf("foo) a = %d\n", a);
-  return;
+  int x = a;
+  int y;
+  y = a;
+  printf("foo) x = %d\n", x);
+  printf("%d", BAR);
 }
 
 int bar(float b) {
