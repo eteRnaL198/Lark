@@ -1,4 +1,4 @@
-from typing import Union
+from typing import List, Union
 
 from lark import Lark
 
@@ -16,7 +16,7 @@ class AspectParser:
     def __init__(self, filename):
         self.filename = filename
 
-    def parse(self):
+    def parse(self) -> List[PureAspect]:
         """構文解析を実行
         Returns:
             aspects (list[Aspect]): アスペクトのリスト
@@ -29,5 +29,4 @@ class AspectParser:
         )
         src = open(generate_full_path(self.filename)).read()
         aspects: Union[list[PureAspect], PureAspect] = parser.parse(src)  # type: ignore
-        # TODO 型整理
         return aspects if isinstance(aspects, list) else [aspects]

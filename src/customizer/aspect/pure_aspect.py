@@ -18,5 +18,4 @@ class PureAspect:
 
     def weave(self, src: Src, ast: c_ast.FileAST):
         for aspect in self.aspects:
-            src = aspect.weave(src, ast)
-        return src
+            aspect.weave(src, ast)
