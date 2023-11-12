@@ -1,5 +1,5 @@
 import pycparser_fake_libc
-from pycparser import parse_file
+from pycparser import c_ast, parse_file
 
 from util.file_util import generate_full_path
 
@@ -13,7 +13,7 @@ class CParser:
     def __init__(self, filename):
         self.filename = generate_full_path(filename)
 
-    def parse(self):
+    def parse(self) -> c_ast.FileAST:
         """構文解析を実行
         Returns:
             ast (c_ast.FileAST): 構文木
