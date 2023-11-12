@@ -6,8 +6,4 @@ aspect Foo {
   before(): execution(int foo(int, char)) {
     printf("aspect a=%d\n", a);
   }
-
-  after(): execution(float bar(float)) {
-    printf("aspect before execution of bar");
-  }
 }
