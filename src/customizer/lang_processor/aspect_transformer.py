@@ -1,7 +1,9 @@
 from lark import Transformer
 
+from customizer.aspect.abstract_aspect import AbstractAspect
 from customizer.aspect.abstract_method import AbstractMethod
 from customizer.aspect.aspect import Aspect
+from customizer.aspect.concrete_aspect import ConcreteAspect
 from customizer.aspect.constructor import Constructor
 from customizer.aspect.method import Method
 from customizer.aspect.pure_aspect import PureAspect
@@ -15,7 +17,7 @@ class AspectTransformer(Transformer):
         return [*tree]
 
     ######################## aspect ########################
-    def aspect_type(self, tree):
+    def aspect_declarator(self, tree):
         return tree[0]
 
     def abstract_aspect(self, tree):
@@ -24,7 +26,12 @@ class AspectTransformer(Transformer):
             Aspects
         }
         """
-        NotImplementedError("abstract_aspect")
+        name = str(tree[0])
+        constructor: Constructor = tree[1]
+        abstract_methods = [t for t in tree[2:] if isinstance(t, AbstractMethod)]
+        methods = [t for t in tree[2:] if isinstance(t, Method)]
+        aspects = [t for t in tree[2:] if isinstance(t, Aspect)]
+        return AbstractAspect(name, constructor, abstract_methods, methods, aspects)
 
     def concrete_aspect(self, tree):
         """
@@ -32,15 +39,20 @@ class AspectTransformer(Transformer):
             Aspects
         }
         """
-        NotImplementedError("concrete_aspect")
+        name = str(tree[0])
+        abstract_asp_name = str(tree[1])
+        super: Super = tree[2]
+        methods = [t for t in tree[3:] if isinstance(t, Method)]
+        aspects = [t for t in tree[3:] if isinstance(t, Aspect)]
+        return ConcreteAspect(name, abstract_asp_name, super, methods, aspects)
 
     def pure_aspect(self, tree):
         """aspect Baz {
             Aspects
         }"""
-        asp_name = str(tree[0])
-        asps = tree[1:]
-        return PureAspect(asp_name, asps)
+        name = str(tree[0])
+        aspects = tree[1:]
+        return PureAspect(name, aspects)
 
     def aspect_name(self, tree):
         return str(tree[0])

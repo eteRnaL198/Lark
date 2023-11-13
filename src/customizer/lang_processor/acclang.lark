@@ -1,10 +1,10 @@
 // https://github.com/lark-parser/lark/blob/master/lark/grammars/common.lark
 // https://lark-parser.readthedocs.io/en/latest/grammar.html
 
-?start: aspect_type+
-aspect_type: abstract_aspect | concrete_aspect | pure_aspect
+?start: aspect_declarator+
+aspect_declarator: abstract_aspect | concrete_aspect | pure_aspect
 
-abstract_aspect: "abstract" "aspect" aspect_name "{" constructor (abstract_method | aspect)* "}"
+abstract_aspect: "abstract" "aspect" aspect_name "{" constructor (abstract_method | method | aspect)* "}"
 constructor: CONSTRUCTOR "("constructor_args")"
 CONSTRUCTOR.1: "constructor"
 constructor_args: (CNAME ("," CNAME)*)?
