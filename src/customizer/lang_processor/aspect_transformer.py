@@ -1,5 +1,3 @@
-from copyreg import constructor
-
 from lark import Transformer
 
 from customizer.aspect.abstract_method import AbstractMethod
