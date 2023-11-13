@@ -21,7 +21,7 @@ class Execution(Pointcut):
         Args:
             ast (c_ast.FileAST): 構文木
         Returns:
-            joinpoints (list[int]): ジョインポイント(行目)のリスト
+            joinpoints (list[Joinopint]): ジョインポイントのリスト
         """
         extractor = FuncExtractor()
         extractor.visit(ast)
@@ -33,5 +33,4 @@ class Execution(Pointcut):
             exec_end_lines = [*func.get_exec_end_lines()]
             whole = (exec_start_line, func.last_line)
             joinpoints.append(Joinpoint(exec_start_line, exec_end_lines, whole))
-        # TODO マッチしなかった場合の処理
         return joinpoints

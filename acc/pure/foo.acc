@@ -7,3 +7,9 @@ aspect Foo {
     printf("I'm Buzz Lightyear");
   }
 }
+
+aspect Hoge {
+  after(): execution(void hoge()) {
+    printf("hogehoge\n");
+  }
+}

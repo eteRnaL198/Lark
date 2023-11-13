@@ -26,7 +26,7 @@ class Aspect:
         Args:
             ast (c_ast.FileAST): 構文木
         Returns:
-            joinpoints (List[Joinpoint]): ジョインポイント(行目)のリスト
+            joinpoints (List[Joinpoint]): ジョインポイントのリスト
         """
         joinpoints: List[Joinpoint] = []
         for pt in self.pointcut:
@@ -37,7 +37,10 @@ class Aspect:
         advice = (
             ["/* Start of aspect */\n"] + self.advice_body + ["/* End of aspect */\n"]
         )
-        for joinpoint in self.__get_joinpoints(ast):
+        joinpoints = self.__get_joinpoints(ast)
+        if len(joinpoints) == 0:
+            return
+        for joinpoint in joinpoints:
             if self.advice_type == "before":
                 line = joinpoint.get_before()
                 src.insert(line, advice)

@@ -22,10 +22,11 @@ void foo(int a) {
 
 int bar(float b) {
   printf("bar) b = %f\n", b);
-  if (b > 0.0) {
-    return 0;
-  } else {
-    return -1;
-  }
+  return 0;
   // end of bar definition.
+}
+
+void hoge() {
+  print("hoge\n");
+  return;
 }
