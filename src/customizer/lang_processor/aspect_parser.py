@@ -3,6 +3,8 @@ from typing import List, Union
 from lark import Lark
 
 from customizer.aspect.aspect import Aspect
+from customizer.aspect_container.abstract_aspect import AbstractAspect
+from customizer.aspect_container.concrete_aspect import ConcreteAspect
 from customizer.aspect_container.pure_aspect import PureAspect
 from customizer.lang_processor.aspect_transformer import AspectTransformer
 from util.file_util import generate_full_path
@@ -28,13 +30,27 @@ class AspectParser:
         Returns:
             aspects (list[Aspect]): アスペクトのリスト
         """
-        aspects: List[Aspect] = []
+        aspect_containers: List[Union[PureAspect, ConcreteAspect, AbstractAspect]] = []
         for filename in self.filenames:
             src = open(generate_full_path(filename)).read()
-            aspect_containers: Union[list[PureAspect], PureAspect] = self.parser.parse(src)  # type: ignore
-            if isinstance(aspect_containers, list):
-                for aspect_container in aspect_containers:
-                    aspects += aspect_container.get()
-            else:
-                aspects += aspect_containers.get()
+            tmp: Union[List[PureAspect], PureAspect] = self.parser.parse(src)  # type: ignore
+            aspect_containers += tmp if isinstance(tmp, list) else [tmp]
+
+        pure_aspecs: List[PureAspect] = [
+            c for c in aspect_containers if isinstance(c, PureAspect)
+        ]
+        concrete_aspects: List[ConcreteAspect] = [
+            c for c in aspect_containers if isinstance(c, ConcreteAspect)
+        ]
+        abstract_aspects: List[AbstractAspect] = [
+            c for c in aspect_containers if isinstance(c, AbstractAspect)
+        ]
+
+        # resolve inheritance
+
+        # resolve method
+
+        aspects: List[Aspect] = []
+        for container in aspect_containers:
+            aspects += container.get()
         return aspects

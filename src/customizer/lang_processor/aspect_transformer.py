@@ -40,11 +40,11 @@ class AspectTransformer(Transformer):
         }
         """
         name = str(tree[0])
-        abstract_asp_name = str(tree[1])
+        super_asp_name = str(tree[1])
         super: Super = tree[2]
         methods = [t for t in tree[3:] if isinstance(t, Method)]
         aspects = [t for t in tree[3:] if isinstance(t, Aspect)]
-        return ConcreteAspect(name, abstract_asp_name, super, methods, aspects)
+        return ConcreteAspect(name, super_asp_name, super, methods, aspects)
 
     def pure_aspect(self, tree):
         """aspect Baz {

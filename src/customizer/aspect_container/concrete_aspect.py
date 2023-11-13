@@ -10,7 +10,7 @@ class ConcreteAspect:
     def __init__(
         self,
         name,
-        abstract_name,
+        super_aspect_name,
         super: Super,
         methods: Union[List[Method], Method],
         aspects: Union[List[Aspect], Aspect],
@@ -18,18 +18,18 @@ class ConcreteAspect:
         """
         Args:
             name (str): アスペクト名
-            abstract_name (str): 抽象アスペクト名
-            super (Super): スーパーアスペクト
+            super_aspect_name (str): 継承アスペクト名
+            super (Super): スーパーコンストラクタ
             methods (list[Method]): メソッドのリスト
             aspects list[(Aspect)]: アスペクトのリスト
         """
         self.name: str = name
-        self.abstract_aspect_name: str = abstract_name
+        self.super_aspect_name: str = super_aspect_name
         self.super = super
         self.methods: List[Method] = methods if isinstance(methods, list) else [methods]
         self.aspects: List[Aspect] = aspects if isinstance(aspects, list) else [aspects]
 
-    def inherit(self):
+    def inherit(self, super_aspect):
         return PureAspect(self.name, self.methods, self.aspects)
 
     def get(self):
