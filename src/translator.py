@@ -28,15 +28,13 @@ class Translator:
                 raise Error("No aspect file or base file specified.")
 
     def parse_aspects(self):
-        aspects: list[Aspect] = []
-        for file in self.aspect_files:
-            aspects.extend((AspectParser(file)).parse())
+        aspects = (AspectParser(self.aspect_files)).parse()
         return aspects
 
     def parse_bases(self):
         c_asts: list[c_ast.FileAST] = []
         for file in self.base_files:
-            c_asts.extend([CParser(file).parse()])
+            c_asts += [CParser(file).parse()]
         return c_asts
 
     def translate(self, aspects: List[Aspect], c_asts):

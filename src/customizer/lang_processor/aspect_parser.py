@@ -14,26 +14,27 @@ class AspectParser:
         filename (str): アスペクトファイルの相対パス
     """
 
-    def __init__(self, filename):
-        self.filename = filename
+    def __init__(self, filenames):
+        self.filenames = filenames
+        grammar_path = generate_full_path("src/customizer/lang_processor/acclang.lark")
+        self.parser = Lark(
+            grammar=open(grammar_path),
+            parser="lalr",
+            transformer=AspectTransformer(),
+        )
 
     def parse(self) -> List[Aspect]:
         """構文解析を実行
         Returns:
             aspects (list[Aspect]): アスペクトのリスト
         """
-        grammar_path = generate_full_path("src/customizer/lang_processor/acclang.lark")
-        parser = Lark(
-            grammar=open(grammar_path),
-            parser="lalr",
-            transformer=AspectTransformer(),
-        )
-        src = open(generate_full_path(self.filename)).read()
-        aspect_containers: Union[list[PureAspect], PureAspect] = parser.parse(src)  # type: ignore
-        if isinstance(aspect_containers, list):
-            aspects: list[Aspect] = []
-            for aspect_container in aspect_containers:
-                aspects.extend(aspect_container.get())
-            return aspects
-        else:
-            return aspect_containers.get()
+        aspects: List[Aspect] = []
+        for filename in self.filenames:
+            src = open(generate_full_path(filename)).read()
+            aspect_containers: Union[list[PureAspect], PureAspect] = self.parser.parse(src)  # type: ignore
+            if isinstance(aspect_containers, list):
+                for aspect_container in aspect_containers:
+                    aspects += aspect_container.get()
+            else:
+                aspects += aspect_containers.get()
+        return aspects
