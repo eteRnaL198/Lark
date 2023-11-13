@@ -1,9 +1,13 @@
+from copyreg import constructor
+
 from lark import Transformer
 
 from customizer.aspect.abstract_method import AbstractMethod
 from customizer.aspect.aspect import Aspect
+from customizer.aspect.constructor import Constructor
 from customizer.aspect.method import Method
 from customizer.aspect.pure_aspect import PureAspect
+from customizer.aspect.super import Super
 from customizer.pointcut.execution import Execution
 from customizer.pointcut.func_signature import FuncSignature
 
@@ -75,6 +79,30 @@ class AspectTransformer(Transformer):
 
     def infunc(self, tree):
         return {"name": "infunc", "arg": tree[0]}
+
+    ######################## constructor ########################
+    def constructor(self, tree):
+        return Constructor(tree[1])
+
+    def constructor_args(self, tree):
+        """
+        return:
+            e.g.) ['foo', 'bar']
+        """
+        return [str(t) for t in tree]
+
+    def super(self, tree):
+        return Super(tree[1])
+
+    def super_args(self, tree):
+        """
+        return:
+            e.g.) foo.c, "bar2" →[foo.c, "bar2"]
+        """
+        return tree
+
+    def super_arg(self, tree):
+        return "".join([t.value for t in tree])
 
     ######################## method ########################
     def method(self, tree):
