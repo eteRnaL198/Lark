@@ -7,7 +7,7 @@ from pycparser import c_ast
 from base.lang_processor.c_parser import CParser
 from customizer.lang_processor.aspect_parser import AspectParser
 from customizer.src import Src
-from src.customizer.aspect.pure_aspect import PureAspect
+from src.customizer.aspect.aspect import Aspect
 from util.file_util import backup_file, generate_full_path
 
 
@@ -28,7 +28,7 @@ class Translator:
                 raise Error("No aspect file or base file specified.")
 
     def parse_aspects(self):
-        aspects: list[PureAspect] = []
+        aspects: list[Aspect] = []
         for file in self.aspect_files:
             aspects.extend((AspectParser(file)).parse())
         return aspects
@@ -39,7 +39,7 @@ class Translator:
             c_asts.extend([CParser(file).parse()])
         return c_asts
 
-    def translate(self, aspects: List[PureAspect], c_asts):
+    def translate(self, aspects: List[Aspect], c_asts):
         for i in range(len(self.base_files)):
             backup_file(self.base_files[i])
             target_path = generate_full_path(self.base_files[i])

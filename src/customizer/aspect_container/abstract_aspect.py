@@ -1,9 +1,9 @@
 from typing import List, Union
 
-from customizer.aspect.abstract_method import AbstractMethod
 from customizer.aspect.aspect import Aspect
-from customizer.aspect.constructor import Constructor
-from customizer.aspect.method import Method
+from customizer.aspect_container.constructor import Constructor
+from customizer.method.abstract_method import AbstractMethod
+from customizer.method.method import Method
 
 
 class AbstractAspect:
@@ -12,7 +12,7 @@ class AbstractAspect:
         name,
         constructor: Constructor,
         abstract_methods: List[AbstractMethod],
-        methods: List[Method],
+        methods: Union[List[Method], Method],
         aspects: Union[List[Aspect], Aspect],
     ):
         """
@@ -32,3 +32,6 @@ class AbstractAspect:
         )
         self.methods: List[Method] = methods if isinstance(methods, list) else [methods]
         self.aspects: List[Aspect] = aspects if isinstance(aspects, list) else [aspects]
+
+    def get(self):
+        return self.aspects

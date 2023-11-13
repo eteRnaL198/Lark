@@ -1,20 +1,20 @@
 from lark import Transformer
 
-from customizer.aspect.abstract_aspect import AbstractAspect
-from customizer.aspect.abstract_method import AbstractMethod
 from customizer.aspect.aspect import Aspect
-from customizer.aspect.concrete_aspect import ConcreteAspect
-from customizer.aspect.constructor import Constructor
-from customizer.aspect.method import Method
-from customizer.aspect.pure_aspect import PureAspect
-from customizer.aspect.super import Super
+from customizer.aspect_container.abstract_aspect import AbstractAspect
+from customizer.aspect_container.concrete_aspect import ConcreteAspect
+from customizer.aspect_container.constructor import Constructor
+from customizer.aspect_container.pure_aspect import PureAspect
+from customizer.aspect_container.super import Super
+from customizer.method.abstract_method import AbstractMethod
+from customizer.method.method import Method
 from customizer.pointcut.execution import Execution
 from customizer.pointcut.func_signature import FuncSignature
 
 
 class AspectTransformer(Transformer):
     def start(self, tree):
-        return [*tree]
+        return tree
 
     ######################## aspect ########################
     def aspect_declarator(self, tree):
@@ -51,8 +51,9 @@ class AspectTransformer(Transformer):
             Aspects
         }"""
         name = str(tree[0])
-        aspects = tree[1:]
-        return PureAspect(name, aspects)
+        methods = [t for t in tree[1:] if isinstance(t, Method)]
+        aspects = [t for t in tree[1:] if isinstance(t, Aspect)]
+        return PureAspect(name, methods, aspects)
 
     def aspect_name(self, tree):
         return str(tree[0])

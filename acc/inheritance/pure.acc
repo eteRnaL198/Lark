@@ -7,3 +7,9 @@ aspect PureAspect {
     this.func();
   }
 }
+
+aspect Hoge {
+  after(): execution(int foo()) {
+    printf("hoge aspect method\n");
+  }
+}

@@ -2,7 +2,8 @@ from typing import List, Union
 
 from lark import Lark
 
-from customizer.aspect.pure_aspect import PureAspect
+from customizer.aspect.aspect import Aspect
+from customizer.aspect_container.pure_aspect import PureAspect
 from customizer.lang_processor.aspect_transformer import AspectTransformer
 from util.file_util import generate_full_path
 
@@ -16,7 +17,7 @@ class AspectParser:
     def __init__(self, filename):
         self.filename = filename
 
-    def parse(self) -> List[PureAspect]:
+    def parse(self) -> List[Aspect]:
         """構文解析を実行
         Returns:
             aspects (list[Aspect]): アスペクトのリスト
@@ -28,6 +29,11 @@ class AspectParser:
             transformer=AspectTransformer(),
         )
         src = open(generate_full_path(self.filename)).read()
-        aspects: Union[list[PureAspect], PureAspect] = parser.parse(src)  # type: ignore
-        # TODO ここで継承関係を解決
-        return aspects if isinstance(aspects, list) else [aspects]
+        aspect_containers: Union[list[PureAspect], PureAspect] = parser.parse(src)  # type: ignore
+        if isinstance(aspect_containers, list):
+            aspects: list[Aspect] = []
+            for aspect_container in aspect_containers:
+                aspects.extend(aspect_container.get())
+            return aspects
+        else:
+            return aspect_containers.get()

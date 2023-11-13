@@ -1,8 +1,9 @@
 from typing import List, Union
 
 from customizer.aspect.aspect import Aspect
-from customizer.aspect.method import Method
-from customizer.aspect.super import Super
+from customizer.aspect_container.pure_aspect import PureAspect
+from customizer.aspect_container.super import Super
+from customizer.method.method import Method
 
 
 class ConcreteAspect:
@@ -11,7 +12,7 @@ class ConcreteAspect:
         name,
         abstract_name,
         super: Super,
-        methods: List[Method],
+        methods: Union[List[Method], Method],
         aspects: Union[List[Aspect], Aspect],
     ):
         """
@@ -27,3 +28,9 @@ class ConcreteAspect:
         self.super = super
         self.methods: List[Method] = methods if isinstance(methods, list) else [methods]
         self.aspects: List[Aspect] = aspects if isinstance(aspects, list) else [aspects]
+
+    def inherit(self):
+        return PureAspect(self.name, self.methods, self.aspects)
+
+    def get(self):
+        return self.aspects
