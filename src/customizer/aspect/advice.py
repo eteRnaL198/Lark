@@ -11,7 +11,5 @@ class Advice:
         self.type = type
         body_eol = list(map(lambda l: (l + "\n"), body))  # 解析時に無視された改行コードを追加
         self.body: List[str] = (
-            ["{\n", "/* Start of aspect */\n"]
-            + body_eol
-            + ["/* End of aspect */\n", "}\n"]
+            ["{\n", "/* Start of advice*/\n"] + body_eol + ["/* End of advice */\n"]
         )
