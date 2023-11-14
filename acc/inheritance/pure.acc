@@ -9,7 +9,7 @@ aspect PureAspect {
 }
 
 aspect Hoge {
-  after(): execution(int foo()) {
+  after(): execution(int hoge()) {
     printf("hoge aspect method\n");
   }
 }

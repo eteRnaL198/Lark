@@ -1,5 +1,6 @@
 from lark import Transformer
 
+from customizer.aspect.advice import Advice
 from customizer.aspect.aspect import Aspect
 from customizer.aspect_container.abstract_aspect import AbstractAspect
 from customizer.aspect_container.concrete_aspect import ConcreteAspect
@@ -60,7 +61,8 @@ class AspectTransformer(Transformer):
 
     def aspect(self, tree):
         advice_type, pointcut, advice_body = tree[0], tree[1], tree[2]
-        return Aspect(advice_type, pointcut, advice_body)
+
+        return Aspect(pointcut, Advice(advice_type, advice_body))
 
     ######################## advice ########################
     def advice_type(self, tree):

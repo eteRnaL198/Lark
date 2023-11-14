@@ -14,7 +14,8 @@ class PureAspect:
         """
         Args:
             name (str): アスペクト名
-            aspects list[(Aspect)]: アスペクトのリスト
+            methods (list[Method]): メソッドのリスト
+            aspects (list[(Aspect)]): アスペクトのリスト
         """
         self.name: str = name
         self.methods: List[Method] = methods if isinstance(methods, list) else [methods]

@@ -2,24 +2,21 @@ from typing import List
 
 from pycparser import c_ast
 
+from customizer.aspect.advice import Advice
 from customizer.joinpoint.joinpoint import Joinpoint
 from customizer.pointcut.pointcut import Pointcut
 from customizer.src import Src
 
 
 class Aspect:
-    def __init__(self, type: str, pointcut, body: List[str]):
+    def __init__(self, pointcut: List[Pointcut], advice: Advice):
         """
         Args:
-            type (str): アドバイスの種類(before, after, around)
             pointcut (List[Pointcut]): ポイントカット
-            body (str): アドバイスの内容
+            advice (Advice): アドバイス
         """
-        self.advice_type = type
-        self.pointcut: List[Pointcut] = pointcut
-        self.advice_body: List[str] = list(
-            map(lambda l: (l + "\n"), body)
-        )  # 解析時に無視された改行コードを追加
+        self.pointcut = pointcut
+        self.advice = advice
 
     def __get_joinpoints(self, ast: c_ast.FileAST) -> List[Joinpoint]:
         """
@@ -35,20 +32,20 @@ class Aspect:
 
     def weave(self, src: Src, ast: c_ast.FileAST):
         advice = (
-            ["/* Start of aspect */\n"] + self.advice_body + ["/* End of aspect */\n"]
+            ["/* Start of aspect */\n"] + self.advice.body + ["/* End of aspect */\n"]
         )
         joinpoints = self.__get_joinpoints(ast)
         if len(joinpoints) == 0:
             return
         for joinpoint in joinpoints:
-            if self.advice_type == "before":
+            if self.advice.type == "before":
                 line = joinpoint.get_before()
                 src.insert(line, advice)
                 continue
-            if self.advice_type == "after":
+            if self.advice.type == "after":
                 for line in joinpoint.get_after():
                     src.insert(line, advice)
                 continue
-            if self.advice_type == "around":
+            if self.advice.type == "around":
                 start, end = joinpoint.get_around()
                 src.replace(start, end, advice)

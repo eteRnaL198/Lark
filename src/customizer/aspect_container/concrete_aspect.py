@@ -6,12 +6,12 @@ from customizer.aspect_container.super import Super
 from customizer.method.method import Method
 
 
-class ConcreteAspect:
+class ConcreteAspect(PureAspect):
     def __init__(
         self,
         name,
         super_aspect_name,
-        super: Super,
+        super_constructor: Super,
         methods: Union[List[Method], Method],
         aspects: Union[List[Aspect], Aspect],
     ):
@@ -19,15 +19,13 @@ class ConcreteAspect:
         Args:
             name (str): アスペクト名
             super_aspect_name (str): 継承アスペクト名
-            super (Super): スーパーコンストラクタ
+            super_constructor (Super): 継承アスペクトのコンストラクタ
             methods (list[Method]): メソッドのリスト
-            aspects list[(Aspect)]: アスペクトのリスト
+            aspects (list[(Aspect)]): アスペクトのリスト
         """
-        self.name: str = name
+        super().__init__(name, methods, aspects)
         self.super_aspect_name: str = super_aspect_name
-        self.super = super
-        self.methods: List[Method] = methods if isinstance(methods, list) else [methods]
-        self.aspects: List[Aspect] = aspects if isinstance(aspects, list) else [aspects]
+        self.super = super_constructor
 
     def inherit(self, super_aspect):
         return PureAspect(self.name, self.methods, self.aspects)

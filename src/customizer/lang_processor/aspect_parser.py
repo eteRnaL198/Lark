@@ -33,7 +33,12 @@ class AspectParser:
         aspect_containers: List[Union[PureAspect, ConcreteAspect, AbstractAspect]] = []
         for filename in self.filenames:
             src = open(generate_full_path(filename)).read()
-            tmp: Union[List[PureAspect], PureAspect] = self.parser.parse(src)  # type: ignore
+            tmp: Union[
+                List[Union[PureAspect, ConcreteAspect, AbstractAspect]],
+                Union[PureAspect, ConcreteAspect, AbstractAspect],
+            ] = self.parser.parse(
+                src
+            )  # type: ignore
             aspect_containers += tmp if isinstance(tmp, list) else [tmp]
 
         pure_aspecs: List[PureAspect] = [

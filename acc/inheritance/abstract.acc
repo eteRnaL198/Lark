@@ -7,7 +7,7 @@ abstract aspect AbstractAspect {
 
   abstract void method()
   
-  before(): execution(int foo()) {
+  before(): execution(int baz()) {
     this.var = 10;
     this.method();
     this.display(this.msg);
