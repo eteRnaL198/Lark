@@ -9,6 +9,9 @@ class Advice:
             body (str): アドバイスの内容
         """
         self.type = type
-        self.body: List[str] = list(
-            map(lambda l: (l + "\n"), body)
-        )  # 解析時に無視された改行コードを追加
+        body_eol = list(map(lambda l: (l + "\n"), body))  # 解析時に無視された改行コードを追加
+        self.body: List[str] = (
+            ["{\n", "/* Start of aspect */\n"]
+            + body_eol
+            + ["/* End of aspect */\n", "}\n"]
+        )

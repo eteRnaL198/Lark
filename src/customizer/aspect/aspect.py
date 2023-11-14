@@ -31,21 +31,18 @@ class Aspect:
         return joinpoints
 
     def weave(self, src: Src, ast: c_ast.FileAST):
-        advice = (
-            ["/* Start of aspect */\n"] + self.advice.body + ["/* End of aspect */\n"]
-        )
         joinpoints = self.__get_joinpoints(ast)
         if len(joinpoints) == 0:
             return
         for joinpoint in joinpoints:
             if self.advice.type == "before":
                 line = joinpoint.get_before()
-                src.insert(line, advice)
+                src.insert(line, self.advice.body)
                 continue
             if self.advice.type == "after":
                 for line in joinpoint.get_after():
-                    src.insert(line, advice)
+                    src.insert(line, self.advice.body)
                 continue
             if self.advice.type == "around":
                 start, end = joinpoint.get_around()
-                src.replace(start, end, advice)
+                src.replace(start, end, self.advice.body)
