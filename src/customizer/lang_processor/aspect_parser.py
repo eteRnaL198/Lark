@@ -4,8 +4,8 @@ from lark import Lark
 
 from customizer.aspect.aspect import Aspect
 from customizer.aspect_container.abstract_aspect import AbstractAspect
+from customizer.aspect_container.basic_aspect import BasicAspect
 from customizer.aspect_container.concrete_aspect import ConcreteAspect
-from customizer.aspect_container.pure_aspect import PureAspect
 from customizer.lang_processor.aspect_transformer import AspectTransformer
 from util.file_util import generate_full_path
 
@@ -30,19 +30,19 @@ class AspectParser:
         Returns:
             aspects (list[Aspect]): アスペクトのリスト
         """
-        aspect_containers: List[Union[PureAspect, ConcreteAspect, AbstractAspect]] = []
+        aspect_containers: List[Union[BasicAspect, ConcreteAspect, AbstractAspect]] = []
         for filename in self.filenames:
             src = open(generate_full_path(filename)).read()
             tmp: Union[
-                List[Union[PureAspect, ConcreteAspect, AbstractAspect]],
-                Union[PureAspect, ConcreteAspect, AbstractAspect],
+                List[Union[BasicAspect, ConcreteAspect, AbstractAspect]],
+                Union[BasicAspect, ConcreteAspect, AbstractAspect],
             ] = self.parser.parse(
                 src
             )  # type: ignore
             aspect_containers += tmp if isinstance(tmp, list) else [tmp]
 
-        pure_aspecs: List[PureAspect] = [
-            c for c in aspect_containers if isinstance(c, PureAspect)
+        basic_aspecs: List[BasicAspect] = [
+            c for c in aspect_containers if isinstance(c, BasicAspect)
         ]
         concrete_aspects: List[ConcreteAspect] = [
             c for c in aspect_containers if isinstance(c, ConcreteAspect)

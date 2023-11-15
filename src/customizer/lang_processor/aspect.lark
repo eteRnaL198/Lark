@@ -1,8 +1,8 @@
 // https://github.com/lark-parser/lark/blob/master/lark/grammars/common.lark
 // https://lark-parser.readthedocs.io/en/latest/grammar.html
 
-?start: aspect_declarator+
-aspect_declarator: abstract_aspect | concrete_aspect | basic_aspect
+?start: aspect_container+
+aspect_container: abstract_aspect | concrete_aspect | basic_aspect
 
 abstract_aspect: "abstract" "aspect" aspect_name "{" constructor (abstract_method | method | aspect)* "}"
 constructor: CONSTRUCTOR "("constructor_args")"

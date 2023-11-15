@@ -3,9 +3,9 @@ from lark import Transformer
 from customizer.aspect.advice import Advice
 from customizer.aspect.aspect import Aspect
 from customizer.aspect_container.abstract_aspect import AbstractAspect
+from customizer.aspect_container.basic_aspect import BasicAspect
 from customizer.aspect_container.concrete_aspect import ConcreteAspect
 from customizer.aspect_container.constructor import Constructor
-from customizer.aspect_container.pure_aspect import PureAspect
 from customizer.aspect_container.super import Super
 from customizer.method.abstract_method import AbstractMethod
 from customizer.method.method import Method
@@ -47,14 +47,14 @@ class AspectTransformer(Transformer):
         aspects = [t for t in tree[3:] if isinstance(t, Aspect)]
         return ConcreteAspect(name, super_asp_name, super, methods, aspects)
 
-    def pure_aspect(self, tree):
+    def basic_aspect(self, tree):
         """aspect Baz {
             Aspects
         }"""
         name = str(tree[0])
         methods = [t for t in tree[1:] if isinstance(t, Method)]
         aspects = [t for t in tree[1:] if isinstance(t, Aspect)]
-        return PureAspect(name, methods, aspects)
+        return BasicAspect(name, methods, aspects)
 
     def aspect_name(self, tree):
         return str(tree[0])

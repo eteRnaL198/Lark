@@ -1,9 +1,9 @@
 # TODO delete this file
 
 from base.lang_processor.c_parser import CParser
+from customizer.aspect.aspect import Aspect
 from customizer.lang_processor.aspect_parser import AspectParser
 from customizer.src import Src
-from src.customizer.aspect.aspect import Aspect
 from util.file_util import backup_file, generate_full_path
 
 
@@ -12,7 +12,7 @@ class Translator:
         self.aspect_files = [
             "acc/inheritance/concrete.acc",
             "acc/inheritance/abstract.acc",
-            "acc/inheritance/pure.acc",
+            "acc/inheritance/basic.acc",
         ]
 
     def parse_aspects(self):

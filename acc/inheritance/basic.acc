@@ -1,6 +1,6 @@
-aspect PureAspect {
+aspect BasicAspect {
   void func() {
-    printf("pure aspect method\n");
+    printf("basic aspect method\n");
   }
   
   after(): execution(int foo()) {

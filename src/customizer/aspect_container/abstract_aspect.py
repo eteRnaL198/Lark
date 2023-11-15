@@ -1,13 +1,13 @@
 from typing import List, Union
 
 from customizer.aspect.aspect import Aspect
+from customizer.aspect_container.basic_aspect import BasicAspect
 from customizer.aspect_container.constructor import Constructor
-from customizer.aspect_container.pure_aspect import PureAspect
 from customizer.method.abstract_method import AbstractMethod
 from customizer.method.method import Method
 
 
-class AbstractAspect(PureAspect):
+class AbstractAspect(BasicAspect):
     def __init__(
         self,
         name,

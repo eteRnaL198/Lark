@@ -1,8 +1,8 @@
 // https://github.com/lark-parser/lark/blob/master/lark/grammars/common.lark
 // https://lark-parser.readthedocs.io/en/latest/grammar.html
 
-?start: aspect_declarator+
-aspect_declarator: abstract_aspect | concrete_aspect | basic_aspect
+?start: aspect_container+
+aspect_container: abstract_aspect | concrete_aspect | basic_aspect
 
 abstract_aspect: "abstract" "aspect" aspect_name "{" constructor (abstract_method | method | aspect)* "}"
 constructor: CONSTRUCTOR "("constructor_args")"
@@ -17,27 +17,9 @@ SUPER.1: "super"
 super_args: (super_arg ("," super_arg)*)?
 super_arg: /[^,]/+
 
-basic_aspect: "aspect" aspect_name "{" (method | aspect)* "}"
-method: func_signature "{" body "}"
+basic_aspect: "aspect" aspect_name "{" body "}"
 aspect_name: CNAME
-aspect: advice_type pointcut "{" body "}"
 
-advice_type: (BEFORE | AFTER | AROUND)"():"
-BEFORE.1: "before"
-AFTER.1: "after"
-AROUND.1: "around"
-
-pointcut: primitive_pointcut+
-primitive_pointcut: call | execution | get | set | infunc
-call: "call("func_signature")"
-execution: "execution("func_signature")"
-get: "get()"
-set: "set()"
-infunc: "infunc("func_name")"
-
-func_signature: CNAME func_name "("func_args")"
-func_name: CNAME
-func_args: (CNAME ("," CNAME)*)?
 body: /.+/+
 
 %import common (CNAME, WORD, WS, C_COMMENT, CPP_COMMENT)

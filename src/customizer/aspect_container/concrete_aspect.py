@@ -1,12 +1,12 @@
 from typing import List, Union
 
 from customizer.aspect.aspect import Aspect
-from customizer.aspect_container.pure_aspect import PureAspect
+from customizer.aspect_container.basic_aspect import BasicAspect
 from customizer.aspect_container.super import Super
 from customizer.method.method import Method
 
 
-class ConcreteAspect(PureAspect):
+class ConcreteAspect(BasicAspect):
     def __init__(
         self,
         name,
@@ -28,7 +28,7 @@ class ConcreteAspect(PureAspect):
         self.super = super_constructor
 
     def inherit(self, super_aspect):
-        return PureAspect(self.name, self.methods, self.aspects)
+        return BasicAspect(self.name, self.methods, self.aspects)
 
     def get(self):
         return self.aspects

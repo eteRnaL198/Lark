@@ -4,7 +4,7 @@ from customizer.aspect.aspect import Aspect
 from customizer.method.method import Method
 
 
-class PureAspect:
+class BasicAspect:
     def __init__(
         self,
         name,

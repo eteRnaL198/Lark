@@ -16,8 +16,8 @@ class Translator:
         self.aspect_files: list[str] = []
         self.base_files: list[str] = []
         if len(sys.argv) == 1:  # TODO delete
-            self.aspect_files = ["acc/pure/foo.acc", "acc/pure/bar.acc"]
-            self.base_files = ["acc/pure/base.c", "acc/pure/base2.c"]
+            self.aspect_files = ["acc/basic/foo.acc", "acc/basic/bar.acc"]
+            self.base_files = ["acc/basic/base.c", "acc/basic/base2.c"]
         else:
             for arg in sys.argv[1:]:
                 if arg.endswith(".acc"):

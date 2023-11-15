@@ -1,0 +1,2 @@
+class InheritanceTransformer:
+    pass
