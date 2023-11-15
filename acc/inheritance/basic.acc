@@ -11,9 +11,13 @@ aspect BasicAspect {
 }
 
 aspect Hoge {
-  after(): execution(int hoge()) {
+  after(): execution(int foo()) {
+    printf("hoge aspect method\n");
     if(1) {
-      printf("hoge aspect method\n");
+      this.func();
+      if(1) {
+        this.func();
+      }
     }
   }
 }

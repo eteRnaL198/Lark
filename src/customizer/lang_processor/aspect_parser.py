@@ -21,8 +21,8 @@ class AspectParser:
     def __init__(self, filenames):
         self.filenames = filenames
 
-    def preprocess(self, sources):
-        # return sources
+    def __preprocess(self, sources):
+        print("Start preprocessing...")
         grammar_path = generate_full_path(
             "src/customizer/lang_processor/inheritance.lark"
         )
@@ -37,9 +37,11 @@ class AspectParser:
             ).parse(
                 src
             )  # type: ignore
+        print("Complete preprocessing.")
         return sources
 
-    def extract_aspect_containers(self, src):
+    def __extract_aspect_containers(self, src):
+        print("Start extracting aspects...")
         grammar_path = generate_full_path("src/customizer/lang_processor/aspect.lark")
         aspect_containers: Union[
             List[Union[BasicAspect, ConcreteAspect, AbstractAspect]],
@@ -52,6 +54,7 @@ class AspectParser:
             src
         )  # type: ignore
         # aspect_wrapepr = AspectWrapper()
+        print("Complete extracting aspects!!")
         return (
             aspect_containers
             if isinstance(aspect_containers, list)
@@ -66,10 +69,10 @@ class AspectParser:
         sources: list[str] = []
         for filename in self.filenames:
             sources.append(open(generate_full_path(filename)).read())
-        preprocessed_sources = self.preprocess(sources)
+        preprocessed_sources = self.__preprocess(sources)
         aspect_containers: List[Union[BasicAspect, ConcreteAspect, AbstractAspect]] = []
         for src in preprocessed_sources:
-            # aspect_containers += self.extract_aspect_containers(src)
+            aspect_containers += self.__extract_aspect_containers(src)
             pass
 
         # pure_aspecs: List[BasicAspect] = [

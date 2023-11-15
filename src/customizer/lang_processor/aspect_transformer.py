@@ -1,4 +1,4 @@
-from lark import Transformer
+from lark import Token, Transformer
 
 from customizer.aspect.advice import Advice
 from customizer.aspect.aspect import Aspect
@@ -153,4 +153,36 @@ class AspectTransformer(Transformer):
         return [str(t) for t in tree]
 
     def body(self, tree):
-        return [t.value for t in tree]
+        """
+        e.g.)
+        foo();
+        if() {
+            bar();
+        }
+        → [foo();, if() {, bar();, }]
+        """
+        lines: list[str] = []
+        for t in tree:
+            if isinstance(t, Token):
+                lines.append(t.value)
+            else:
+                lines += t
+        return lines
+
+    def block(self, tree):
+        """
+        e.g.)
+        if() {
+            if() {
+                foo();
+            }
+         }
+        →[if(), {, if(), foo();, }, }]
+        """
+        lines: list[str] = []
+        for t in tree:
+            if isinstance(t, Token):
+                lines.append(t.value)
+            else:
+                lines += t
+        return lines

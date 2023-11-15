@@ -38,7 +38,12 @@ infunc: "infunc("func_name")"
 func_signature: CNAME func_name "("func_args")"
 func_name: CNAME
 func_args: (CNAME ("," CNAME)*)?
-body: /.+/+
+body: (/[^{^}]+;/ | block)+
+block: ANY_DECLARATOR (/[^{^}]+;/ | block)+ BLOCK_END
+ANY_DECLARATOR: /.+{/
+BLOCK_END: "}"
+
+
 
 %import common (CNAME, WORD, WS, C_COMMENT, CPP_COMMENT)
 %ignore WS
