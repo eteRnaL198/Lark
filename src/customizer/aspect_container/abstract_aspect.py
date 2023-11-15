@@ -31,6 +31,3 @@ class AbstractAspect(BasicAspect):
             if isinstance(abstract_methods, list)
             else [abstract_methods]
         )
-
-    def get(self):
-        return self.aspects

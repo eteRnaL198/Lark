@@ -21,5 +21,5 @@ class BasicAspect:
         self.methods: List[Method] = methods if isinstance(methods, list) else [methods]
         self.aspects: List[Aspect] = aspects if isinstance(aspects, list) else [aspects]
 
-    def get(self):
+    def get_aspects(self):
         return self.aspects

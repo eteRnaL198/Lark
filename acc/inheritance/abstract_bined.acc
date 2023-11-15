@@ -1,0 +1,16 @@
+abstract aspect AbstractAspect {
+  void method() {
+    printf("method\n");
+  }
+
+  void method2() {
+    printf(this.msg);
+  }
+  
+  before(): execution(void baz()) {
+    num = 10;
+    this.method();
+    this.method2();
+    printf("token param);
+  }
+}

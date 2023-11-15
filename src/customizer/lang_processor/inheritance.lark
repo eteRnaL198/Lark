@@ -4,25 +4,32 @@
 ?start: aspect_container+
 aspect_container: abstract_aspect | concrete_aspect | basic_aspect
 
-abstract_aspect: "abstract" "aspect" aspect_name "{" constructor (abstract_method | method | aspect)* "}"
+abstract_aspect: "abstract" "aspect" aspect_name "{" constructor (abstract_method | block)* "}"
 constructor: CONSTRUCTOR "("constructor_args")"
 CONSTRUCTOR.1: "constructor"
 constructor_args: (CNAME ("," CNAME)*)?
 abstract_method: ABSTRACT_METHOD_MODIFIER func_signature
 ABSTRACT_METHOD_MODIFIER.1: "abstract"
+block: ANY_DECLARATOR "{" (/[^{^}]+;/ | block)+ "}"
+ANY_DECLARATOR: /[^{^}]+/
 
-concrete_aspect: "aspect" aspect_name "extends" aspect_name "{" super (method | aspect)* "}"
+concrete_aspect: "aspect" aspect_name "extends" aspect_name "{" super (method | body)* "}"
 super: SUPER "("super_args")"
 SUPER.1: "super"
 super_args: (super_arg ("," super_arg)*)?
 super_arg: /[^,]/+
+method: func_signature "{" body "}"
+func_signature: CNAME func_name "("func_args")"
+func_name: CNAME
+func_args: (CNAME ("," CNAME)*)?
+
 
 basic_aspect: "aspect" aspect_name "{" body "}"
 aspect_name: CNAME
-
 body: /.+/+
 
 %import common (CNAME, WORD, WS, C_COMMENT, CPP_COMMENT)
 %ignore WS
 %ignore C_COMMENT // /* */
 %ignore CPP_COMMENT // //
+

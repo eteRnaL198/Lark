@@ -29,6 +29,3 @@ class ConcreteAspect(BasicAspect):
 
     def inherit(self, super_aspect):
         return BasicAspect(self.name, self.methods, self.aspects)
-
-    def get(self):
-        return self.aspects

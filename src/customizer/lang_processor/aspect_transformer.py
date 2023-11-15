@@ -18,7 +18,7 @@ class AspectTransformer(Transformer):
         return tree
 
     ######################## aspect ########################
-    def aspect_declarator(self, tree):
+    def aspect_container(self, tree):
         return tree[0]
 
     def abstract_aspect(self, tree):

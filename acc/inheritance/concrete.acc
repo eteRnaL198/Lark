@@ -1,8 +1,9 @@
 aspect ConcreteAspect extends AbstractAspect {
   super(
+    void,
     num,
     printf,
-    "identifier param"
+    "token param"
   )
 
   void method() {
