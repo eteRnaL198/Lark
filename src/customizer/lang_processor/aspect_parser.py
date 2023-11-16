@@ -72,7 +72,7 @@ class AspectParser:
         preprocessed_sources = self.__preprocess(sources)
         aspect_containers: List[Union[BasicAspect, ConcreteAspect, AbstractAspect]] = []
         for src in preprocessed_sources:
-            aspect_containers += self.__extract_aspect_containers(src)
+            # aspect_containers += self.__extract_aspect_containers(src)
             pass
 
         # pure_aspecs: List[BasicAspect] = [

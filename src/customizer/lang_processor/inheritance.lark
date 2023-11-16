@@ -11,12 +11,18 @@ constructor_args: (CNAME ("," CNAME)*)?
 abstract_method: ABSTRACT_METHOD_MODIFIER func_signature
 ABSTRACT_METHOD_MODIFIER.1: "abstract"
 
+// before(): execution(this.type baz()) {
+//     this.var = 10;
+//     this.method();
+//     this.display(this.msg);
+// }
+
 concrete_aspect: "aspect" aspect_name "extends" aspect_name "{" super (method | block)* "}"
 super: SUPER "("super_args")"
 SUPER.1: "super"
 super_args: (super_arg ("," super_arg)*)?
 super_arg: /[^,]/+
-method: func_signature "{" block "}"
+method: func_signature "{" block+ "}"
 func_signature: CNAME func_name "("func_args")"
 func_name: CNAME
 func_args: (CNAME ("," CNAME)*)?
@@ -24,8 +30,12 @@ func_args: (CNAME ("," CNAME)*)?
 
 basic_aspect: "aspect" aspect_name "{" block+ "}"
 aspect_name: CNAME
-block: ANY_DECLARATOR "{" (/[^{^}]+;/ | block)+ "}"
-ANY_DECLARATOR: /[^{^}]+/
+// block: ANY_DECLARATOR "{" (/[^{^}]+;/ | block)+ "}"
+// ANY_DECLARATOR: /[^{^}]+/
+body: (/[^{^}]+;/ | block)+
+block: ANY_DECLARATOR (/[^{^}]+;/ | block)+ BLOCK_END
+ANY_DECLARATOR: /.+{/
+BLOCK_END: "}"
 
 %import common (CNAME, WORD, WS, C_COMMENT, CPP_COMMENT)
 %ignore WS

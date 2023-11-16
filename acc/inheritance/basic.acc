@@ -3,11 +3,9 @@ aspect BasicAspect {
     printf("basic aspect method\n");
   }
   
-  /*
   after(): execution(int foo()) {
     this.func();
   }
-  */
 }
 
 aspect Hoge {

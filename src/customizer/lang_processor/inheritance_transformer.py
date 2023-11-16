@@ -3,7 +3,7 @@ from lark import Transformer
 
 class InheritanceTransformer(Transformer):
     def aspect_name(self, tree):
-        print(tree)
+        print(tree)  # TODO delete
 
     def constructor(self, tree):
         print("constructor", tree)

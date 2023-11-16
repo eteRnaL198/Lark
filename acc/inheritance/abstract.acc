@@ -12,12 +12,9 @@ abstract aspect AbstractAspect {
     printf(this.msg);
   }
 
-  before(): execution(this.type baz()) {
+  void method3() {
     this.var = 10;
     this.method();
-    if(1) {
-      this.method2();
-    }
     this.display(this.msg);
   }
   
