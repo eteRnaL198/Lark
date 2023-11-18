@@ -1,33 +1,30 @@
-from typing import List, Union
+from typing import List
 
-from customizer.aspect.aspect import Aspect
-from customizer.aspect_container.basic_aspect import BasicAspect
 from customizer.aspect_container.constructor import Constructor
-from customizer.method.abstract_method import AbstractMethod
-from customizer.method.method import Method
+from customizer.aspect_container.member import Member
+from src.customizer.pointcut.func_signature import FuncSignature
 
 
-class AbstractAspect(BasicAspect):
+class AbstractAspect:
     def __init__(
         self,
         name,
         constructor: Constructor,
-        abstract_methods: List[AbstractMethod],
-        methods: Union[List[Method], Method],
-        aspects: Union[List[Aspect], Aspect],
+        abstract_methods: List[FuncSignature],
+        member: Member,
     ):
         """
         Args:
             name (str): アスペクト名
             constructor (Constructor): コンストラクタ
             abstract_methods (list[AbstractMethod]): 抽象メソッドのリスト
-            methods (list[Method]): メソッドのリスト
-            aspects list[(Aspect)]: アスペクトのリスト
+            member (Member): メンバー
         """
-        super().__init__(name, methods, aspects)
+        self.name = name
         self.constructor = constructor
-        self.abstract_methods: List[AbstractMethod] = (
+        self.abstract_methods: List[FuncSignature] = (
             abstract_methods
             if isinstance(abstract_methods, list)
             else [abstract_methods]
         )
+        self.member: Member = member

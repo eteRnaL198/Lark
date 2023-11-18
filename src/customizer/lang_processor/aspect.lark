@@ -45,7 +45,7 @@ BLOCK_END: "}"
 
 
 
-%import common (CNAME, WORD, WS, C_COMMENT, CPP_COMMENT)
+%import common (CNAME, WS, C_COMMENT, CPP_COMMENT)
 %ignore WS
 %ignore C_COMMENT // /* */
 %ignore CPP_COMMENT // //

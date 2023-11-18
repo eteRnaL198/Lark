@@ -18,4 +18,7 @@ abstract aspect AbstractAspect {
     this.display(this.msg);
   }
   
+  after(): execution(int foo()) {
+    this.func();
+  }
 }
