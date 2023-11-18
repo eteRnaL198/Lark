@@ -1,6 +1,7 @@
 from lark import Token, Transformer
 
 from customizer.aspect_container.abstract_aspect import AbstractAspect
+from customizer.aspect_container.basic_aspect import BasicAspect
 from customizer.aspect_container.concrete_aspect import ConcreteAspect
 from customizer.aspect_container.constructor import Constructor
 from customizer.aspect_container.member import Member
@@ -39,6 +40,17 @@ class InheritanceTransformer(Transformer):
         super: Super = tree[2]
         member = Member([t for t in tree[2:] if isinstance(t, list)])
         return ConcreteAspect(name, super_asp_name, super, member)
+
+    def basic_aspect(self, tree):
+        """
+        aspect Baz {
+            Aspects
+        }
+        """
+        name = str(tree[0])
+        member = Member([t for t in tree[1:] if isinstance(t, list)])
+        # TODO そのままの形にしたい
+        # return BasicAspect(name, member)
 
     def aspect_name(self, tree):
         return str(tree[0])
