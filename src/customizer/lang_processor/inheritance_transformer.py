@@ -1,6 +1,7 @@
 from lark import Token, Transformer
 
 from customizer.aspect_container.abstract_aspect import AbstractAspect
+from customizer.aspect_container.concrete_aspect import ConcreteAspect
 from customizer.aspect_container.constructor import Constructor
 from customizer.aspect_container.member import Member
 from customizer.aspect_container.super import Super
@@ -26,6 +27,18 @@ class InheritanceTransformer(Transformer):
         abstract_methods = [t for t in tree[2:] if isinstance(t, FuncSignature)]
         member = Member([t for t in tree[2:] if isinstance(t, list)])
         return AbstractAspect(name, constructor, abstract_methods, member)
+
+    def concrete_aspect(self, tree):
+        """
+        aspect Bar extends Foo {
+            Aspects
+        }
+        """
+        name = str(tree[0])
+        super_asp_name = str(tree[1])
+        super: Super = tree[2]
+        member = Member([t for t in tree[2:] if isinstance(t, list)])
+        return ConcreteAspect(name, super_asp_name, super, member)
 
     def aspect_name(self, tree):
         return str(tree[0])

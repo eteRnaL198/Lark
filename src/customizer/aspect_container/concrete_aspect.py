@@ -1,31 +1,24 @@
-from typing import List, Union
-
-from customizer.aspect.aspect import Aspect
 from customizer.aspect_container.basic_aspect import BasicAspect
+from customizer.aspect_container.member import Member
 from customizer.aspect_container.super import Super
-from customizer.method.method import Method
 
 
 class ConcreteAspect(BasicAspect):
     def __init__(
         self,
-        name,
-        super_aspect_name,
+        name: str,
+        super_aspect_name: str,
         super_constructor: Super,
-        methods: Union[List[Method], Method],
-        aspects: Union[List[Aspect], Aspect],
+        member: Member,
     ):
         """
         Args:
             name (str): アスペクト名
             super_aspect_name (str): 継承アスペクト名
             super_constructor (Super): 継承アスペクトのコンストラクタ
-            methods (list[Method]): メソッドのリスト
-            aspects (list[(Aspect)]): アスペクトのリスト
+            member (Member): メンバー
         """
-        super().__init__(name, methods, aspects)
+        self.name = name
         self.super_aspect_name: str = super_aspect_name
         self.super = super_constructor
-
-    def inherit(self, super_aspect):
-        return BasicAspect(self.name, self.methods, self.aspects)
+        self.member = member
