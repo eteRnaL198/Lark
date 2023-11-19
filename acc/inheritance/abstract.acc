@@ -19,6 +19,7 @@ abstract aspect AbstractAspect {
   }
   
   after(): execution(int foo()) {
-    this.func();
+    this.method();
+    this.method2();
   }
 }

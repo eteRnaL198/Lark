@@ -41,8 +41,10 @@ class AbstractAspect:
                 )
             )
         for i in range(len(actual_args)):
-            # self.member.replace("this." + self.constructor.args[i], actual_args[i])
-            pass
+            for method in self.methods:
+                method.replace("this." + self.constructor.args[i], actual_args[i])
+            for aspect in self.aspects:
+                aspect.replace("this." + self.constructor.args[i], actual_args[i])
 
     def bind_abstract_method(self):
         pass

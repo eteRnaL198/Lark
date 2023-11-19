@@ -1,3 +1,4 @@
+import copy
 from typing import List, Union
 
 from lark import Lark
@@ -58,10 +59,15 @@ class AspectPreprocessor:
         abstract_aspect_table: dict[str, AbstractAspect] = dict(
             zip([a.name for a in abstract_aspects], abstract_aspects)
         )
+        inherited_abstract_aspects = []
         for concrete_aspect in concrete_aspects:
             try:
-                concrete_aspect.inherit(
-                    abstract_aspect_table[concrete_aspect.super_aspect_name]
+                inherited_abstract_aspects.append(
+                    concrete_aspect.inherit(
+                        copy.deepcopy(
+                            abstract_aspect_table[concrete_aspect.super_aspect_name]
+                        )
+                    )
                 )
             except KeyError:
                 raise Exception(

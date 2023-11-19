@@ -54,7 +54,7 @@ class InheritanceTransformer(Transformer):
         }
         """
         # TODO そのままの形にしたい
-        # return BasicAspect(name, member)
+        # return BasicAspect(name)
 
     def aspect_name(self, tree):
         return str(tree[0])

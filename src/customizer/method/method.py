@@ -12,3 +12,6 @@ class Method:
         """
         self.signature: FuncSignature = signature
         self.body: list[str] = body
+
+    def replace(self, current, new):
+        self.body = [line.replace(current, new) for line in self.body]

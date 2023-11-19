@@ -30,6 +30,6 @@ class ConcreteAspect(BasicAspect):
         self.aspects: List[StringifiedAspect] = aspects
 
     def inherit(self, super_aspect):
-        pass
-        # super_aspect.bind_token_params(self.super.args)
+        super_aspect.bind_token_params(self.super.args)
         # super_aspect.bind_abstract_method()
+        return super_aspect
