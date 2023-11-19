@@ -1,4 +1,3 @@
-import copy
 from typing import List, Union
 
 from lark import Lark
@@ -46,6 +45,26 @@ class AspectPreprocessor:
             aspect_containers += tmp if isinstance(tmp, list) else [tmp]
         return aspect_containers
 
+    def __inherit(
+        self,
+        concrete_aspects: List[ConcreteAspect],
+        abstract_aspects: List[AbstractAspect],
+    ):
+        table: dict[str, AbstractAspect] = dict(
+            zip([a.name for a in abstract_aspects], abstract_aspects)
+        )
+        inherited_abstract_aspects: List[AbstractAspect] = []
+        for concrete_aspect in concrete_aspects:
+            try:
+                inherited_abstract_aspects.append(
+                    concrete_aspect.inherit(table[concrete_aspect.super_aspect_name])
+                )
+            except KeyError:
+                raise Exception(
+                    f"{concrete_aspect.name} was not able to inherit from {concrete_aspect.super_aspect_name} because {concrete_aspect.super_aspect_name} was not found"
+                )
+        return inherited_abstract_aspects
+
     def __preprocess(self):
         print("Start preprocessing...")
         sources = self.__read()
@@ -56,22 +75,10 @@ class AspectPreprocessor:
         abstract_aspects: List[AbstractAspect] = [
             c for c in aspect_containers if isinstance(c, AbstractAspect)
         ]
-        abstract_aspect_table: dict[str, AbstractAspect] = dict(
-            zip([a.name for a in abstract_aspects], abstract_aspects)
-        )
-        inherited_abstract_aspects = []
-        for concrete_aspect in concrete_aspects:
-            try:
-                inherited_abstract_aspects.append(
-                    concrete_aspect.inherit(
-                        copy.deepcopy(
-                            abstract_aspect_table[concrete_aspect.super_aspect_name]
-                        )
-                    )
-                )
-            except KeyError:
-                raise Exception(
-                    f"{concrete_aspect.name} was not able to inherit from {concrete_aspect.super_aspect_name} because {concrete_aspect.super_aspect_name} was not found"
-                )
+        inherited_abstract_aspects = self.__inherit(concrete_aspects, abstract_aspects)
+        preprocessed_src: List[str] = [
+            aspect.stringify()
+            for aspect in inherited_abstract_aspects + concrete_aspects
+        ]
         print("Complete preprocessing!!")
-        return sources
+        return preprocessed_src

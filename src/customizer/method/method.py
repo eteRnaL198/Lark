@@ -13,10 +13,13 @@ class Method:
         self.signature: FuncSignature = signature
         self.body: list[str] = body
 
-    def replace(self, current, new):
-        self.body = [line.replace(current, new) for line in self.body]
+    def __str__(self) -> str:
+        return str(self.signature) + "{\n" + "\n".join(self.body) + "\n}"
 
     def __eq__(self, other: object) -> bool:
         if not isinstance(other, Method):
             return False
         return self.signature == other.signature
+
+    def replace(self, current, new):
+        self.body = [line.replace(current, new) for line in self.body]

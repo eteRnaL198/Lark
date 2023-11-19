@@ -1,3 +1,4 @@
+import copy
 from typing import List
 
 from customizer.aspect.stringified_aspect import StringifiedAspect
@@ -30,7 +31,24 @@ class ConcreteAspect(BasicAspect):
         self.methods: List[Method] = methods
         self.aspects: List[StringifiedAspect] = aspects
 
-    def inherit(self, super_aspect: AbstractAspect):
+    def inherit(self, aspect: AbstractAspect):
+        """
+        Args:
+            aspect (AbstractAspect): 継承アスペクト
+        Returns:
+            super_aspect (AbstractAspect): 継承完了後のアスペクト
+        """
+        super_aspect = copy.deepcopy(aspect)
         super_aspect.bind_token_params(self.super)
         super_aspect.override_methods(self.methods)
         return super_aspect
+
+    def stringify(self) -> str:
+        return "\n".join(
+            [
+                "aspect {} {{".format(self.name),
+                "\n".join([str(m) for m in self.methods]),
+                "\n".join([str(a) for a in self.aspects]),
+                "}",
+            ]
+        )

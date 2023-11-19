@@ -63,8 +63,8 @@ class AspectTransformer(Transformer):
         """
         e.g.) tree[FuncSignature, str] → int foo(char) { ... }
         """
-        type, names, args, body = tree[0].type, tree[0].name, tree[0].args, tree[1]
-        return Method(type, names, args, body)
+        signature, body = tree[0], tree[1]
+        return Method(signature, body)
 
     ######################## func ########################
 

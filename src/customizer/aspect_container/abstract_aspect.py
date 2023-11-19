@@ -64,3 +64,13 @@ class AbstractAspect:
                     self.abstract_methods
                 ),
             )
+
+    def stringify(self) -> str:
+        return "\n".join(
+            [
+                "aspect {} {{".format(self.name),
+                "\n".join([str(m) for m in self.methods]),
+                "\n".join([str(a) for a in self.aspects]),
+                "}",
+            ]
+        )
