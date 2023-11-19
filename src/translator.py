@@ -8,6 +8,7 @@ from base.lang_processor.c_parser import CParser
 from customizer.lang_processor.aspect_parser import AspectParser
 from customizer.src import Src
 from src.customizer.aspect.aspect import Aspect
+from src.customizer.lang_processor.preprocessor import AspectPreprocessor
 from util.file_util import backup_file, generate_full_path
 
 
@@ -28,7 +29,8 @@ class Translator:
                 raise Error("No aspect file or base file specified.")
 
     def parse_aspects(self):
-        aspects = (AspectParser(self.aspect_files)).parse()
+        preprocessed_sources = AspectPreprocessor(self.aspect_files)()
+        aspects = (AspectParser(preprocessed_sources))()
         return aspects
 
     def parse_bases(self):
