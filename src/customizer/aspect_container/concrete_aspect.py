@@ -1,6 +1,9 @@
+from typing import List
+
+from customizer.aspect.stringified_aspect import StringifiedAspect
 from customizer.aspect_container.basic_aspect import BasicAspect
-from customizer.aspect_container.member import Member
-from customizer.aspect_container.super import Super
+from customizer.aspect_container.constructor import Constructor
+from customizer.method.method import Method
 
 
 class ConcreteAspect(BasicAspect):
@@ -8,17 +11,25 @@ class ConcreteAspect(BasicAspect):
         self,
         name: str,
         super_aspect_name: str,
-        super_constructor: Super,
-        member: Member,
+        super_constructor: Constructor,
+        methods: List[Method],
+        aspects: List[StringifiedAspect],
     ):
         """
         Args:
             name (str): アスペクト名
             super_aspect_name (str): 継承アスペクト名
-            super_constructor (Super): 継承アスペクトのコンストラクタ
-            member (Member): メンバー
+            super_constructor (Constructor): 継承アスペクトのコンストラクタ
+            methods (list[Method]): メソッドのリスト
+            aspects (list[StringifiedAspect]): アスペクトのリスト
         """
         self.name = name
         self.super_aspect_name: str = super_aspect_name
         self.super = super_constructor
-        self.member = member
+        self.methods: List[Method] = methods
+        self.aspects: List[StringifiedAspect] = aspects
+
+    def inherit(self, super_aspect):
+        pass
+        # super_aspect.bind_token_params(self.super.args)
+        # super_aspect.bind_abstract_method()

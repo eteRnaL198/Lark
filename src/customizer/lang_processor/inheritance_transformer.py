@@ -1,11 +1,11 @@
 from lark import Token, Transformer
 
+from customizer.aspect.stringified_aspect import StringifiedAspect
 from customizer.aspect_container.abstract_aspect import AbstractAspect
 from customizer.aspect_container.basic_aspect import BasicAspect
 from customizer.aspect_container.concrete_aspect import ConcreteAspect
 from customizer.aspect_container.constructor import Constructor
-from customizer.aspect_container.member import Member
-from customizer.aspect_container.super import Super
+from customizer.method.method import Method
 from customizer.pointcut.func_signature import FuncSignature
 
 
@@ -26,8 +26,11 @@ class InheritanceTransformer(Transformer):
         name = str(tree[0])
         constructor: Constructor = tree[1]
         abstract_methods = [t for t in tree[2:] if isinstance(t, FuncSignature)]
-        member = Member([t for t in tree[2:] if isinstance(t, list)])
-        return AbstractAspect(name, constructor, abstract_methods, member)
+        methods: list[Method] = [t for t in tree[2:] if isinstance(t, Method)]
+        aspects: list[StringifiedAspect] = [
+            t for t in tree[2:] if isinstance(t, StringifiedAspect)
+        ]
+        return AbstractAspect(name, constructor, abstract_methods, methods, aspects)
 
     def concrete_aspect(self, tree):
         """
@@ -37,9 +40,12 @@ class InheritanceTransformer(Transformer):
         """
         name = str(tree[0])
         super_asp_name = str(tree[1])
-        super: Super = tree[2]
-        member = Member([t for t in tree[2:] if isinstance(t, list)])
-        return ConcreteAspect(name, super_asp_name, super, member)
+        super: Constructor = tree[2]
+        methods: list[Method] = [t for t in tree[3:] if isinstance(t, Method)]
+        aspects: list[StringifiedAspect] = [
+            t for t in tree[3:] if isinstance(t, StringifiedAspect)
+        ]
+        return ConcreteAspect(name, super_asp_name, super, methods, aspects)
 
     def basic_aspect(self, tree):
         """
@@ -47,12 +53,22 @@ class InheritanceTransformer(Transformer):
             Aspects
         }
         """
-        name = str(tree[0])
-        member = Member([t for t in tree[1:] if isinstance(t, list)])
         # TODO そのままの形にしたい
         # return BasicAspect(name, member)
 
     def aspect_name(self, tree):
+        return str(tree[0])
+
+    def aspect(self, tree):
+        advice_type, pointcut, advice_body, end_bracket = (
+            tree[0],
+            str(tree[1]),
+            *tree[2],
+            str(tree[3]),
+        )
+        return StringifiedAspect(advice_type, pointcut, advice_body, end_bracket)
+
+    def advice_type(self, tree):
         return str(tree[0])
 
     ######################## constructor ########################
@@ -67,7 +83,7 @@ class InheritanceTransformer(Transformer):
         return [str(t) for t in tree]
 
     def super(self, tree):
-        return Super(tree[1])
+        return Constructor(tree[1])
 
     def super_args(self, tree):
         """
@@ -82,6 +98,10 @@ class InheritanceTransformer(Transformer):
     ######################## method ########################
     def abstract_method(self, tree) -> FuncSignature:
         return tree[1]
+
+    def method(self, tree):
+        signature, body = tree[0], tree[1]
+        return Method(signature, body)
 
     def func_signature(self, tree):
         """
@@ -103,7 +123,22 @@ class InheritanceTransformer(Transformer):
         """
         return [str(t) for t in tree]
 
-    ######################## block ########################
+    def body(self, tree):
+        """
+        e.g.)
+        foo();
+        if() {
+            bar();
+        }
+        → [foo();, if() {, bar();, }]
+        """
+        lines: list[str] = []
+        for t in tree:
+            if isinstance(t, Token):
+                lines.append(t.value)
+            else:
+                lines += t
+        return lines
 
     def block(self, tree):
         """

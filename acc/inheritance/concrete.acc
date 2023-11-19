@@ -9,8 +9,13 @@ aspect ConcreteAspect extends AbstractAspect {
   void method() {
     printf("method\n");
   }
+
+  void method2() {
+    printf("overriding method2\n");
+  }
   
   after(): execution(int bar()) {
-    printf("concrete aspect");
+    printf("concrete");
+    printf("aspect");
   }
 }

@@ -1,15 +1,14 @@
+from customizer.pointcut.func_signature import FuncSignature
+
+
 class Method:
     """メソッド"""
 
-    def __init__(self, type, name, args, body):
+    def __init__(self, signature: FuncSignature, body):
         """
         Args:
-            type (str): メソッドの戻り値の型
-            name (str): メソッド名
-            args (list[str]): 引数の型のリスト
+            signature (FuncSignature): メソッドのシグネチャ
             body (list[str]): メソッドの中身
         """
-        self.type: str = type
-        self.name: str = name
-        self.args: list[str] = args
+        self.signature: FuncSignature = signature
         self.body: list[str] = body

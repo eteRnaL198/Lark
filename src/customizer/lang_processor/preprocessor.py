@@ -27,26 +27,23 @@ class AspectPreprocessor:
     def __extract_aspect_containers(
         self, sources: List[str]
     ) -> List[Union[BasicAspect, ConcreteAspect, AbstractAspect]]:
-        aspect_containers: Union[
-            List[Union[BasicAspect, ConcreteAspect, AbstractAspect]],
-            Union[BasicAspect, ConcreteAspect, AbstractAspect],
-        ] = []
+        aspect_containers: List[Union[BasicAspect, ConcreteAspect, AbstractAspect]] = []
         grammar_path = generate_full_path(
             "src/customizer/lang_processor/inheritance.lark"
         )
         for src in sources:
-            aspect_containers += Lark(
+            tmp: Union[
+                List[Union[BasicAspect, ConcreteAspect, AbstractAspect]],
+                Union[BasicAspect, ConcreteAspect, AbstractAspect],
+            ] = Lark(
                 grammar=open(grammar_path),
                 parser="lalr",
                 transformer=InheritanceTransformer(),
             ).parse(
                 src
             )  # type: ignore
-        return (
-            aspect_containers
-            if isinstance(aspect_containers, list)
-            else [aspect_containers]
-        )
+            aspect_containers += tmp if isinstance(tmp, list) else [tmp]
+        return aspect_containers
 
     def __preprocess(self):
         print("Start preprocessing...")
@@ -68,7 +65,7 @@ class AspectPreprocessor:
                 )
             except KeyError:
                 raise Exception(
-                    f"{concrete_aspect.name} cannot inherit from {concrete_aspect.super_aspect_name}"
+                    f"{concrete_aspect.name} was not able to inherit from {concrete_aspect.super_aspect_name} because {concrete_aspect.super_aspect_name} was not found"
                 )
         print("Complete preprocessing!!")
         return sources

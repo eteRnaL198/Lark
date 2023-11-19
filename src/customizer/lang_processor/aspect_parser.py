@@ -21,7 +21,6 @@ class AspectParser:
         return self.__parse()
 
     def __extract_aspect_containers(self, src):
-        print("Start extracting aspects...")
         grammar_path = generate_full_path("src/customizer/lang_processor/aspect.lark")
         aspect_containers: Union[
             List[BasicAspect],
@@ -33,7 +32,6 @@ class AspectParser:
         ).parse(
             src
         )  # type: ignore
-        print("Complete extracting aspects!!")
         return (
             aspect_containers
             if isinstance(aspect_containers, list)
@@ -45,10 +43,12 @@ class AspectParser:
         Returns:
             aspects (list[Aspect]): アスペクトのリスト
         """
+        print("Start parsing aspects...")
         aspect_containers: List[BasicAspect] = []
         for src in self.sources:
             aspect_containers += self.__extract_aspect_containers(src)
         aspects: List[Aspect] = []
         for container in aspect_containers:
             aspects += container.get_aspects()
+        print("Complete parsing aspects!!")
         return aspects
