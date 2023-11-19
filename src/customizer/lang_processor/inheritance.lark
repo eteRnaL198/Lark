@@ -21,10 +21,10 @@ func_signature: CNAME func_name "("func_args")"
 func_name: CNAME
 func_args: (CNAME ("," CNAME)*)?
 aspect: advice_type ANY_DECLARATOR body BLOCK_END
-advice_type: (BEFORE | AFTER | AROUND)
-BEFORE.1: "before():"
-AFTER.1: "after():"
-AROUND.1: "around():"
+advice_type: (BEFORE | AFTER | AROUND)"():"
+BEFORE.1: "before"
+AFTER.1: "after"
+AROUND.1: "around"
 
 basic_aspect: "aspect" aspect_name "{" block* "}"
 aspect_name: CNAME

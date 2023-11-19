@@ -5,7 +5,6 @@ class StringifiedAspect:
             tokens (str): アスペクトを定義する文字列
                 e.g.) "after():", "execution() {", "...", "}"
         """
-        print(tokens)
         self.aspect = "\n".join(tokens)
 
     def replace(self, current, new):

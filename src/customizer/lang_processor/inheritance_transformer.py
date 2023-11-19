@@ -69,7 +69,7 @@ class InheritanceTransformer(Transformer):
         return StringifiedAspect(advice_type, pointcut, advice_body, end_bracket)
 
     def advice_type(self, tree):
-        return str(tree[0])
+        return str(tree[0] + "():")
 
     ######################## constructor ########################
     def constructor(self, tree):

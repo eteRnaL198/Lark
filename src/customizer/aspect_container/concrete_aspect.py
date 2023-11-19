@@ -1,6 +1,7 @@
 from typing import List
 
 from customizer.aspect.stringified_aspect import StringifiedAspect
+from customizer.aspect_container.abstract_aspect import AbstractAspect
 from customizer.aspect_container.basic_aspect import BasicAspect
 from customizer.aspect_container.constructor import Constructor
 from customizer.method.method import Method
@@ -29,7 +30,7 @@ class ConcreteAspect(BasicAspect):
         self.methods: List[Method] = methods
         self.aspects: List[StringifiedAspect] = aspects
 
-    def inherit(self, super_aspect):
-        super_aspect.bind_token_params(self.super.args)
-        # super_aspect.bind_abstract_method()
+    def inherit(self, super_aspect: AbstractAspect):
+        super_aspect.bind_token_params(self.super)
+        super_aspect.override_methods(self.methods)
         return super_aspect

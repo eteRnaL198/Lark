@@ -15,3 +15,8 @@ class Method:
 
     def replace(self, current, new):
         self.body = [line.replace(current, new) for line in self.body]
+
+    def __eq__(self, other: object) -> bool:
+        if not isinstance(other, Method):
+            return False
+        return self.signature == other.signature

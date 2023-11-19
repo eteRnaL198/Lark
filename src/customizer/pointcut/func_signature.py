@@ -1,3 +1,6 @@
+from util.list_util import are_lists_equal
+
+
 class FuncSignature:
     """関数シグネチャ"""
 
@@ -11,3 +14,11 @@ class FuncSignature:
         self.type: str = type
         self.name: str = name
         self.args: list[str] = args
+
+    def __repr__(self):
+        return "{} {}({})".format(self.type, self.name, ", ".join(self.args))
+
+    def __eq__(self, other):
+        if not isinstance(other, FuncSignature):
+            return False
+        return self.name == other.name and are_lists_equal(self.args, other.args)
