@@ -2,9 +2,9 @@ from typing import List, Union
 
 from lark import Lark
 
-from customizer.aspect_container.abstract_aspect import AbstractAspect
-from customizer.aspect_container.basic_aspect import BasicAspect
-from customizer.aspect_container.concrete_aspect import ConcreteAspect
+from customizer.primitive_aspect.abstract_aspect import AbstractAspect
+from customizer.primitive_aspect.primitive_aspect import PrimitiveAspect
+from customizer.primitive_aspect.concrete_aspect import ConcreteAspect
 from customizer.lang_processor.inheritance_transformer import InheritanceTransformer
 from util.file_util import generate_full_path
 
@@ -24,17 +24,15 @@ class AspectPreprocessor:
             sources.append(open(generate_full_path(filename)).read())
         return sources
 
-    def __extract_aspect_containers(
-        self, sources: List[str]
-    ) -> List[Union[BasicAspect, ConcreteAspect, AbstractAspect]]:
-        aspect_containers: List[Union[BasicAspect, ConcreteAspect, AbstractAspect]] = []
+    def __extract_aspect_containers(self, sources: List[str]) -> List[PrimitiveAspect]:
+        aspect_containers: List[PrimitiveAspect] = []
         grammar_path = generate_full_path(
             "src/customizer/lang_processor/inheritance.lark"
         )
         for src in sources:
             tmp: Union[
-                List[Union[BasicAspect, ConcreteAspect, AbstractAspect]],
-                Union[BasicAspect, ConcreteAspect, AbstractAspect],
+                List[PrimitiveAspect],
+                PrimitiveAspect,
             ] = Lark(
                 grammar=open(grammar_path),
                 parser="lalr",
@@ -61,7 +59,7 @@ class AspectPreprocessor:
                 )
             except KeyError:
                 raise Exception(
-                    f"{concrete_aspect.name} was not able to inherit from {concrete_aspect.super_aspect_name} because {concrete_aspect.super_aspect_name} was not found"
+                    f"{concrete_aspect.name} failed to inherit from {concrete_aspect.super_aspect_name} because {concrete_aspect.super_aspect_name} was not found"
                 )
         return inherited_abstract_aspects
 
@@ -69,16 +67,21 @@ class AspectPreprocessor:
         print("Start preprocessing...")
         sources = self.__read()
         aspect_containers = self.__extract_aspect_containers(sources)
+        primitive_aspects: List[PrimitiveAspect] = [
+            c for c in aspect_containers if type(c) == PrimitiveAspect
+        ]
         concrete_aspects: List[ConcreteAspect] = [
-            c for c in aspect_containers if isinstance(c, ConcreteAspect)
+            c for c in aspect_containers if type(c) == ConcreteAspect
         ]
         abstract_aspects: List[AbstractAspect] = [
-            c for c in aspect_containers if isinstance(c, AbstractAspect)
+            c for c in aspect_containers if type(c) == AbstractAspect
         ]
         inherited_abstract_aspects = self.__inherit(concrete_aspects, abstract_aspects)
         preprocessed_src: List[str] = [
             aspect.stringify()
-            for aspect in inherited_abstract_aspects + concrete_aspects
+            for aspect in inherited_abstract_aspects
+            + concrete_aspects
+            + primitive_aspects
         ]
         print("Complete preprocessing!!")
         return preprocessed_src

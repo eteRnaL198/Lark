@@ -2,7 +2,7 @@
 // https://lark-parser.readthedocs.io/en/latest/grammar.html
 
 ?start: aspect_container+
-aspect_container: abstract_aspect | concrete_aspect | basic_aspect
+aspect_container: abstract_aspect | concrete_aspect | primitive_aspect
 
 abstract_aspect: "abstract" "aspect" aspect_name "{" constructor (abstract_method | method | aspect)* "}"
 constructor: CONSTRUCTOR "("constructor_args")"
@@ -16,6 +16,9 @@ super: SUPER "("super_args")"
 SUPER.1: "super"
 super_args: (super_arg ("," super_arg)*)?
 super_arg: /[^,]/+
+
+primitive_aspect: "aspect" aspect_name "{" (method | aspect)* "}"
+aspect_name: CNAME
 method: func_signature "{" body "}"
 func_signature: CNAME func_name "("func_args")"
 func_name: CNAME
@@ -25,9 +28,6 @@ advice_type: (BEFORE | AFTER | AROUND)"():"
 BEFORE.1: "before"
 AFTER.1: "after"
 AROUND.1: "around"
-
-basic_aspect: "aspect" aspect_name "{" block* "}"
-aspect_name: CNAME
 body: (/[^{^}]+;/ | block)+
 block: ANY_DECLARATOR (/[^{^}]+;/ | block)+ BLOCK_END
 ANY_DECLARATOR: /.+{/

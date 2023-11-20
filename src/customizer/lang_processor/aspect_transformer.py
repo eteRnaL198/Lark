@@ -2,7 +2,7 @@ from lark import Token, Transformer
 
 from customizer.aspect.advice import Advice
 from customizer.aspect.aspect import Aspect
-from customizer.aspect_container.basic_aspect import BasicAspect
+from customizer.aspect.basic_aspect import BasicAspect
 from customizer.method.method import Method
 from customizer.pointcut.execution import Execution
 from customizer.pointcut.func_signature import FuncSignature

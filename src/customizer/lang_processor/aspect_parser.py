@@ -3,7 +3,7 @@ from typing import List, Union
 from lark import Lark
 
 from customizer.aspect.aspect import Aspect
-from customizer.aspect_container.basic_aspect import BasicAspect
+from customizer.aspect.basic_aspect import BasicAspect
 from customizer.lang_processor.aspect_transformer import AspectTransformer
 from util.file_util import generate_full_path
 

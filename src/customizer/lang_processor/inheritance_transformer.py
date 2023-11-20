@@ -1,10 +1,10 @@
 from lark import Token, Transformer
 
-from customizer.aspect.stringified_aspect import StringifiedAspect
-from customizer.aspect_container.abstract_aspect import AbstractAspect
-from customizer.aspect_container.basic_aspect import BasicAspect
-from customizer.aspect_container.concrete_aspect import ConcreteAspect
-from customizer.aspect_container.constructor import Constructor
+from customizer.primitive_aspect.stringified_aspect import StringifiedAspect
+from customizer.primitive_aspect.abstract_aspect import AbstractAspect
+from customizer.primitive_aspect.primitive_aspect import PrimitiveAspect
+from customizer.primitive_aspect.concrete_aspect import ConcreteAspect
+from customizer.primitive_aspect.constructor import Constructor
 from customizer.method.method import Method
 from customizer.pointcut.func_signature import FuncSignature
 
@@ -47,14 +47,18 @@ class InheritanceTransformer(Transformer):
         ]
         return ConcreteAspect(name, super_asp_name, super, methods, aspects)
 
-    def basic_aspect(self, tree):
+    def primitive_aspect(self, tree):
         """
         aspect Baz {
             Aspects
         }
         """
-        # TODO そのままの形にしたい
-        # return BasicAspect(name)
+        name = str(tree[0])
+        methods: list[Method] = [t for t in tree[3:] if isinstance(t, Method)]
+        aspects: list[StringifiedAspect] = [
+            t for t in tree[3:] if isinstance(t, StringifiedAspect)
+        ]
+        return PrimitiveAspect(name, methods, aspects)
 
     def aspect_name(self, tree):
         return str(tree[0])
@@ -63,7 +67,7 @@ class InheritanceTransformer(Transformer):
         advice_type, pointcut, advice_body, end_bracket = (
             tree[0],
             str(tree[1]),
-            *tree[2],
+            "/n".join(tree[2]),
             str(tree[3]),
         )
         return StringifiedAspect(advice_type, pointcut, advice_body, end_bracket)

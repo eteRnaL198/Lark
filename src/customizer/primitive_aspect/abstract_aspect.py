@@ -1,12 +1,13 @@
 from typing import List
 
-from customizer.aspect.stringified_aspect import StringifiedAspect
-from customizer.aspect_container.constructor import Constructor
+from customizer.primitive_aspect.stringified_aspect import StringifiedAspect
+from customizer.primitive_aspect.constructor import Constructor
 from customizer.method.method import Method
 from customizer.pointcut.func_signature import FuncSignature
+from customizer.primitive_aspect.primitive_aspect import PrimitiveAspect
 
 
-class AbstractAspect:
+class AbstractAspect(PrimitiveAspect):
     def __init__(
         self,
         name,
@@ -21,17 +22,9 @@ class AbstractAspect:
             constructor (Constructor): コンストラクタ
             abstract_methods (list[AbstractMethod]): 抽象メソッドのリスト
         """
-        self.name = name
+        super().__init__(name, methods, aspects)
         self.constructor = constructor
-        self.abstract_methods: List[FuncSignature] = (
-            abstract_methods
-            if isinstance(abstract_methods, list)
-            else [abstract_methods]
-        )
-        self.methods: List[Method] = methods if isinstance(methods, list) else [methods]
-        self.aspects: List[StringifiedAspect] = (
-            aspects if isinstance(aspects, list) else [aspects]
-        )
+        self.abstract_methods: List[FuncSignature] = abstract_methods
 
     def bind_token_params(self, other_constructor: Constructor):
         if len(self.constructor.args) != len(other_constructor.args):
@@ -64,13 +57,3 @@ class AbstractAspect:
                     self.abstract_methods
                 ),
             )
-
-    def stringify(self) -> str:
-        return "\n".join(
-            [
-                "aspect {} {{".format(self.name),
-                "\n".join([str(m) for m in self.methods]),
-                "\n".join([str(a) for a in self.aspects]),
-                "}",
-            ]
-        )

@@ -1,14 +1,14 @@
 import copy
 from typing import List
 
-from customizer.aspect.stringified_aspect import StringifiedAspect
-from customizer.aspect_container.abstract_aspect import AbstractAspect
-from customizer.aspect_container.basic_aspect import BasicAspect
-from customizer.aspect_container.constructor import Constructor
+from customizer.primitive_aspect.stringified_aspect import StringifiedAspect
+from customizer.primitive_aspect.abstract_aspect import AbstractAspect
+from customizer.primitive_aspect.constructor import Constructor
+from customizer.primitive_aspect.primitive_aspect import PrimitiveAspect
 from customizer.method.method import Method
 
 
-class ConcreteAspect(BasicAspect):
+class ConcreteAspect(PrimitiveAspect):
     def __init__(
         self,
         name: str,
@@ -25,11 +25,9 @@ class ConcreteAspect(BasicAspect):
             methods (list[Method]): メソッドのリスト
             aspects (list[StringifiedAspect]): アスペクトのリスト
         """
-        self.name = name
+        super().__init__(name, methods, aspects)
         self.super_aspect_name: str = super_aspect_name
         self.super = super_constructor
-        self.methods: List[Method] = methods
-        self.aspects: List[StringifiedAspect] = aspects
 
     def inherit(self, aspect: AbstractAspect):
         """
@@ -42,13 +40,3 @@ class ConcreteAspect(BasicAspect):
         super_aspect.bind_token_params(self.super)
         super_aspect.override_methods(self.methods)
         return super_aspect
-
-    def stringify(self) -> str:
-        return "\n".join(
-            [
-                "aspect {} {{".format(self.name),
-                "\n".join([str(m) for m in self.methods]),
-                "\n".join([str(a) for a in self.aspects]),
-                "}",
-            ]
-        )
