@@ -22,9 +22,11 @@ class BasicAspect:
         self.aspects: List[Aspect] = aspects if isinstance(aspects, list) else [aspects]
 
     def __bind_methods(self):
-        # for m in self.methods:
-        #     print(m)
-        print(len(self.methods))
+        for method in self.methods:
+            for aspect in self.aspects:
+                aspect.advice.replace(
+                    method.get_called_format(), "{\n" + method.body + "\n}"
+                )
 
     def get_aspects(self):
         self.__bind_methods()

@@ -1,11 +1,11 @@
 #include <stdio.h>
 
-void bar() {
-  printf("bar\n");
+void baz() {
+  printf("baz\n");
   return;
 }
 
 int main() {
-  bar();
+  baz();
   return 0;
 }

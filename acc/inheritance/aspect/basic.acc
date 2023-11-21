@@ -1,13 +1,20 @@
 aspect BasicAspect {
-  void func() {
+  void method() {
+    printf("basic aspect method\n");
+  }
+
+  void method2() {
     printf("basic aspect");
     if(1) {
-      printf(" method\n");
+      printf(" method2\n");
     }
   }
   
   after(): execution(int baz()) {
-    this.func();
+    this.method();
+    if(1) {
+      this.method2();
+    }
   }
 }
 

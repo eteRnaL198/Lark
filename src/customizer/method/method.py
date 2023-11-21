@@ -23,3 +23,6 @@ class Method:
 
     def replace(self, current, new):
         self.body.replace(current, new)
+
+    def get_called_format(self):
+        return "this." + self.signature.name + "();"

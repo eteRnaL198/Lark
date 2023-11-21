@@ -1,10 +1,10 @@
 from typing import List
 
-from customizer.primitive_aspect.stringified_aspect import StringifiedAspect
-from customizer.primitive_aspect.constructor import Constructor
 from customizer.method.method import Method
 from customizer.pointcut.func_signature import FuncSignature
+from customizer.primitive_aspect.constructor import Constructor
 from customizer.primitive_aspect.primitive_aspect import PrimitiveAspect
+from customizer.primitive_aspect.stringified_aspect import StringifiedAspect
 
 
 class AbstractAspect(PrimitiveAspect):
