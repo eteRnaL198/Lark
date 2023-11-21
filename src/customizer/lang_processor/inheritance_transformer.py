@@ -54,9 +54,9 @@ class InheritanceTransformer(Transformer):
         }
         """
         name = str(tree[0])
-        methods: list[Method] = [t for t in tree[3:] if isinstance(t, Method)]
+        methods: list[Method] = [t for t in tree[1:] if isinstance(t, Method)]
         aspects: list[StringifiedAspect] = [
-            t for t in tree[3:] if isinstance(t, StringifiedAspect)
+            t for t in tree[1:] if isinstance(t, StringifiedAspect)
         ]
         return PrimitiveAspect(name, methods, aspects)
 
@@ -67,7 +67,7 @@ class InheritanceTransformer(Transformer):
         advice_type, pointcut, advice_body, end_bracket = (
             tree[0],
             str(tree[1]),
-            "/n".join(tree[2]),
+            "\n".join(tree[2]),
             str(tree[3]),
         )
         return StringifiedAspect(advice_type, pointcut, advice_body, end_bracket)
