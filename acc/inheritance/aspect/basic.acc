@@ -3,14 +3,13 @@ aspect BasicAspect {
     printf("basic aspect method\n");
   }
   
-  after(): execution(int foo()) {
+  after(): execution(int baz()) {
     this.func();
   }
 }
 
 aspect Hoge {
-  after(): execution(int foo()) {
-    printf("hoge aspect method\n");
+  after(): execution(int hoge()) {
     if(1) {
       this.func();
       if(1) {
