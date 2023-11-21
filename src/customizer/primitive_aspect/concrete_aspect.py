@@ -1,11 +1,11 @@
 import copy
 from typing import List
 
-from customizer.primitive_aspect.stringified_aspect import StringifiedAspect
+from customizer.method.method import Method
 from customizer.primitive_aspect.abstract_aspect import AbstractAspect
 from customizer.primitive_aspect.constructor import Constructor
 from customizer.primitive_aspect.primitive_aspect import PrimitiveAspect
-from customizer.method.method import Method
+from customizer.primitive_aspect.stringified_aspect import StringifiedAspect
 
 
 class ConcreteAspect(PrimitiveAspect):

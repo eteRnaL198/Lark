@@ -36,12 +36,14 @@ class AbstractAspect(PrimitiveAspect):
         for i in range(len(other_constructor.args)):
             for method in self.methods:
                 method.replace(
-                    "this." + self.constructor.args[i], other_constructor.args[i]
+                    self.constructor.get_called_format(i), other_constructor.args[i]
                 )
             for aspect in self.aspects:
                 aspect.replace(
-                    "this." + self.constructor.args[i], other_constructor.args[i]
+                    self.constructor.get_called_format(i), other_constructor.args[i]
                 )
+        for m in self.methods:
+            print(m)
 
     def override_methods(self, other_methods: List[Method]):
         for method in other_methods:
