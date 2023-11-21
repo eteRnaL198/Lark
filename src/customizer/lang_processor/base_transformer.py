@@ -11,9 +11,9 @@ class BaseTransformer(Transformer):
     ######################## method ########################
     def method(self, tree):
         """
-        e.g.) tree[FuncSignature, str] → int foo(char) { ... }
+        e.g.) tree[FuncSignature, list[str]]
         """
-        signature, body = tree[0], tree[1]
+        signature, body = tree[0], "\n".join(tree[1])
         return Method(signature, body)
 
     ######################## func ########################

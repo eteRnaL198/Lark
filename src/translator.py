@@ -54,4 +54,4 @@ if __name__ == "__main__":
     translator = Translator()
     aspects = translator.parse_aspects()
     c_asts = translator.parse_bases()
-    translator.translate(aspects, c_asts)
+    # translator.translate(aspects, c_asts)

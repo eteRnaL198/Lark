@@ -37,12 +37,12 @@ class Aspect:
         for joinpoint in joinpoints:
             if self.advice.type == "before":
                 line = joinpoint.get_before()
-                src.insert(line, self.advice.body)
+                src.insert(line, self.advice.get_formatted_body())
                 continue
             if self.advice.type == "after":
                 for line in joinpoint.get_after():
-                    src.insert(line, self.advice.body)
+                    src.insert(line, self.advice.get_formatted_body())
                 continue
             if self.advice.type == "around":
                 start, end = joinpoint.get_around()
-                src.replace(start, end, self.advice.body)
+                src.replace(start, end, self.advice.get_formatted_body())

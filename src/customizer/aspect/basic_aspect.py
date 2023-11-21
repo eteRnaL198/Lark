@@ -21,5 +21,11 @@ class BasicAspect:
         self.methods: List[Method] = methods if isinstance(methods, list) else [methods]
         self.aspects: List[Aspect] = aspects if isinstance(aspects, list) else [aspects]
 
+    def __bind_methods(self):
+        # for m in self.methods:
+        #     print(m)
+        print(len(self.methods))
+
     def get_aspects(self):
+        self.__bind_methods()
         return self.aspects

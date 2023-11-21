@@ -1,6 +1,9 @@
 aspect BasicAspect {
   void func() {
-    printf("basic aspect method\n");
+    printf("basic aspect");
+    if(1) {
+      printf(" method\n");
+    }
   }
   
   after(): execution(int baz()) {

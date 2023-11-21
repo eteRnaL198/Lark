@@ -21,7 +21,10 @@ class AspectTransformer(BaseTransformer):
         return str(tree[0])
 
     def aspect(self, tree):
-        advice_type, pointcut, advice_body = tree[0], tree[1], tree[2]
+        """
+        tree[str, Pointcut, list[str]]
+        """
+        advice_type, pointcut, advice_body = tree[0], tree[1], "\n".join(tree[2])
         return Aspect(pointcut, Advice(advice_type, advice_body))
 
     ######################## advice ########################
