@@ -1,9 +1,9 @@
 from customizer.aspect.advice import Advice
 from customizer.aspect.aspect import Aspect
 from customizer.aspect.basic_aspect import BasicAspect
+from customizer.lang_processor.base_transformer import BaseTransformer
 from customizer.method.method import Method
 from customizer.pointcut.execution import Execution
-from customizer.lang_processor.base_transformer import BaseTransformer
 
 
 class AspectTransformer(BaseTransformer):
@@ -13,8 +13,8 @@ class AspectTransformer(BaseTransformer):
             Aspects
         }"""
         name = str(tree[0])
-        methods = [t for t in tree[1:] if isinstance(t, Method)]
-        aspects = [t for t in tree[1:] if isinstance(t, Aspect)]
+        methods = [t for t in tree[1:] if type(t) == Method]
+        aspects = [t for t in tree[1:] if type(t) == Aspect]
         return BasicAspect(name, methods, aspects)
 
     def aspect_name(self, tree):

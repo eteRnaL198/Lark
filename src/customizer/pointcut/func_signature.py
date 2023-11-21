@@ -19,6 +19,6 @@ class FuncSignature:
         return "{} {}({})".format(self.type, self.name, ", ".join(self.args))
 
     def __eq__(self, other):
-        if not isinstance(other, FuncSignature):
+        if not type(other) == FuncSignature:
             return False
         return self.name == other.name and are_lists_equal(self.args, other.args)

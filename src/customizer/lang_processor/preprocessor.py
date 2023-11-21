@@ -2,10 +2,10 @@ from typing import List, Union
 
 from lark import Lark
 
-from customizer.primitive_aspect.abstract_aspect import AbstractAspect
-from customizer.primitive_aspect.primitive_aspect import PrimitiveAspect
-from customizer.primitive_aspect.concrete_aspect import ConcreteAspect
 from customizer.lang_processor.inheritance_transformer import InheritanceTransformer
+from customizer.primitive_aspect.abstract_aspect import AbstractAspect
+from customizer.primitive_aspect.concrete_aspect import ConcreteAspect
+from customizer.primitive_aspect.primitive_aspect import PrimitiveAspect
 from util.file_util import generate_full_path
 
 

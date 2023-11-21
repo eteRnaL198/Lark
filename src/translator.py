@@ -15,17 +15,13 @@ class Translator:
     def __init__(self):
         self.aspect_files: list[str] = []
         self.base_files: list[str] = []
-        if len(sys.argv) == 1:  # TODO delete
-            self.aspect_files = ["acc/basic/foo.acc", "acc/basic/bar.acc"]
-            self.base_files = ["acc/basic/base.c", "acc/basic/base2.c"]
-        else:
-            for arg in sys.argv[1:]:
-                if arg.endswith(".acc"):
-                    self.aspect_files.append(arg)
-                elif arg.endswith(".c"):
-                    self.base_files.append(arg)
-            if len(self.aspect_files) == 0 or len(self.base_files) == 0:
-                raise Exception("No aspect file or base file specified.")
+        for arg in sys.argv[1:]:
+            if arg.endswith(".acc"):
+                self.aspect_files.append(arg)
+            elif arg.endswith(".c"):
+                self.base_files.append(arg)
+        if len(self.aspect_files) == 0 or len(self.base_files) == 0:
+            raise Exception("No aspect file or base file specified.")
 
     def parse_aspects(self):
         preprocessed_sources = AspectPreprocessor(self.aspect_files)()

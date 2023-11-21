@@ -49,7 +49,7 @@ class BaseTransformer(Transformer):
         """
         lines: list[str] = []
         for t in tree:
-            if isinstance(t, Token):
+            if type(t) == Token:
                 lines.append(t.value)
             else:
                 lines += t
@@ -67,7 +67,7 @@ class BaseTransformer(Transformer):
         """
         lines: list[str] = []
         for t in tree:
-            if isinstance(t, Token):
+            if type(t) == Token:
                 lines.append(t.value)
             else:
                 lines += t
