@@ -7,6 +7,10 @@ class FuncExtractor(c_ast.NodeVisitor):
     def __init__(self):
         self.functions: list[Function] = []
 
+    def visit(self, node):
+        super().visit(node)
+        return self.functions
+
     def visit_FuncDef(self, node):
         """関数の定義を取得
         Note:

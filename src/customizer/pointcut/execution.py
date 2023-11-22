@@ -23,10 +23,9 @@ class Execution(Pointcut):
         Returns:
             joinpoints (list[Joinopint]): ジョインポイントのリスト
         """
-        extractor = FuncExtractor()
-        extractor.visit(ast)
+        functions = (FuncExtractor()).visit(ast)
         joinpoints: List[Joinpoint] = []
-        for func in extractor.functions:
+        for func in functions:
             if func.name != self.func_signature.name:
                 continue
             exec_start_line = func.definitioin_line

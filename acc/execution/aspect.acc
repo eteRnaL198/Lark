@@ -1,0 +1,5 @@
+aspect Aspect {
+  before(): execution(void foo(int)) {
+    printf("execution(void foo(int))\n");
+  }
+}
