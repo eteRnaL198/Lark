@@ -1,9 +1,11 @@
-from pycparser import c_ast
+from typing import List
+
+from pycparser.c_ast import NodeVisitor, ParamList
 
 from base.extractor.function import Function
 
 
-class FuncExtractor(c_ast.NodeVisitor):
+class FuncExtractor(NodeVisitor):
     def __init__(self):
         self.functions: list[Function] = []
 
@@ -16,10 +18,17 @@ class FuncExtractor(c_ast.NodeVisitor):
         Note:
             メソッドの命名規則: visit_XXX
         """
-        # print(node.decl.type.type.type.names[0])  # 返り値の型
+        params: List[str] = (
+            [param.type.type.names[0] for param in node.decl.type.args]
+            if type(node.decl.type.args) == ParamList
+            else []
+        )
+
         self.__add(
             Function(
                 node.decl.name,
+                params,
+                node.decl.type.type.type.names[0],
                 node.decl.coord.line,
                 node.body.block_items[-1].coord.line,
             )

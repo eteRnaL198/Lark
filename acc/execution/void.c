@@ -1,11 +1,11 @@
 #include <stdio.h>
 
-void foo(int a) {
-  printf("void foo %d\n", a);
+void foo(int a, int b) {
+  printf("void foo %d, %d\n", a, b);
   return;
 }
 
 int main() {
-  foo(1);
+  foo(1, 2);
   return 0;
 }

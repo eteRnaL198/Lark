@@ -26,7 +26,11 @@ class Execution(Pointcut):
         functions = (FuncExtractor()).visit(ast)
         joinpoints: List[Joinpoint] = []
         for func in functions:
-            if func.name != self.func_signature.name:
+            if (
+                func.name != self.func_signature.name
+                or func.params != self.func_signature.args
+                or func.return_type != self.func_signature.type
+            ):
                 continue
             exec_start_line = func.definitioin_line
             exec_end_lines = [*func.get_exec_end_lines()]
