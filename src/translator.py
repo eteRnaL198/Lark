@@ -42,8 +42,10 @@ class Translator:
                 target_src = Src(f.readlines())
             for asp in aspects:
                 asp.weave(target_src, c_asts[i])
-            with open(target_path, mode="w") as f:
-                f.writelines(target_src.get())
+            for l in target_src.get():
+                print(l, end="")
+            # with open(target_path, mode="w") as f:
+            #     f.writelines(target_src.get())
 
 
 if __name__ == "__main__":

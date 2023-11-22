@@ -13,12 +13,10 @@ AFTER.1: "after"
 AROUND.1: "around"
 
 pointcut: primitive_pointcut+
-primitive_pointcut: call | execution | get | set | infunc
-call: "call("func_signature")"
+primitive_pointcut: execution | set | infile
 execution: "execution("func_signature")"
-get: "get()"
-set: "set()"
-infunc: "infunc("func_name")"
+set: "set("CNAME")"
+infile: "infile("")"
 
 func_signature: CNAME func_name "("func_args")"
 func_name: CNAME

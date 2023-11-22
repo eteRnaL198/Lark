@@ -2,10 +2,10 @@ from typing import List
 
 from pycparser.c_ast import NodeVisitor, ParamList
 
-from base.extractor.function import Function
+from base.visitor.function import Function
 
 
-class FuncExtractor(NodeVisitor):
+class FuncVisitor(NodeVisitor):
     def __init__(self):
         self.functions: list[Function] = []
 
@@ -38,12 +38,6 @@ class FuncExtractor(NodeVisitor):
     def visit_Return(self, node):
         self.functions[-1].add_return_lines(node.coord.line)
         self.generic_visit(node)
-
-    # def visit_FuncDecl(self, node):
-    #     print("FuncDecl: ", node.args, node.coord)
-
-    # def visit_FuncCall(self, node):
-    #     print("FuncCall: ", node.name.name, node.name.coord)
 
     def __add(self, func):
         return self.functions.append(func)

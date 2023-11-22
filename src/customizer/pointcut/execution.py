@@ -1,6 +1,6 @@
 from typing import List
 
-from base.extractor.func_extractor import FuncExtractor
+from base.visitor.func_visitor import FuncVisitor
 from customizer.joinpoint.joinpoint import Joinpoint
 from customizer.pointcut.func_signature import FuncSignature
 from customizer.pointcut.pointcut import Pointcut
@@ -23,7 +23,7 @@ class Execution(Pointcut):
         Returns:
             joinpoints (list[Joinopint]): ジョインポイントのリスト
         """
-        functions = (FuncExtractor()).visit(ast)
+        functions = (FuncVisitor()).visit(ast)
         joinpoints: List[Joinpoint] = []
         for func in functions:
             if (
