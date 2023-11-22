@@ -1,0 +1,9 @@
+aspect Absolute {
+  before(): execution(int calc_abs(int)) {
+    printf("num: %d\n", num);
+  }
+
+  after(): execution(int calc_abs(int)) {
+    printf("abs: %d\n", abs);
+  }
+}

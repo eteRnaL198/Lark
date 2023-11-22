@@ -1,0 +1,15 @@
+aspect ConcreteFuncAspect extends AbstractFuncAspect {
+  super(
+    ActivateTask,
+    MULTI,
+    0xFFFFFFFF,
+    ercd,
+    _multi,
+    {
+      if (ercd != E_OK) {
+        _errorhook_par1.tskid = TSKID(tskid_store);
+        call_errorhook(ercd, OSServiceId_ActivateTask);
+      }
+    }
+  )
+}

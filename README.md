@@ -3,24 +3,28 @@
 - 実行環境
 
   ```
-  python 3.8.18
+  python -V
+  Python 3.8.18
+
+  poetry -V
+  Poetry (version 1.7.0)
   ```
 
-- 仮想環境のアクティブ化
+- 仮想環境の構築
 
-  ```
-  source ./env/bin/activate
+  ```bash
+  python -m venv .venv
+  source ./venv/bin/activate
   ```
 
 - パッケージのインストール
 
-  ```
-  pip install -r ./requirements.txt
+  ```bash
+  poetry install
   ```
 
 - 実行
 
   ```
-  <!-- python -m src -->
-  Lark $ python src/c.py
+  $ py src/translator.py example/execution/greet.acc example/execution/greet.c
   ```

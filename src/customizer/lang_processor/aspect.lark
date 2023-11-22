@@ -1,0 +1,36 @@
+// https://github.com/lark-parser/lark/blob/master/lark/grammars/common.lark
+// https://lark-parser.readthedocs.io/en/latest/grammar.html
+
+?start: basic_aspect+
+basic_aspect: "aspect" aspect_name "{" (method | aspect)* "}"
+method: func_signature "{" body "}"
+aspect_name: CNAME
+aspect: advice_type pointcut "{" body "}"
+
+advice_type: (BEFORE | AFTER | AROUND)"():"
+BEFORE.1: "before"
+AFTER.1: "after"
+AROUND.1: "around"
+
+pointcut: primitive_pointcut+
+primitive_pointcut: call | execution | get | set | infunc
+call: "call("func_signature")"
+execution: "execution("func_signature")"
+get: "get()"
+set: "set()"
+infunc: "infunc("func_name")"
+
+func_signature: CNAME func_name "("func_args")"
+func_name: CNAME
+func_args: (CNAME ("," CNAME)*)?
+body: (/[^{^}]+;/ | block)+
+block: ANY_DECLARATOR (/[^{^}]+;/ | block)+ BLOCK_END
+ANY_DECLARATOR: /.+{/
+BLOCK_END: "}"
+
+
+
+%import common (CNAME, WS, C_COMMENT, CPP_COMMENT)
+%ignore WS
+%ignore C_COMMENT // /* */
+%ignore CPP_COMMENT // //

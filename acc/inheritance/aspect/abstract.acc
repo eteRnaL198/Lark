@@ -1,0 +1,25 @@
+abstract aspect AbstractAspect {
+  constructor(
+    type,
+    var,
+    display,
+    msg
+  )
+
+  abstract void method()
+
+  void method2() {
+    printf(this.msg);
+  }
+
+  void method3() {
+    this.var = 10;
+    this.method();
+    this.display(this.msg);
+  }
+  
+  after(): execution(int foo()) {
+    this.method();
+    this.method2();
+  }
+}

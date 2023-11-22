@@ -1,0 +1,21 @@
+aspect ConcreteAspect extends AbstractAspect {
+  super(
+    void,
+    num,
+    printf,
+    "token param"
+  )
+
+  void method() {
+    printf("overriding method\n");
+  }
+
+  void method2() {
+    printf("overriding method2\n");
+  }
+  
+  after(): execution(int bar()) {
+    printf("concrete");
+    printf("aspect");
+  }
+}

@@ -1,0 +1,20 @@
+template <SYSTEMCALL, OS, MSG, RET, sOS>
+aspect Template_Func_Aspect {
+  after(): set(StatusType task_location)
+                  && infile("SYSTEMCALL##_common_aspect.c") {
+    if (tsk_location == CALL_##OS) {
+      OS##_SET_FLG()
+      request_sending##sOS##_service(glbtskid_store,
+                                OSServiceId_##SYSTEMCALL, MSG);
+      RET = (UINT8)(get##sOS##_return value());
+      AFTER_SENDING_MSG()
+    }
+  }
+}
+macro{
+  AFTER_SENDING_MSG();
+  MULTI_SET_FLG();
+  DIST_SET_FLG() {
+    global_syscall_flag = TRUE;
+  }
+}

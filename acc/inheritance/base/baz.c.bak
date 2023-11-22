@@ -1,0 +1,193 @@
+#include <stdio.h>
+
+void baz() {
+  printf("baz\n");
+{ /* Start of advice*/
+{
+printf("basic aspect method\n");
+}
+if(1) {
+{
+printf("basic aspect");
+if(1) {
+printf(" method2\n");
+}
+}
+}} /* End of advice */
+
+{ /* Start of advice*/
+{
+printf("basic aspect method\n");
+}
+if(1) {
+{
+printf("basic aspect");
+if(1) {
+printf(" method2\n");
+}
+}
+}} /* End of advice */
+
+{ /* Start of advice*/
+{
+printf("basic aspect method\n");
+}
+if(1) {
+{
+printf("basic aspect");
+if(1) {
+printf(" method2\n");
+}
+}
+}} /* End of advice */
+
+{ /* Start of advice*/
+{
+printf("basic aspect method\n");
+}
+if(1) {
+{
+printf("basic aspect");
+if(1) {
+printf(" method2\n");
+}
+}
+}} /* End of advice */
+
+{ /* Start of advice*/
+{
+printf("basic aspect method\n");
+}
+if(1) {
+{
+printf("basic aspect");
+if(1) {
+printf(" method2\n");
+}
+}
+}} /* End of advice */
+
+{ /* Start of advice*/
+{
+printf("basic aspect method\n");
+}
+if(1) {
+{
+printf("basic aspect");
+if(1) {
+printf(" method2\n");
+}
+}
+}} /* End of advice */
+
+{ /* Start of advice*/
+{
+printf("basic aspect method\n");
+}
+if(1) {
+{
+printf("basic aspect");
+if(1) {
+printf(" method2\n");
+}
+}
+}} /* End of advice */
+
+{ /* Start of advice*/
+{
+printf("basic aspect method\n");
+}
+if(1) {
+{
+printf("basic aspect");
+if(1) {
+printf(" method2\n");
+}
+}
+}} /* End of advice */
+
+{ /* Start of advice*/
+{
+printf("basic aspect method\n");
+}
+if(1) {
+{
+printf("basic aspect");
+if(1) {
+printf(" method2\n");
+}
+}
+}} /* End of advice */
+
+{ /* Start of advice*/
+{
+printf("basic aspect method\n");
+}
+if(1) {
+{
+printf("basic aspect");
+if(1) {
+printf(" method2\n");
+}
+}
+}} /* End of advice */
+
+{ /* Start of advice*/
+{
+printf("basic aspect method\n");
+}
+if(1) {
+{
+printf("basic aspect");
+if(1) {
+printf(" method2\n");
+}
+}
+}} /* End of advice */
+
+{ /* Start of advice*/
+{
+printf("basic aspect method\n");
+}
+if(1) {
+{
+printf("basic aspect");
+if(1) {
+printf(" method2\n");
+}
+}
+}} /* End of advice */
+
+{ /* Start of advice*/
+{
+printf("basic aspect method\n");
+}
+if(1) {
+{
+printf("basic aspect");
+if(1) {
+printf(" method2\n");
+}
+}
+}} /* End of advice */
+
+{ /* Start of advice*/
+{
+printf("basic aspect method\n");
+}
+if(1) {
+{
+printf("basic aspect");
+if(1) {
+printf(" method2\n");
+}
+}
+}} /* End of advice */
+
+  return;
+}
+
+int main() {
+  baz();
+  return 0;
+}

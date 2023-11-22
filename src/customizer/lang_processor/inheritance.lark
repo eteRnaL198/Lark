@@ -1,0 +1,40 @@
+// https://github.com/lark-parser/lark/blob/master/lark/grammars/common.lark
+// https://lark-parser.readthedocs.io/en/latest/grammar.html
+
+?start: aspect_container+
+aspect_container: abstract_aspect | concrete_aspect | primitive_aspect
+
+abstract_aspect: "abstract" "aspect" aspect_name "{" constructor (abstract_method | method | aspect)* "}"
+constructor: CONSTRUCTOR "("constructor_args")"
+CONSTRUCTOR.1: "constructor"
+constructor_args: (CNAME ("," CNAME)*)?
+abstract_method: ABSTRACT_METHOD_MODIFIER func_signature
+ABSTRACT_METHOD_MODIFIER.1: "abstract"
+
+concrete_aspect: "aspect" aspect_name "extends" aspect_name "{" super (method | aspect)* "}"
+super: SUPER "("super_args")"
+SUPER.1: "super"
+super_args: (super_arg ("," super_arg)*)?
+super_arg: /[^,]/+
+
+primitive_aspect: "aspect" aspect_name "{" (method | aspect)* "}"
+aspect_name: CNAME
+method: func_signature "{" body "}"
+func_signature: CNAME func_name "("func_args")"
+func_name: CNAME
+func_args: (CNAME ("," CNAME)*)?
+aspect: advice_type ANY_DECLARATOR body BLOCK_END
+advice_type: (BEFORE | AFTER | AROUND)"():"
+BEFORE.1: "before"
+AFTER.1: "after"
+AROUND.1: "around"
+body: (/[^{^}]+;/ | block)+
+block: ANY_DECLARATOR (/[^{^}]+;/ | block)+ BLOCK_END
+ANY_DECLARATOR: /.+{/
+BLOCK_END: "}"
+
+%import common (CNAME, WS, C_COMMENT, CPP_COMMENT)
+%ignore WS
+%ignore C_COMMENT // /* */
+%ignore CPP_COMMENT // //
+

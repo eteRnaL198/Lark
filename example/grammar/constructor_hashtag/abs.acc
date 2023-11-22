@@ -1,0 +1,22 @@
+abstract aspect AbstractFuncAspect {
+  constructor(systemcall, os, msg, ret, s_os, after_send_msg) {
+    this.filename = "#systemcall#_common_aspect.c"
+    this.os_service_id = OSServiceId_#SYSTEMCALL#
+    this.call_os = CALL_#OS#
+    this.set_flg() = #OS#_SET_FLG()
+    this.msg = #msg#
+    this.ret = #ret#
+    this.req_sending_service = request_sending_#s_os#_service,
+    this.get_os_return = get#s_os#_return
+    this.after_sending_msg() = #after_send_msg#
+  }
+
+  after(): set(StatusType task_location) && infile(this.filename) {
+    if (tsk_location == this.call_os) {
+      this.set_flag()
+      this.req_sending_service(glbtskid_store, this.os_service_id, this.msg);
+      this.ret = (UINT8)(this.get_os_return value());
+      this.after_sending_msg()
+    }
+  }
+}

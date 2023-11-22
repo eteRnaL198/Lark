@@ -1,3 +1,0 @@
-before(): call(void foo(int)) {
-  printf("aspect var=%d\n", var);
-}
