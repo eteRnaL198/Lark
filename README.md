@@ -2,7 +2,7 @@
 
 ```
 pip install pecten-0.9.0.tar.gz
-pecten aspect.acc base.c
+pecten foo.aspect base.c
 ```
 
 # To Contribute
@@ -34,14 +34,14 @@ pecten aspect.acc base.c
 - 実行
 
   ```
-  $ poetry run pecten example/execution/greet.acc example/execution/greet.c
+  $ poetry run pecten example/execution/greet.aspect example/execution/greet.c
   ```
 
   または
 
   ```
   $ source ./venv/bin/activate
-  $ py src/translator.py example/execution/greet.acc example/execution/greet.c
+  $ py src/translator.py example/execution/greet.aspect example/execution/greet.c
   ```
 
 ## Build

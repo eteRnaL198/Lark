@@ -7,7 +7,7 @@ def generate_full_path(path):
 
     Arg:
       path (str): プロジェクトのルートからの相対パス
-      e.g. "acc/aspect.acc"
+      e.g. "src/util/file_util.py"
 
     Return:
       str: 引数pathへの絶対パス

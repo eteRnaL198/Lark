@@ -16,7 +16,7 @@ class Translator:
         self.aspect_files: list[str] = []
         self.base_files: list[str] = []
         for arg in sys.argv[1:]:
-            if arg.endswith(".acc"):
+            if arg.endswith(".aspect"):
                 self.aspect_files.append(arg)
             elif arg.endswith(".c"):
                 self.base_files.append(arg)
