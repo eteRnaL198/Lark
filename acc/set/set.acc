@@ -1,0 +1,5 @@
+aspect Aspect {
+  around(): set(num) {
+    printf("num: %d", num);
+  }
+}

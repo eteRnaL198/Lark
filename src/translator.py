@@ -3,12 +3,12 @@ from typing import List
 
 from pycparser import c_ast
 
-from base.lang_processor.c_parser import CParser
-from customizer.aspect.aspect import Aspect
-from customizer.lang_processor.aspect_parser import AspectParser
-from customizer.lang_processor.preprocessor import AspectPreprocessor
-from customizer.src import Src
-from util.file_util import backup_file, generate_full_path
+from src.base.lang_processor.c_parser import CParser
+from src.customizer.aspect.aspect import Aspect
+from src.customizer.lang_processor.aspect_parser import AspectParser
+from src.customizer.lang_processor.preprocessor import AspectPreprocessor
+from src.customizer.src import Src
+from src.util.file_util import backup_file, generate_full_path
 
 
 class Translator:
@@ -42,12 +42,18 @@ class Translator:
                 target_src = Src(f.readlines())
             for asp in aspects:
                 asp.weave(target_src, c_asts[i])
-            with open(target_path, mode="w") as f:
-                f.writelines(target_src.get())
+            for l in target_src.get():
+                print(l, end="")
+            # with open(target_path, mode="w") as f:
+            #     f.writelines(target_src.get())
 
 
-if __name__ == "__main__":
+def main():
     translator = Translator()
     aspects = translator.parse_aspects()
     c_asts = translator.parse_bases()
     translator.translate(aspects, c_asts)
+
+
+if __name__ == "__main__":
+    main()

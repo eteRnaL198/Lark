@@ -1,9 +1,9 @@
 from typing import List
 
-from base.extractor.func_extractor import FuncExtractor
-from customizer.joinpoint.joinpoint import Joinpoint
-from customizer.pointcut.func_signature import FuncSignature
-from customizer.pointcut.pointcut import Pointcut
+from src.base.visitor.func_visitor import FuncVisitor
+from src.customizer.joinpoint.joinpoint import Joinpoint
+from src.customizer.pointcut.func_signature import FuncSignature
+from src.customizer.pointcut.pointcut import Pointcut
 
 
 class Execution(Pointcut):
@@ -23,11 +23,14 @@ class Execution(Pointcut):
         Returns:
             joinpoints (list[Joinopint]): ジョインポイントのリスト
         """
-        extractor = FuncExtractor()
-        extractor.visit(ast)
+        functions = (FuncVisitor()).visit(ast)
         joinpoints: List[Joinpoint] = []
-        for func in extractor.functions:
-            if func.name != self.func_signature.name:
+        for func in functions:
+            if (
+                func.name != self.func_signature.name
+                or func.params != self.func_signature.args
+                or func.return_type != self.func_signature.type
+            ):
                 continue
             exec_start_line = func.definitioin_line
             exec_end_lines = [*func.get_exec_end_lines()]

@@ -3,7 +3,7 @@ from typing import List
 
 from pycparser import c_ast
 
-from customizer.joinpoint.joinpoint import Joinpoint
+from src.customizer.joinpoint.joinpoint import Joinpoint
 
 
 class Pointcut(metaclass=ABCMeta):

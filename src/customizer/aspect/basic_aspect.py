@@ -1,7 +1,7 @@
 from typing import List, Union
 
-from customizer.aspect.aspect import Aspect
-from customizer.method.method import Method
+from src.customizer.aspect.aspect import Aspect
+from src.customizer.method.method import Method
 
 
 class BasicAspect:

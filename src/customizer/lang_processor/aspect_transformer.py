@@ -1,9 +1,10 @@
-from customizer.aspect.advice import Advice
-from customizer.aspect.aspect import Aspect
-from customizer.aspect.basic_aspect import BasicAspect
-from customizer.lang_processor.base_transformer import BaseTransformer
-from customizer.method.method import Method
-from customizer.pointcut.execution import Execution
+from src.customizer.aspect.advice import Advice
+from src.customizer.aspect.aspect import Aspect
+from src.customizer.aspect.basic_aspect import BasicAspect
+from src.customizer.lang_processor.base_transformer import BaseTransformer
+from src.customizer.method.method import Method
+from src.customizer.pointcut.execution import Execution
+from src.customizer.pointcut.set import Set
 
 
 class AspectTransformer(BaseTransformer):
@@ -47,11 +48,11 @@ class AspectTransformer(BaseTransformer):
         """
         return tree[0]
 
-    def call(self, tree):
-        return {"name": "call", "arg": tree[0]}
-
     def execution(self, tree):
         return Execution(tree[0])
+
+    def set(self, tree):
+        return Set(str(tree[0]))
 
     def infunc(self, tree):
         return {"name": "infunc", "arg": tree[0]}

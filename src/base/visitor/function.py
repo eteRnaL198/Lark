@@ -5,6 +5,7 @@ class Function:
     """関数定義
     Args:
         name (str): 関数名
+        params (list): 関数の引数のリスト
         definitioin_line (int): 関数が定義されている行
         last_line (int): 関数の定義の末尾の行
         return_lines (List[int]): return文の行のリスト
@@ -13,11 +14,15 @@ class Function:
     def __init__(
         self,
         name,
+        params: List[str],
+        return_type: str,
         definitioin_line: int,
         last_line: int,
         return_lines: Union[List[int], None] = None,
     ):
         self.name = name
+        self.params = params
+        self.return_type = return_type
         self.definitioin_line = definitioin_line
         self.last_line = last_line
         self.return_lines = return_lines

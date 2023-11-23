@@ -1,4 +1,4 @@
-from util.list_util import are_lists_equal
+from src.util.list_util import are_lists_equal
 
 
 class FuncSignature:

@@ -1,7 +1,7 @@
 import pycparser_fake_libc
 from pycparser import c_ast, parse_file
 
-from util.file_util import generate_full_path
+from src.util.file_util import generate_full_path
 
 
 class CParser:

@@ -1,4 +1,4 @@
-from customizer.pointcut.func_signature import FuncSignature
+from src.customizer.pointcut.func_signature import FuncSignature
 
 
 class Method:

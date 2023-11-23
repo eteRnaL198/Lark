@@ -1,7 +1,7 @@
 from typing import List
 
-from customizer.primitive_aspect.stringified_aspect import StringifiedAspect
-from customizer.method.method import Method
+from src.customizer.method.method import Method
+from src.customizer.primitive_aspect.stringified_aspect import StringifiedAspect
 
 
 class PrimitiveAspect:

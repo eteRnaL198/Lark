@@ -2,10 +2,10 @@ from typing import List, Union
 
 from lark import Lark
 
-from customizer.aspect.aspect import Aspect
-from customizer.aspect.basic_aspect import BasicAspect
-from customizer.lang_processor.aspect_transformer import AspectTransformer
-from util.file_util import generate_full_path
+from src.customizer.aspect.aspect import Aspect
+from src.customizer.aspect.basic_aspect import BasicAspect
+from src.customizer.lang_processor.aspect_transformer import AspectTransformer
+from src.util.file_util import generate_full_path
 
 
 class AspectParser:
