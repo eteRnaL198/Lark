@@ -1,6 +1,6 @@
 from pycparser.c_ast import NodeVisitor
 
-from base.visitor.variable import Variable
+from src.base.visitor.variable import Variable
 
 
 class VarVisitor(NodeVisitor):

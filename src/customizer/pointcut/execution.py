@@ -1,9 +1,9 @@
 from typing import List
 
-from base.visitor.func_visitor import FuncVisitor
-from customizer.joinpoint.joinpoint import Joinpoint
-from customizer.pointcut.func_signature import FuncSignature
-from customizer.pointcut.pointcut import Pointcut
+from src.base.visitor.func_visitor import FuncVisitor
+from src.customizer.joinpoint.joinpoint import Joinpoint
+from src.customizer.pointcut.func_signature import FuncSignature
+from src.customizer.pointcut.pointcut import Pointcut
 
 
 class Execution(Pointcut):

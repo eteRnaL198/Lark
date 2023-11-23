@@ -1,7 +1,7 @@
 from lark import Token, Transformer
 
-from customizer.method.method import Method
-from customizer.pointcut.func_signature import FuncSignature
+from src.customizer.method.method import Method
+from src.customizer.pointcut.func_signature import FuncSignature
 
 
 class BaseTransformer(Transformer):

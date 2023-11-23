@@ -1,8 +1,8 @@
 from typing import List
 
-from base.visitor.variable_visitor import VarVisitor
-from customizer.joinpoint.joinpoint import Joinpoint
-from customizer.pointcut.pointcut import Pointcut
+from src.base.visitor.variable_visitor import VarVisitor
+from src.customizer.joinpoint.joinpoint import Joinpoint
+from src.customizer.pointcut.pointcut import Pointcut
 
 
 class Set(Pointcut):

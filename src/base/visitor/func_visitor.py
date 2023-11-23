@@ -2,7 +2,7 @@ from typing import List
 
 from pycparser.c_ast import NodeVisitor, ParamList
 
-from base.visitor.function import Function
+from src.base.visitor.function import Function
 
 
 class FuncVisitor(NodeVisitor):

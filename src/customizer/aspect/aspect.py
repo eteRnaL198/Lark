@@ -2,10 +2,10 @@ from typing import List
 
 from pycparser import c_ast
 
-from customizer.aspect.advice import Advice
-from customizer.joinpoint.joinpoint import Joinpoint
-from customizer.pointcut.pointcut import Pointcut
-from customizer.src import Src
+from src.customizer.aspect.advice import Advice
+from src.customizer.joinpoint.joinpoint import Joinpoint
+from src.customizer.pointcut.pointcut import Pointcut
+from src.customizer.src import Src
 
 
 class Aspect:

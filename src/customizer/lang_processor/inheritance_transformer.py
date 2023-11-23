@@ -1,11 +1,11 @@
-from customizer.lang_processor.base_transformer import BaseTransformer
-from customizer.method.method import Method
-from customizer.pointcut.func_signature import FuncSignature
-from customizer.primitive_aspect.abstract_aspect import AbstractAspect
-from customizer.primitive_aspect.concrete_aspect import ConcreteAspect
-from customizer.primitive_aspect.constructor import Constructor
-from customizer.primitive_aspect.primitive_aspect import PrimitiveAspect
-from customizer.primitive_aspect.stringified_aspect import StringifiedAspect
+from src.customizer.lang_processor.base_transformer import BaseTransformer
+from src.customizer.method.method import Method
+from src.customizer.pointcut.func_signature import FuncSignature
+from src.customizer.primitive_aspect.abstract_aspect import AbstractAspect
+from src.customizer.primitive_aspect.concrete_aspect import ConcreteAspect
+from src.customizer.primitive_aspect.constructor import Constructor
+from src.customizer.primitive_aspect.primitive_aspect import PrimitiveAspect
+from src.customizer.primitive_aspect.stringified_aspect import StringifiedAspect
 
 
 class InheritanceTransformer(BaseTransformer):
