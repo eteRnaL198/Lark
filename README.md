@@ -23,7 +23,6 @@ pecten aspect.acc base.c
 
   ```bash
   python -m venv .venv
-  source ./venv/bin/activate
   ```
 
 - パッケージのインストール
@@ -41,6 +40,7 @@ pecten aspect.acc base.c
   または
 
   ```
+  $ source ./venv/bin/activate
   $ py src/translator.py example/execution/greet.acc example/execution/greet.c
   ```
 
