@@ -10,7 +10,7 @@ aspect BasicAspect {
     }
   }
   
-  after(): execution(int baz()) {
+  after(): execution(void baz()) {
     this.method();
     if(1) {
       this.method2();
