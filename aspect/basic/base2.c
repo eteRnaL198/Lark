@@ -11,7 +11,7 @@ int main() {
 }
 
 void baz() {
-  print("baaaaaz");
+  printf("baaaaaz");
   return;
 }
 
@@ -27,6 +27,6 @@ int bar(float b) {
 }
 
 void hoge() {
-  print("hoge\n");
+  printf("hoge\n");
   return;
 }

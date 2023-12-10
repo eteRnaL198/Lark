@@ -1,0 +1,38 @@
+abstract aspect SystemCall {
+  constructor(common_abstract_param)
+  abstract void method1()
+  abstract void method2()
+
+  after(): execution(void func()) {
+    this.method1();
+    printf(this.common_abstract_param);
+    this.method2();
+  }
+}
+
+abstract aspect CommonActivateTask extends SystemCall {
+  super("Assigned by Activate Task")
+  constructor()
+
+  void method1() {
+    printf("Overriden by Common Activate Task");
+  }
+  abstract void method2()
+}
+
+abstract aspect CalcProcess extends CommonActivateTask {
+  super()
+  constructor(func_abstract_param)
+  void method2() {
+    printf("Overriden by Calc Concrete");
+    printf(this.func_abstract_param);
+  }
+}
+
+aspect DistActiveTask extends CalcProcess {
+  super("Assigned by Dist Active Task")
+}
+
+aspect MultiActivateTask extends CalcProcess {
+  super("Assigned by Multi Active Task")
+}

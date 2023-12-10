@@ -2,9 +2,11 @@
 // https://lark-parser.readthedocs.io/en/latest/grammar.html
 
 ?start: aspect_container+
-aspect_container: abstract_aspect | concrete_aspect | primitive_aspect
+aspect_container: abstract_aspect | intermediate_aspect |  concrete_aspect | primitive_aspect
 
 abstract_aspect: "abstract" "aspect" aspect_name "{" constructor (abstract_method | method | aspect)* "}"
+
+intermediate_aspect: "abstract" "aspect" aspect_name "extends" aspect_name "{" (super constructor | constructor super) (abstract_method | method | aspect)* "}"
 constructor: CONSTRUCTOR "("constructor_args")"
 CONSTRUCTOR.1: "constructor"
 constructor_args: (CNAME ("," CNAME)*)?

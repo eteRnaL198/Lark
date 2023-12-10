@@ -4,8 +4,10 @@ from src.customizer.pointcut.func_signature import FuncSignature
 from src.customizer.primitive_aspect.abstract_aspect import AbstractAspect
 from src.customizer.primitive_aspect.concrete_aspect import ConcreteAspect
 from src.customizer.primitive_aspect.constructor import Constructor
+from src.customizer.primitive_aspect.intermediate_aspect import IntermediateAspect
 from src.customizer.primitive_aspect.primitive_aspect import PrimitiveAspect
 from src.customizer.primitive_aspect.stringified_aspect import StringifiedAspect
+from src.customizer.primitive_aspect.super_constructor import SuperConstructor
 
 
 class InheritanceTransformer(BaseTransformer):
@@ -28,15 +30,36 @@ class InheritanceTransformer(BaseTransformer):
         ]
         return AbstractAspect(name, constructor, abstract_methods, methods, aspects)
 
-    def concrete_aspect(self, tree):
+    def intermediate_aspect(self, tree):
         """
-        aspect Bar extends Foo {
+        abstract aspect Foo extends Bar {
             Aspects
         }
         """
         name = str(tree[0])
         super_asp_name = str(tree[1])
-        super: Constructor = tree[2]
+        super: SuperConstructor = [t for t in tree[2:] if type(t) == SuperConstructor][
+            0
+        ]
+        constructor: Constructor = [t for t in tree[2:] if type(t) == Constructor][0]
+        abstract_methods = [t for t in tree[3:] if type(t) == FuncSignature]
+        methods: list[Method] = [t for t in tree[3:] if type(t) == Method]
+        aspects: list[StringifiedAspect] = [
+            t for t in tree[3:] if type(t) == StringifiedAspect
+        ]
+        return IntermediateAspect(
+            name, super_asp_name, super, constructor, abstract_methods, methods, aspects
+        )
+
+    def concrete_aspect(self, tree):
+        """
+        aspect Foo extends Bar {
+            Aspects
+        }
+        """
+        name = str(tree[0])
+        super_asp_name = str(tree[1])
+        super: SuperConstructor = tree[2]
         methods: list[Method] = [t for t in tree[3:] if type(t) == Method]
         aspects: list[StringifiedAspect] = [
             t for t in tree[3:] if type(t) == StringifiedAspect
@@ -45,7 +68,7 @@ class InheritanceTransformer(BaseTransformer):
 
     def primitive_aspect(self, tree):
         """
-        aspect Baz {
+        aspect Foo {
             Aspects
         }
         """
@@ -83,7 +106,7 @@ class InheritanceTransformer(BaseTransformer):
         return [str(t) for t in tree]
 
     def super(self, tree):
-        return Constructor(tree[1])
+        return SuperConstructor(tree[1])
 
     def super_args(self, tree):
         """

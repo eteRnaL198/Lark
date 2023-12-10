@@ -25,6 +25,8 @@ class Translator:
 
     def parse_aspects(self):
         preprocessed_sources = AspectPreprocessor(self.aspect_files)()
+        for l in preprocessed_sources:  # TODO delete: print preprocessed source
+            print(l)
         aspects = (AspectParser(preprocessed_sources))()
         return aspects
 
@@ -42,8 +44,8 @@ class Translator:
                 target_src = Src(f.readlines())
             for asp in aspects:
                 asp.weave(target_src, c_asts[i])
-            for l in target_src.get():
-                print(l, end="")
+            # for l in target_src.get():  # TODO delete: print translated source
+            #     print(l, end="")
             # with open(target_path, mode="w") as f:
             #     f.writelines(target_src.get())
 

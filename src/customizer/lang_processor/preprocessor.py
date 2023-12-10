@@ -1,10 +1,11 @@
-from typing import List, Union
+from typing import Dict, List, Union
 
 from lark import Lark
 
 from src.customizer.lang_processor.inheritance_transformer import InheritanceTransformer
 from src.customizer.primitive_aspect.abstract_aspect import AbstractAspect
 from src.customizer.primitive_aspect.concrete_aspect import ConcreteAspect
+from src.customizer.primitive_aspect.intermediate_aspect import IntermediateAspect
 from src.customizer.primitive_aspect.primitive_aspect import PrimitiveAspect
 from src.util.file_util import generate_full_path
 
@@ -45,43 +46,52 @@ class AspectPreprocessor:
 
     def __inherit(
         self,
+        aspect_containers: List[PrimitiveAspect],
         concrete_aspects: List[ConcreteAspect],
-        abstract_aspects: List[AbstractAspect],
     ):
-        table: dict[str, AbstractAspect] = dict(
-            zip([a.name for a in abstract_aspects], abstract_aspects)
-        )
-        inherited_abstract_aspects: List[AbstractAspect] = []
+        super_aspect_map: Dict[str, Union[AbstractAspect, IntermediateAspect]] = {
+            aspect.name: aspect
+            for aspect in aspect_containers
+            if type(aspect) == AbstractAspect or type(aspect) == IntermediateAspect
+        }
+        inheritance_map = {  # {sub_name: super_aspect}
+            aspect.name: super_aspect_map[aspect.super_aspect_name]
+            for aspect in aspect_containers
+            if (type(aspect) == ConcreteAspect) or (type(aspect) == IntermediateAspect)
+        }
+        inherited_super_aspects: List[Union[AbstractAspect, IntermediateAspect]] = []
         for concrete_aspect in concrete_aspects:
-            try:
-                inherited_abstract_aspects.append(
-                    concrete_aspect.inherit(table[concrete_aspect.super_aspect_name])
-                )
-            except KeyError:
-                raise Exception(
-                    f"{concrete_aspect.name} failed to inherit from {concrete_aspect.super_aspect_name} because {concrete_aspect.super_aspect_name} was not found"
-                )
-        return inherited_abstract_aspects
+            current_aspect: Union[ConcreteAspect, IntermediateAspect] = concrete_aspect
+            while True:
+                try:
+                    super_aspect = inheritance_map[current_aspect.name]
+                except KeyError:
+                    raise Exception(
+                        f"{current_aspect.name} failed to inherit from {current_aspect.super_aspect_name} because {current_aspect.super_aspect_name} was not found"
+                    )
+                inherited_aspect: Union[
+                    IntermediateAspect, AbstractAspect
+                ] = current_aspect.inherit(super_aspect)
+                inherited_super_aspects.append(inherited_aspect)
+                if type(super_aspect) == AbstractAspect:
+                    break
+                current_aspect = inherited_aspect  # type: ignore
+        return inherited_super_aspects
 
     def __preprocess(self):
         print("Start preprocessing...")
         sources = self.__read()
         aspect_containers = self.__extract_aspect_containers(sources)
-        primitive_aspects: List[PrimitiveAspect] = [
-            c for c in aspect_containers if type(c) == PrimitiveAspect
-        ]
         concrete_aspects: List[ConcreteAspect] = [
             c for c in aspect_containers if type(c) == ConcreteAspect
         ]
-        abstract_aspects: List[AbstractAspect] = [
-            c for c in aspect_containers if type(c) == AbstractAspect
+        inherited_super_aspects = self.__inherit(aspect_containers, concrete_aspects)
+        primitive_aspects: List[PrimitiveAspect] = [
+            c for c in aspect_containers if type(c) == PrimitiveAspect
         ]
-        inherited_abstract_aspects = self.__inherit(concrete_aspects, abstract_aspects)
         preprocessed_src: List[str] = [
             aspect.stringify()
-            for aspect in inherited_abstract_aspects
-            + concrete_aspects
-            + primitive_aspects
+            for aspect in inherited_super_aspects + concrete_aspects + primitive_aspects
         ]
         print("Complete preprocessing!!")
         return preprocessed_src
