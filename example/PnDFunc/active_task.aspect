@@ -1,0 +1,5 @@
+aspect Aspect {
+    before(): set(ercd) {
+      printf("before set ercd\n");
+  }
+}

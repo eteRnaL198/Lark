@@ -1,0 +1,28 @@
+// 並列分散RTOS機能部抽象アスペクト
+abstract aspect AbstractFunc {
+  constructor(
+    filename,
+    call_os,
+    os_set_flg,
+    request_sending_service,
+    os_service_id,
+    msg,
+    ret,
+    get_return_value,
+  )
+  abstract void before_advice()
+  abstract void after_sending_msg()
+  abstract void after_advice()
+  // DIST_SET_FLG() global_syscall_flag = TRUE;
+
+  after(): set(tsk_location) && infile(this.filename) {
+    this.before_advice()
+    if (tsk_location == this.call_os) {
+      this.os_set_flg()
+      this.request_sending_service(glbtskid_store, this.os_service_id, this.msg)
+      this.ret = (UINT8)(this.get_return_value());
+      this.after_sending_msg()
+    }
+    this.after_advice()
+  }
+}

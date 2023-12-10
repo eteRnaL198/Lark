@@ -16,7 +16,10 @@ class VarVisitor(NodeVisitor):
         Note:
             メソッドの命名規則: visit_XXX
         """
-        self.__add(node.lvalue.name, node.coord.line)
+        try:
+            self.__add(node.lvalue.name, node.coord.line)
+        except AttributeError:
+            pass
 
     def __add(self, name: str, num: int):
         if name not in self.vars:

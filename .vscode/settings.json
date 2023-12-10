@@ -10,7 +10,8 @@
     "osek.h": "c",
     "t_stddef.h": "c",
     "tool_defs.h": "c",
-    "alarm.h": "c"
+    "alarm.h": "c",
+    "aspect.h": "c"
   },
   "files.exclude": {
     "**/__pycache__": true
