@@ -53,6 +53,10 @@ class IntermediateAspect(PrimitiveAspect):
 
     def bind_token_params(self, sub_constructor: SuperConstructor):
         self.abstract_aspect.bind_token_params(sub_constructor)
+        for i in range(len(sub_constructor.args)):
+            self.super_constructor.replace(
+                self.constructor.get_called_format(i), sub_constructor.args[i]
+            )
 
     def override_methods(self, other_methods: List[Method]):
         self.abstract_aspect.override_methods(other_methods)
