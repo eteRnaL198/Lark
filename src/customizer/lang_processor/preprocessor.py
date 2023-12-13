@@ -1,3 +1,4 @@
+from re import U
 from typing import Dict, List, Union
 
 from lark import Lark
@@ -46,19 +47,29 @@ class AspectPreprocessor:
 
     def __inherit(
         self,
-        aspect_containers: List[PrimitiveAspect],
+        super_aspects: List[Union[AbstractAspect, IntermediateAspect]],
+        sub_aspects: List[Union[ConcreteAspect, IntermediateAspect]],
         concrete_aspects: List[ConcreteAspect],
     ):
+        """
+        Args:
+            super_aspects (List[Union[AbstractAspect, IntermediateAspect]]): 親アスペクト
+            sub_aspects (List[Union[ConcreteAspect, IntermediateAspect]]): 子アスペクト
+            concrete_aspects (List[ConcreteAspect]): 末端アスペクト
+        """
         super_aspect_map: Dict[str, Union[AbstractAspect, IntermediateAspect]] = {
-            aspect.name: aspect
-            for aspect in aspect_containers
-            if type(aspect) == AbstractAspect or type(aspect) == IntermediateAspect
+            aspect.name: aspect for aspect in super_aspects
         }
-        inheritance_map = {  # {sub_name: super_aspect}
-            aspect.name: super_aspect_map[aspect.super_aspect_name]
-            for aspect in aspect_containers
-            if (type(aspect) == ConcreteAspect) or (type(aspect) == IntermediateAspect)
-        }
+        inheritance_map: dict[
+            str, Union[AbstractAspect, IntermediateAspect]
+        ] = {}  # {sub_name: super_aspect}
+        for aspect in sub_aspects:
+            if aspect.super_aspect_name not in super_aspect_map:
+                raise Exception(
+                    f"{aspect.name} failed to inherit from {aspect.super_aspect_name} because {aspect.super_aspect_name} was not found"
+                )
+            inheritance_map[aspect.name] = super_aspect_map[aspect.super_aspect_name]
+
         inherited_super_aspects: List[Union[AbstractAspect, IntermediateAspect]] = []
         for concrete_aspect in concrete_aspects:
             current_aspect: Union[ConcreteAspect, IntermediateAspect] = concrete_aspect
@@ -82,10 +93,20 @@ class AspectPreprocessor:
         print("Start preprocessing...")
         sources = self.__read()
         aspect_containers = self.__extract_aspect_containers(sources)
+        abstract_aspects: List[Union[AbstractAspect, IntermediateAspect]] = [
+            c for c in aspect_containers if type(c) == AbstractAspect
+        ]
+        intermediate_aspects: List[IntermediateAspect] = [
+            c for c in aspect_containers if type(c) == IntermediateAspect
+        ]
         concrete_aspects: List[ConcreteAspect] = [
             c for c in aspect_containers if type(c) == ConcreteAspect
         ]
-        inherited_super_aspects = self.__inherit(aspect_containers, concrete_aspects)
+        inherited_super_aspects = self.__inherit(
+            abstract_aspects + intermediate_aspects,
+            concrete_aspects + intermediate_aspects,
+            concrete_aspects,
+        )
         primitive_aspects: List[PrimitiveAspect] = [
             c for c in aspect_containers if type(c) == PrimitiveAspect
         ]
