@@ -3,14 +3,17 @@
 typedef unsigned int uint;
 
 uint foo() {
-{ /* Start of advice*/
-printf("before execution\n");} /* End of advice */
+  { /* Start of advice*/
+    printf("before execution\n");
+  } /* End of advice */
 
-{ /* Start of advice*/
-printf("before execution\n");} /* End of advice */
+  { /* Start of advice*/
+    printf("before execution\n");
+  } /* End of advice */
 
-{ /* Start of advice*/
-printf("before execution\n");} /* End of advice */
+  { /* Start of advice*/
+    printf("before execution\n");
+  } /* End of advice */
 
   printf("void foo\n");
   return 1;

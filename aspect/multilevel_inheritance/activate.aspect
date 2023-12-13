@@ -24,7 +24,7 @@ abstract aspect CalcProcess extends CommonActivateTask {
   super()
   constructor(func_abstract_param)
   void method2() {
-    printf("Overriden by Calc Concrete");
+    printf("Overriden by Calc Process");
     printf(this.func_abstract_param);
   }
 }
@@ -33,6 +33,8 @@ aspect DistActiveTask extends CalcProcess {
   super("Assigned by Dist Active Task")
 }
 
+/*
 aspect MultiActivateTask extends CalcProcess {
   super("Assigned by Multi Active Task")
 }
+*/

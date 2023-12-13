@@ -1,4 +1,3 @@
-from re import U
 from typing import Dict, List, Union
 
 from lark import Lark

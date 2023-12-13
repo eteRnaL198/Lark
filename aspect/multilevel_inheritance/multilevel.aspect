@@ -1,0 +1,23 @@
+abstract aspect BaseLog {
+  constructor(func)
+  abstract void log()
+  after(): execution(int this.func(int, int)) {
+    this.log();
+  }
+}
+
+abstract aspect CalcLog extends BaseLog {
+  constructor(func, var)
+  super(this.func)
+  void log() {
+    printf("this.var: %d", this.var);
+  }
+}
+
+aspect AddLog extends CalcLog {
+  super(add, sum)
+}
+
+aspect SubLog extends CalcLog {
+  super(sub, diff)
+}

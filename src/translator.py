@@ -46,8 +46,8 @@ class Translator:
                 asp.weave(target_src, c_asts[i])
             # for l in target_src.get():  # TODO delete: print translated source
             #     print(l, end="")
-            # with open(target_path, mode="w") as f:
-            #     f.writelines(target_src.get())
+            with open(target_path, mode="w") as f:
+                f.writelines(target_src.get())
 
 
 def main():

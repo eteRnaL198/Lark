@@ -20,8 +20,8 @@ class CParser:
         """
         ast = parse_file(
             self.filename,
-            # use_cpp=True,
-            use_cpp=False,
+            use_cpp=True,
+            # use_cpp=False,
             cpp_path="gcc",
             cpp_args=["-E", "-I" + pycparser_fake_libc.directory],  # type: ignore
             # cpp_args=[

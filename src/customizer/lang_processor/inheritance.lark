@@ -30,7 +30,7 @@ advice_type: (BEFORE | AFTER | AROUND)"():"
 BEFORE.1: "before"
 AFTER.1: "after"
 AROUND.1: "around"
-body: (/[^{^}]+;/ | block)+
+body: (/[^{^}]+;/ | block)*
 block: ANY_DECLARATOR (/[^{^}]+;/ | block)+ BLOCK_END
 ANY_DECLARATOR: /.+{/
 BLOCK_END: "}"
