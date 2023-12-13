@@ -66,7 +66,7 @@ class AspectPreprocessor:
         for aspect in sub_aspects:
             if aspect.super_aspect_name not in super_aspect_map:
                 raise Exception(
-                    f"{aspect.name} failed to inherit from {aspect.super_aspect_name} because {aspect.super_aspect_name} was not found"
+                    f"{aspect.name} failed to inherit from {aspect.super_aspect_name} because {aspect.super_aspect_name} was not found."
                 )
             inheritance_map[aspect.name] = super_aspect_map[aspect.super_aspect_name]
 
