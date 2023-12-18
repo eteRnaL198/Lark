@@ -1,0 +1,43 @@
+abstract aspect BaseGetEvent extends BaseSystemCall {
+  super(
+    GetEvent, OSServiceId_GetEvent,
+    LOG_GETEVT_LEAVE,
+    (GlbTaskType, EventMaskRefType), // TODO handle it
+    TCL_TASK | TCL_ISR2 | TCL_ERROR | TCL_PREPOST,
+    ercd
+  )
+  constructor(
+    call_os,
+    request_sending_service,
+    get_return_value,
+  )
+
+  void local_system_call() {
+		D_CHECK_STATE(tcb_tstat[TSKID(glbtskid)] != TS_DORMANT);
+		tcb_curevt[TSKID(glbtskid)] |= mask;
+		if((tcb_curevt[TSKID(glbtskid)] & tcb_waievt[TSKID(glbtskid)]) != EVTMASK_NONE) {
+			tcb_waievt[TSKID(glbtskid)] = EVTMASK_NONE;
+			if((make_runnable(TSKID(glbtskid))) && (callevel == TCL_TASK)) {
+				dispatch();
+			}
+		}
+  }
+  
+  void before_set_tsk_location() {
+    p_mask_store = p_mask;
+  }
+  
+  void error_hook2() {
+    _errorhook_par2.p_mask = p_mask
+  }
+
+  void set_flg() { }
+
+  void after_set_tsk_location() {
+    if (tsk_location == this.call_os) {
+      this.set_flg()
+      this.request_sending_service(glbtskid_store, OSServiceId_GetEvent, 0xFFFFFFFF)
+      *p_mask_store = (UINT8)(this.get_return_value());
+    }
+  }
+}

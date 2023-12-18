@@ -1,0 +1,36 @@
+abstract aspect SystemCall extends BaseSystemCall {
+  super(
+    GetTaskState, OSServiceId_GetTaskState,
+    LOG_GETTST_LEAVE,
+    (GlbTaskType, TaskStateRefType), // TODO handle it
+    TCL_TASK | TCL_ISR2 | TCL_ERROR | TCL_PREPOST,
+    (ercd, *p_state)
+  )
+  constructor(
+    call_os,
+    request_sending_service,
+    get_return_value,
+  )
+
+  void local_system_call() {
+    *p_state = (TSKID(glbtskid) == runtsk) ? RUNNING : tcb_tstat[TSKID(glbtskid)];
+  }
+
+  void before_set_tsk_location() {
+    p_state_store = p_state;
+  }
+  
+  void error_hook2() {
+    _errorhook_par2.p_state = p_state
+  }
+
+  void set_flg() { }
+
+  void after_set_tsk_location() {
+    if (tsk_location == this.call_os) {
+      this.set_flg()
+      this.request_sending_service(glbtskid_store, OSServiceId_GetTaskState, 0xFFFFFFFF)
+      *p_mask_store = (UINT8)(this.get_return_value());
+    }
+  }
+}

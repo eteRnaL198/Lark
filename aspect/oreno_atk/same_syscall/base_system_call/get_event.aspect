@@ -1,4 +1,4 @@
-abstract aspect BaseGetEvent extends BaseSystemCall {
+abstract aspect SystemCall extends BaseSystemCall {
   super(
     GetEvent, OSServiceId_GetEvent,
     LOG_GETEVT_LEAVE,
@@ -31,7 +31,6 @@ abstract aspect BaseGetEvent extends BaseSystemCall {
     _errorhook_par2.p_mask = p_mask
   }
 
-  void after_sending_msg() { }
   void set_flg() { }
 
   void after_set_tsk_location() {
@@ -39,7 +38,6 @@ abstract aspect BaseGetEvent extends BaseSystemCall {
       this.set_flg()
       this.request_sending_service(glbtskid_store, OSServiceId_GetEvent, 0xFFFFFFFF)
       *p_mask_store = (UINT8)(this.get_return_value());
-      this.after_sending_msg()
     }
   }
 }

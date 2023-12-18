@@ -1,0 +1,20 @@
+abstract aspect Processing extends BaseSystemCall {
+  constructor(
+    system_call, os_service_id,
+    log_leave,
+    arg,
+    call_check,
+    log_val
+  )
+  super(
+
+  )
+
+　void after_set_tsk_location() {
+    if (tsk_location == CALL_DIST) {
+      global_syscall_flag = TRUE;
+      request_sending_service(glbtskid_store, OSServiceId_GetEvent, 0xFFFFFFFF)
+      *p_mask_store = (UINT8)(get_return_value());
+    }
+  }
+}
