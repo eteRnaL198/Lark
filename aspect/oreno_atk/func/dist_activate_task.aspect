@@ -1,0 +1,19 @@
+aspect DistActivateTask extends BaseFunc {
+  super(
+    CALL_DIST,
+    request_sending_service,
+    OSServiceId_ActivateTask,
+    0xFFFFFFFF,
+    ercd,
+    get_return_value,
+  )
+  void after_sending_msg() {
+    if (ercd != E_OK) {
+      _errorhook_par1.tskid = TSKID(tskid_store);
+      call_errorhook(ercd, OSServiceId_ActivateTask);
+    }
+  }
+  void set_flg() {
+    global_syscall_flag = TRUE;
+  }
+}

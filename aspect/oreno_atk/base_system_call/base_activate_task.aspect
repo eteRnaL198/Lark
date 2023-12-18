@@ -1,0 +1,25 @@
+abstract aspect BaseActivateTask extends BaseSystemCall {
+  super(
+    ActivateTask, OSServiceId_ActivateTask,
+    LOG_ACTTSK_LEAVE,
+    GlbTaskType,
+    TCL_TASK|TCL_ISR2,
+    ercd
+  )
+
+  abstract void after_set_tsk_location()
+  
+  void local_system_call() {
+    if (tcb_tstat[TSKID(glbtskid)] == TS_DORMANT) {
+      if ((make_active(TSKID(glbtskid))) && (callevel == TCL_TASK)) {
+          dispatch();
+      }
+    }
+    else if (tcb_actcnt[TSKID(glbtskid)] < tinib_maxact[TSKID(glbtskid)]) {
+      tcb_actcnt[TSKID(glbtskid)] += 1;
+    } else {
+      ercd = E_OS_LIMIT;
+      goto d_error_exit;
+    } 
+  }
+}

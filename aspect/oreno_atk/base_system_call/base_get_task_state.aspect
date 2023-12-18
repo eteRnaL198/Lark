@@ -1,0 +1,24 @@
+abstract aspect BaseGetTaskState extends BaseSystemCall {
+  super(
+    GetTaskState, OSServiceId_GetTaskState,
+    LOG_GETTST_LEAVE,
+    (GlbTaskType, TaskStateRefType), // TODO handle it
+    TCL_TASK | TCL_ISR2 | TCL_ERROR | TCL_PREPOST,
+    (ercd, *p_state)
+  )
+
+  abstract void after_set_tsk_location() { }
+  
+  void local_system_call() {
+    *p_state = (TSKID(glbtskid) == runtsk) ? RUNNING : tcb_tstat[TSKID(glbtskid)];
+  }
+
+  void before_set_tsk_location() {
+    p_state_store = p_state;
+  }
+  
+  void error_hook2() {
+    _errorhook_par2.p_state = p_state
+  }
+
+}

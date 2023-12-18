@@ -1,0 +1,22 @@
+aspect DistChainTask extends BaseFunc {
+  super(
+    CALL_DIST,
+    request_sending_service,
+    OSServiceId_ChainTask,
+    0xFFFFFFFF,
+    ercd,
+    get_return_value,
+  )
+  void after_sending_msg() {
+    tcb_tstat[runtsk] = TS_DORMANT;
+    search_schedtsk();
+    if (tcb_actcnt[runtsk] > 0) {
+      tcb_actcnt[runtsk] -= 1;
+      (void)make_active(runtsk);
+    }
+    exit_and_dispatch();
+  }
+  void set_flg() {
+    global_syscall_flag = TRUE;
+  }
+}

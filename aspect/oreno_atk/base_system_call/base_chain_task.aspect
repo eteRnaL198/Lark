@@ -1,0 +1,42 @@
+abstract aspect BaseChainTask extends BaseSystemCall {
+  super(
+    ChainTask, OSServiceId_ChainTask,
+    LOG_CHNTSK_LEAVE,
+    GlbTaskType,
+    TCL_TASK,
+    ercd
+  )
+
+  abstract void after_set_tsk_location()
+
+  void local_system_call() {
+    if( (TSKID(glbtskid)) == runtsk ) {
+        tcb_tstat[runtsk] = TS_DORMANT;
+        search_schedtsk();
+        (void)make_active(runtsk);
+    } else {
+        if ((tcb_tstat[TSKID(glbtskid)] != TS_DORMANT)
+            && (tcb_actcnt[tskid] >= tinib_maxact[tskid])) {
+            ercd = E_OS_LIMIT;
+            goto d_error_exit;
+        }
+        tcb_tstat[runtsk] = TS_DORMANT;
+        search_schedtsk();
+        if (tcb_actcnt[runtsk] > 0) {
+            tcb_actcnt[runtsk] -= 1;
+            (void)make_active(runtsk);
+        }
+        if (tcb_tstat[tskid] == TS_DORMANT) {
+            (void)make_active(TSKID(glbtskid));
+        }
+        else {
+            tcb_actcnt[tskid] += 1;
+        }
+    }
+    exit_and_dispatch();
+  }
+  
+  void after_check_callevel() {
+    CHECK_RESOURCE(tcb_lastres[runtsk] == RESID_NULL);
+  }
+}

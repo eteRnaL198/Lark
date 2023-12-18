@@ -1,0 +1,10 @@
+aspect MultiSetEvent extends BaseFunc {
+  super(
+    CALL_MULTI,
+    request_sending_multi_service,
+    OSServiceId_SetEvent,
+    0xFFFFFFFF,
+    (UINT)mask_store,
+    get_multi_return_value,
+  )
+}
