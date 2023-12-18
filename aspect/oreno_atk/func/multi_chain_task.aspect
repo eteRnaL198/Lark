@@ -1,19 +1,7 @@
-aspect MultiChainTask extends BaseFunc {
+aspect MultiChainTask extends BaseChainTask {
   super(
     CALL_MULTI,
     request_sending_multi_service,
-    OSServiceId_ActivateTask,
-    0xFFFFFFFF,
-    ercd,
     get_multi_return_value,
   )
-  void after_sending_msg() {
-    tcb_tstat[runtsk] = TS_DORMANT;
-    search_schedtsk();
-    if (tcb_actcnt[runtsk] > 0) {
-      tcb_actcnt[runtsk] -= 1;
-      (void)make_active(runtsk);
-    }
-    exit_and_dispatch();
-  }
 }

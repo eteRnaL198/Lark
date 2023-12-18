@@ -6,8 +6,11 @@ abstract aspect BaseGetEvent extends BaseSystemCall {
     TCL_TASK | TCL_ISR2 | TCL_ERROR | TCL_PREPOST,
     ercd
   )
-
-  abstract void after_set_tsk_location() { }
+  constructor(
+    call_os,
+    request_sending_service,
+    get_return_value,
+  )
 
   void local_system_call() {
 		D_CHECK_STATE(tcb_tstat[TSKID(glbtskid)] != TS_DORMANT);
@@ -26,5 +29,17 @@ abstract aspect BaseGetEvent extends BaseSystemCall {
   
   void error_hook2() {
     _errorhook_par2.p_mask = p_mask
+  }
+
+  void after_sending_msg() { }
+  void set_flg() { }
+
+  void after_set_tsk_location() {
+    if (tsk_location == this.call_os) {
+      this.set_flg()
+      this.request_sending_service(glbtskid_store, OSServiceId_GetEvent, 0xFFFFFFFF)
+      *p_mask_store = (UINT8)(this.get_return_value());
+      this.after_sending_msg()
+    }
   }
 }

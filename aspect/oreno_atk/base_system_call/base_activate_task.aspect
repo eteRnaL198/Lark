@@ -6,8 +6,20 @@ abstract aspect BaseActivateTask extends BaseSystemCall {
     TCL_TASK|TCL_ISR2,
     ercd
   )
+  constructor(
+    call_os,
+    request_sending_service,
+    get_return_value,
+  )
 
-  abstract void after_set_tsk_location()
+  void set_flg() { }
+  
+  void after_sending_msg() {
+    if (ercd != E_OK) {
+      _errorhook_par1.tskid = TSKID(tskid_store);
+      call_errorhook(ercd, OSServiceId_ActivateTask);
+    }
+  }
   
   void local_system_call() {
     if (tcb_tstat[TSKID(glbtskid)] == TS_DORMANT) {
@@ -20,6 +32,15 @@ abstract aspect BaseActivateTask extends BaseSystemCall {
     } else {
       ercd = E_OS_LIMIT;
       goto d_error_exit;
-    } 
+    }
+  }
+
+  void after_set_tsk_location() {
+    if (tsk_location == this.call_os) {
+      this.set_flg()
+      this.request_sending_service(glbtskid_store, OSServiceId_ActivateTask, 0xFFFFFFFF)
+      ercd = (UINT8)(this.get_return_value());
+      this.after_sending_msg()
+    }
   }
 }

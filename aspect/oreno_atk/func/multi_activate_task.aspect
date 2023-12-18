@@ -1,16 +1,7 @@
-aspect MultiActivateTask extends BaseFunc {
+aspect MultiActivateTask extends BaseActivateTask {
   super(
     CALL_MULTI,
     request_sending_multi_service,
-    OSServiceId_ActivateTask,
-    0xFFFFFFFF,
-    ercd,
     get_multi_return_value,
   )
-  void after_sending_msg() {
-    if (ercd != E_OK) {
-      _errorhook_par1.tskid = TSKID(tskid_store);
-      call_errorhook(ercd, OSServiceId_ActivateTask);
-    }
-  }
 }

@@ -6,8 +6,11 @@ abstract aspect BaseChainTask extends BaseSystemCall {
     TCL_TASK,
     ercd
   )
-
-  abstract void after_set_tsk_location()
+  constructor(
+    call_os,
+    request_sending_service,
+    get_return_value,
+  )
 
   void local_system_call() {
     if( (TSKID(glbtskid)) == runtsk ) {
@@ -38,5 +41,26 @@ abstract aspect BaseChainTask extends BaseSystemCall {
   
   void after_check_callevel() {
     CHECK_RESOURCE(tcb_lastres[runtsk] == RESID_NULL);
+  }
+
+  void set_flg() { }
+  
+  void after_set_tsk_location() {
+    if (tsk_location == this.call_os) {
+      this.set_flg()
+      this.request_sending_service(glbtskid_store, OSServiceId_ChainTask, 0xFFFFFFFF)
+      ercd = (UINT8)(this.get_return_value());
+      this.after_sending_msg()
+    }
+  }
+  
+  void after_sending_msg() {
+    tcb_tstat[runtsk] = TS_DORMANT;
+    search_schedtsk();
+    if (tcb_actcnt[runtsk] > 0) {
+      tcb_actcnt[runtsk] -= 1;
+      (void)make_active(runtsk);
+    }
+    exit_and_dispatch();
   }
 }

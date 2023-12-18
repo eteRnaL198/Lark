@@ -2,9 +2,6 @@ aspect MultiGetTaskState extends BaseFunc {
   super(
     CALL_MULTI,
     request_sending_multi_service,
-    OSServiceId_GetTaskState,
-    0xFFFFFFFF,
-    *p_mask_store,
     get_multi_return_value,
   )
 }

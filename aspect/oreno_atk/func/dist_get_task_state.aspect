@@ -2,9 +2,6 @@ aspect DistGetTaskState extends BaseFunc {
   super(
     CALL_DIST,
     request_sending_service,
-    OSServiceId_GetTaskState,
-    0xFFFFFFFF,
-    *p_mask_store,
     get_return_value,
   )
   void set_flg() {

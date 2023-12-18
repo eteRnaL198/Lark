@@ -1,10 +1,7 @@
-aspect DistSetEvent extends BaseFunc {
+aspect DistSetEvent extends BaseSetEvent {
   super(
     CALL_DIST,
     request_sending_service,
-    OSServiceId_SetEvent,
-    (UINT)mask_store,
-    ercd,
     get_return_value,
   )
   void set_flg() {
