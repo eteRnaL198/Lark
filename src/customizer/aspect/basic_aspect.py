@@ -26,6 +26,11 @@ class BasicAspect:
             for aspect in self.aspects:
                 body = "{\n" + method.body + "\n}" if method.body else ""
                 aspect.advice.replace(method.get_called_format(), body)
+        for aspect in self.aspects:
+            if "this." in aspect.advice.body:
+                raise Exception(
+                    "The following methods were not defined: {}".format(aspect.advice)
+                )
 
     def get_aspects(self):
         self.__bind_methods()
