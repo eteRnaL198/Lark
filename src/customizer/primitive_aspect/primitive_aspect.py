@@ -21,6 +21,12 @@ class PrimitiveAspect:
         self.methods: List[Method] = methods
         self.aspects: List[StringifiedAspect] = aspects
 
+    def set_name(self, name: str):
+        self.name = name
+
+    def add_aspect(self, aspect: StringifiedAspect):
+        self.aspects.append(aspect)
+
     def stringify(self) -> str:
         return "\n".join(
             [

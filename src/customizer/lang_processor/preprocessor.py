@@ -69,7 +69,7 @@ class AspectPreprocessor:
                 )
             inheritance_map[aspect.name] = super_aspect_map[aspect.super_aspect_name]
 
-        inherited_super_aspects: List[Union[AbstractAspect, IntermediateAspect]] = []
+        inherited_aspects: List[Union[AbstractAspect, IntermediateAspect]] = []
         for concrete_aspect in concrete_aspects:
             current_aspect: Union[ConcreteAspect, IntermediateAspect] = concrete_aspect
             while True:
@@ -77,11 +77,11 @@ class AspectPreprocessor:
                 inherited_aspect: Union[
                     IntermediateAspect, AbstractAspect
                 ] = current_aspect.inherit(super_aspect)
-                inherited_super_aspects.append(inherited_aspect)
                 if type(super_aspect) == AbstractAspect:
+                    inherited_aspects.append(inherited_aspect)
                     break
                 current_aspect = inherited_aspect  # type: ignore
-        return inherited_super_aspects
+        return inherited_aspects
 
     def __preprocess(self):
         print("Start preprocessing...")
@@ -96,7 +96,7 @@ class AspectPreprocessor:
         concrete_aspects: List[ConcreteAspect] = [
             c for c in aspect_containers if type(c) == ConcreteAspect
         ]
-        inherited_super_aspects = self.__inherit(
+        inherited_aspects = self.__inherit(
             abstract_aspects + intermediate_aspects,
             concrete_aspects + intermediate_aspects,
             concrete_aspects,
@@ -105,8 +105,7 @@ class AspectPreprocessor:
             c for c in aspect_containers if type(c) == PrimitiveAspect
         ]
         preprocessed_src: List[str] = [
-            aspect.stringify()
-            for aspect in inherited_super_aspects + concrete_aspects + primitive_aspects
+            aspect.stringify() for aspect in inherited_aspects + primitive_aspects
         ]
         print("Complete preprocessing!!")
         return preprocessed_src

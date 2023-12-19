@@ -68,5 +68,4 @@ class IntermediateAspect(PrimitiveAspect):
         Returns:
             super_aspect (AbstractAspect): 継承完了後のアスペクト
         """
-
         return self.concrete_aspect.inherit(aspect)

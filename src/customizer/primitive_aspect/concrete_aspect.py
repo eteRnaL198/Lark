@@ -38,4 +38,7 @@ class ConcreteAspect(PrimitiveAspect):
         super_aspect = copy.deepcopy(aspect)
         super_aspect.bind_token_params(self.super)
         super_aspect.override_methods(self.methods)
+        for a in self.aspects:
+            super_aspect.add_aspect(a)
+        super_aspect.set_name(self.name)
         return super_aspect
