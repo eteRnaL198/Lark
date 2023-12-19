@@ -73,12 +73,7 @@ class AspectPreprocessor:
         for concrete_aspect in concrete_aspects:
             current_aspect: Union[ConcreteAspect, IntermediateAspect] = concrete_aspect
             while True:
-                try:
-                    super_aspect = inheritance_map[current_aspect.name]
-                except KeyError:
-                    raise Exception(
-                        f"{current_aspect.name} failed to inherit from {current_aspect.super_aspect_name} because {current_aspect.super_aspect_name} was not found"
-                    )
+                super_aspect = inheritance_map[current_aspect.name]
                 inherited_aspect: Union[
                     IntermediateAspect, AbstractAspect
                 ] = current_aspect.inherit(super_aspect)
