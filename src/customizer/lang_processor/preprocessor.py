@@ -59,32 +59,28 @@ class AspectPreprocessor:
         super_aspect_map: Dict[str, Union[AbstractAspect, IntermediateAspect]] = {
             aspect.name: aspect for aspect in super_aspects
         }
-        inheritance_map: dict[
-            str, Union[AbstractAspect, IntermediateAspect]
-        ] = {}  # {sub_name: super_aspect}
         for aspect in sub_aspects:
             if aspect.super_aspect_name not in super_aspect_map:
                 raise Exception(
                     f"{aspect.name} failed to inherit from {aspect.super_aspect_name} because {aspect.super_aspect_name} was not found."
                 )
-            inheritance_map[aspect.name] = super_aspect_map[aspect.super_aspect_name]
 
         inherited_aspects: List[Union[AbstractAspect, IntermediateAspect]] = []
         for concrete_aspect in concrete_aspects:
             current_aspect: Union[ConcreteAspect, IntermediateAspect] = concrete_aspect
             while True:
-                super_aspect = inheritance_map[current_aspect.name]
+                super_aspect = super_aspect_map[current_aspect.super_aspect_name]
                 inherited_aspect: Union[
                     IntermediateAspect, AbstractAspect
                 ] = current_aspect.inherit(super_aspect)
                 if type(super_aspect) == AbstractAspect:
-                    inherited_aspects.append(inherited_aspect)
                     break
                 current_aspect = inherited_aspect  # type: ignore
+            inherited_aspects.append(inherited_aspect)
         return inherited_aspects
 
     def __preprocess(self):
-        print("Start preprocessing...")
+        print("Preprocessing...", end="  ")
         sources = self.__read()
         aspect_containers = self.__extract_aspect_containers(sources)
         abstract_aspects: List[Union[AbstractAspect, IntermediateAspect]] = [
@@ -107,5 +103,5 @@ class AspectPreprocessor:
         preprocessed_src: List[str] = [
             aspect.stringify() for aspect in inherited_aspects + primitive_aspects
         ]
-        print("Complete preprocessing!!")
+        print("Complete!")
         return preprocessed_src

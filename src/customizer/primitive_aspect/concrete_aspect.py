@@ -26,7 +26,7 @@ class ConcreteAspect(PrimitiveAspect):
         """
         super().__init__(name, methods, aspects)
         self.super_aspect_name: str = super_aspect_name
-        self.super = super_constructor
+        self.super_constructor = super_constructor
 
     def inherit(self, aspect):  # 型を指定すると循環importになる
         """
@@ -36,7 +36,7 @@ class ConcreteAspect(PrimitiveAspect):
             super_aspect (AbstractAspect): 継承完了後のアスペクト
         """
         super_aspect = copy.deepcopy(aspect)
-        super_aspect.bind_token_params(self.super)
+        super_aspect.bind_token_params(self.super_constructor)
         super_aspect.override_methods(self.methods)
         for a in self.aspects:
             super_aspect.add_aspect(a)

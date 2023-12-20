@@ -30,12 +30,12 @@ class IntermediateAspect(PrimitiveAspect):
             methods (list[Method]): メソッドのリスト
             aspects (list[StringifiedAspect]): アスペクトのリスト
         """
+        super().__init__(name, methods, aspects)
         self.super_aspect_name = super_aspect_name
         self.constructor = constructor
         self.super_constructor = super_constructor
         self.abstract_methods: List[FuncSignature] = abstract_methods
 
-        super().__init__(name, methods, aspects)
         self.abstract_aspect = AbstractAspect(
             self.name,
             self.constructor,
@@ -50,6 +50,11 @@ class IntermediateAspect(PrimitiveAspect):
             self.methods,
             self.aspects,
         )
+
+    def set_name(self, name: str):
+        super().set_name(name)
+        self.abstract_aspect.set_name(name)
+        self.concrete_aspect.set_name(name)
 
     def bind_token_params(self, sub_constructor: SuperConstructor):
         self.abstract_aspect.bind_token_params(sub_constructor)

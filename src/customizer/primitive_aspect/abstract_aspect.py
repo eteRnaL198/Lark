@@ -48,11 +48,11 @@ class AbstractAspect(PrimitiveAspect):
 
     def override_methods(self, sub_methods: List[Method]):
         for method in sub_methods:
-            self.methods.append(method)
             if method in self.methods:
                 self.methods.remove(method)
             if method.signature in self.abstract_methods:
                 self.abstract_methods.remove(method.signature)
+            self.methods.append(method)
         if len(self.abstract_methods) != 0:
             raise Exception(
                 "{} aspect is missing implementations for the following abstract methods: {}".format(

@@ -43,12 +43,12 @@ class AspectParser:
         Returns:
             aspects (list[Aspect]): アスペクトのリスト
         """
-        print("Start parsing aspects...")
+        print("Parsing aspects...", end="  ")
         aspect_containers: List[BasicAspect] = []
         for src in self.sources:
             aspect_containers += self.__extract_aspect_containers(src)
         aspects: List[Aspect] = []
         for container in aspect_containers:
             aspects += container.get_aspects()
-        print("Complete parsing aspects!!")
+        print("Complete!")
         return aspects
