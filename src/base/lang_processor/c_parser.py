@@ -1,8 +1,6 @@
 import pycparser_fake_libc
 from pycparser import c_ast, parse_file
 
-from src.util.file_util import generate_full_path
-
 
 class CParser:
     """Cファイルの構文解析器
@@ -11,7 +9,7 @@ class CParser:
     """
 
     def __init__(self, filename):
-        self.filename = generate_full_path(filename)
+        self.filename = filename
 
     def parse(self) -> c_ast.FileAST:
         """構文解析を実行

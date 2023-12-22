@@ -1,14 +1,17 @@
+import os
 import sys
 from typing import List
 
 from pycparser import c_ast
+
+sys.path.append(os.path.join(os.path.dirname(__file__), ".."))
 
 from src.base.lang_processor.c_parser import CParser
 from src.customizer.aspect.aspect import Aspect
 from src.customizer.lang_processor.aspect_parser import AspectParser
 from src.customizer.lang_processor.preprocessor import AspectPreprocessor
 from src.customizer.src import Src
-from src.util.file_util import backup_file, generate_full_path
+from src.util.file_util import backup_file
 
 
 class Translator:
@@ -39,15 +42,15 @@ class Translator:
     def translate(self, aspects: List[Aspect], c_asts):
         for i in range(len(self.base_files)):
             backup_file(self.base_files[i])
-            target_path = generate_full_path(self.base_files[i])
+            target_path = self.base_files[i]
             with open(target_path, mode="r") as f:
                 target_src = Src(f.readlines())
             for asp in aspects:
                 asp.weave(target_src, c_asts[i])
-            # for l in target_src.get():  # TODO delete: print translated source
-            #     print(l, end="")
-            with open(target_path, mode="w") as f:
-                f.writelines(target_src.get())
+            for l in target_src.get():  # TODO delete: print translated source
+                print(l, end="")
+            # with open(target_path, mode="w") as f:
+            #     f.writelines(target_src.get())
 
 
 def main():

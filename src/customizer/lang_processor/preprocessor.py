@@ -7,7 +7,7 @@ from src.customizer.primitive_aspect.abstract_aspect import AbstractAspect
 from src.customizer.primitive_aspect.concrete_aspect import ConcreteAspect
 from src.customizer.primitive_aspect.intermediate_aspect import IntermediateAspect
 from src.customizer.primitive_aspect.primitive_aspect import PrimitiveAspect
-from src.util.file_util import generate_full_path
+from src.util.file_util import generate_abs_path
 
 
 class AspectPreprocessor:
@@ -22,12 +22,12 @@ class AspectPreprocessor:
     def __read(self):
         sources: List[str] = []
         for filename in self.filenames:
-            sources.append(open(generate_full_path(filename)).read())
+            sources.append(open(filename).read())
         return sources
 
     def __extract_aspect_containers(self, sources: List[str]) -> List[PrimitiveAspect]:
         aspect_containers: List[PrimitiveAspect] = []
-        grammar_path = generate_full_path(
+        grammar_path = generate_abs_path(
             "src/customizer/lang_processor/inheritance.lark"
         )
         for src in sources:
