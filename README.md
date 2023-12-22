@@ -34,12 +34,6 @@ pecten foo.aspect base.c
 - 実行
 
   ```
-  $ poetry run pecten example/execution/greet.aspect example/execution/greet.c
-  ```
-
-  または
-
-  ```
   $ source ./venv/bin/activate
   $ py src/translator.py example/execution/greet.aspect example/execution/greet.c
   ```
