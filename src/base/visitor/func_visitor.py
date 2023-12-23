@@ -24,12 +24,16 @@ class FuncVisitor(NodeVisitor):
             else []
         )
 
+        # 関数が定義されている行
+        # int func() { と int func() \n { の場合があるので､関数の中身の最初の行-1を取得する
+        def_line = node.body.block_items[0].coord.line - 1
+
         self.__add(
             Function(
                 node.decl.name,
                 params,
                 node.decl.type.type.type.names[0],
-                node.decl.coord.line,
+                def_line,
                 node.body.block_items[-1].coord.line,
             )
         )
