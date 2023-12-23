@@ -25,14 +25,14 @@ method: func_signature "{" body "}"
 func_signature: CNAME func_name "("func_args")"
 func_name: CNAME
 func_args: (CNAME ("," CNAME)*)?
-aspect: advice_type ANY_DECLARATOR body BLOCK_END
+aspect: advice_type BLOCK_START body BLOCK_END
 advice_type: (BEFORE | AFTER | AROUND)"():"
 BEFORE.1: "before"
 AFTER.1: "after"
 AROUND.1: "around"
 body: (/[^{^}]+[;:]/ | block)*
-block: ANY_DECLARATOR (/[^{^}]+[;:]/ | block)+ BLOCK_END
-ANY_DECLARATOR: /.+{/
+block: BLOCK_START body BLOCK_END
+BLOCK_START: /.+{/
 BLOCK_END: "}"
 
 %import common (CNAME, WS, C_COMMENT, CPP_COMMENT)
