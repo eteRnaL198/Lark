@@ -15,6 +15,11 @@ pycparser = "^2.21"
 lark = "^1.1.8"
 pycparser-fake-libc = "^2.21"
 
+[tool.poetry.group.dev.dependencies]
+poethepoet = "^0.24.4"
+
+[tool.poe.tasks]
+pecten.script = "src.translator:main"
 
 [build-system]
 requires = ["poetry-core"]

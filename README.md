@@ -33,9 +33,9 @@ pecten foo.aspect base.c
 
 - 実行
 
-  ```
-  $ source ./venv/bin/activate
-  $ py src/translator.py example/execution/greet.aspect example/execution/greet.c
+  ```bash
+  poetry shell # 仮想環境に入る
+  poe pecten example/execution/greet.aspect example/execution/greet.c
   ```
 
 ## Build
