@@ -1,10 +1,7 @@
-import os
 import sys
 from typing import List
 
 from pycparser import c_ast
-
-sys.path.append(os.path.join(os.path.dirname(__file__), ".."))
 
 from src.base.lang_processor.c_parser import CParser
 from src.customizer.aspect.aspect import Aspect
@@ -28,8 +25,8 @@ class Translator:
 
     def parse_aspects(self):
         preprocessed_sources = AspectPreprocessor(self.aspect_files)()
-        for l in preprocessed_sources:  # TODO delete: print preprocessed source
-            print(l)
+        # for l in preprocessed_sources:  # TODO delete: print preprocessed source
+        #     print(l)
         aspects = (AspectParser(preprocessed_sources))()
         return aspects
 
@@ -47,10 +44,10 @@ class Translator:
                 target_src = Src(f.readlines())
             for asp in aspects:
                 asp.weave(target_src, c_asts[i])
-            for l in target_src.get():  # TODO delete: print translated source
-                print(l, end="")
-            # with open(target_path, mode="w") as f:
-            #     f.writelines(target_src.get())
+            # for l in target_src.get():  # TODO delete: print translated source
+            #     print(l, end="")
+            with open(target_path, mode="w") as f:
+                f.writelines(target_src.get())
 
 
 def main():

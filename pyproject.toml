@@ -18,8 +18,29 @@ pycparser-fake-libc = "^2.21"
 [tool.poetry.group.dev.dependencies]
 poethepoet = "^0.24.4"
 
-[tool.poe.tasks]
-pecten.script = "src.translator:main"
+[tool.poe.tasks.pecten]
+ref = "_exec_pecten"
+uses = { path = "_path" }
+
+[tool.poe.tasks.run]
+ref = "_exec_py"
+env = { filenames = "${filenames}" }
+uses = { path = "_path" }
+args = [{ name = "filenames", positional = true, multiple = true }]
+
+[tool.poe.tasks._path]
+cmd = "pwd"
+
+[tool.poe.tasks._exec_pecten]
+script = "src.translator:main()"
+env = { PYTHONPATH = "${path}" }
+cwd = "${POE_PWD}"
+
+[tool.poe.tasks._exec_py]
+cmd = "python ${filenames}"
+env = { PYTHONPATH = "${path}" }
+cwd = "${POE_PWD}"
+
 
 [build-system]
 requires = ["poetry-core"]
