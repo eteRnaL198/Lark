@@ -16,9 +16,11 @@ class FileVisitor(NodeVisitor):
             メソッドの命名規則: visit_XXX
         """
         if not self.filename:
-            self.__setattr__("filename", node.coord.file)
-        # } の行を取得する
-        last_line = node.body.block_items[-1].coord.line + 1
+            self.__setattr__(
+                "filename", node.coord.file.split("/")[-1]
+            )  # foo/.../filename.c -> filename.c
+
+        last_line = node.body.block_items[-1].coord.line + 1  # } の行を取得
         if last_line > self.last_line:
             self.__setattr__("last_line", last_line)
 
