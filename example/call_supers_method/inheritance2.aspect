@@ -1,0 +1,33 @@
+abstract aspect GreatGrandParent{
+  constructor()
+}
+
+abstract aspect GrandParent extends GreatGrandParent {
+  constructor(param)
+  super()
+  void method() {
+    printf(this.param);
+  }
+}
+
+abstract aspect Parent extends GrandParent {
+  constructor(param)
+  super(this.param)
+  before(): execution(int main()) {
+    this.method();
+  }
+}
+
+aspect Child extends Parent {
+  super("I'm child\n")
+
+  void hoge() {
+    printf("hoge\n");
+  }
+}
+
+/*
+aspect ChildsFriend extends Parent {
+  super("I'm child's friend\n")
+}
+*/
