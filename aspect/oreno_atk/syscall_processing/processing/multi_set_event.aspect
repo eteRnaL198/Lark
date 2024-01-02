@@ -1,7 +1,0 @@
-aspect MultiSetEvent extends BaseSetEvent {
-  super(
-    CALL_MULTI,
-    request_sending_multi_service,
-    get_multi_return_value,
-  )
-}
