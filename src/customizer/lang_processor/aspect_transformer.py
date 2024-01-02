@@ -26,7 +26,7 @@ class AspectTransformer(BaseTransformer):
         """
         tree[str, Pointcut, list[str]]
         """
-        advice_type, pointcut, advice_body = tree[0], tree[1], "\n".join(tree[2])
+        advice_type, pointcut, advice_body = tree[0], tree[1], "".join(tree[2])
         return Aspect(pointcut, Advice(advice_type, advice_body))
 
     ######################## advice ########################

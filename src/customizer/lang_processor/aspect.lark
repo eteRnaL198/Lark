@@ -22,12 +22,10 @@ ANY_STRING: /[^)]+/
 func_signature: CNAME func_name "("func_args")"
 func_name: CNAME
 func_args: (CNAME ("," CNAME)*)?
-body: (/[^{^}]+[;:>]/ | block)*
+body: ( /[^{^}]+/ | block)*
 block: BLOCK_START body BLOCK_END
-BLOCK_START: /.+{/
+BLOCK_START: /.*{/
 BLOCK_END: "}"
-
-
 
 %import common (CNAME, WS, C_COMMENT, CPP_COMMENT)
 %ignore WS
