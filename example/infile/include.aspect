@@ -1,0 +1,5 @@
+aspect Include {
+  before(): infile("main.c") {
+    #include <stdio.h>
+  }
+}

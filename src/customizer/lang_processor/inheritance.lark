@@ -22,21 +22,11 @@ super_arg: /[^,]/+
 primitive_aspect: "aspect" aspect_name "{" (method | aspect)* "}"
 aspect_name: CNAME
 method: func_signature "{" body "}"
-func_signature: CNAME func_name "("func_args")"
-func_name: CNAME
-func_args: (CNAME ("," CNAME)*)?
 aspect: advice_type BLOCK_START body BLOCK_END
-advice_type: (BEFORE | AFTER | AROUND)"():"
-BEFORE.1: "before"
-AFTER.1: "after"
-AROUND.1: "around"
-body: (/[^{^}]+[;:]/ | block)*
-block: BLOCK_START body BLOCK_END
-BLOCK_START: /.+{/
-BLOCK_END: "}"
 
 %import common (CNAME, WS, C_COMMENT, CPP_COMMENT)
+%import .aspect (body, block, BLOCK_START, BLOCK_END, advice_type, BEFORE, AFTER, AROUND, func_signature, func_name, func_args)
+
 %ignore WS
 %ignore C_COMMENT // /* */
 %ignore CPP_COMMENT // //
-

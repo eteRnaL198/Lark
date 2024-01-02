@@ -44,4 +44,4 @@ class FuncVisitor(NodeVisitor):
         self.generic_visit(node)
 
     def __add(self, func):
-        return self.functions.append(func)
+        self.functions.append(func)
