@@ -16,17 +16,16 @@ pointcut: primitive_pointcut+
 primitive_pointcut: execution | set | infile
 execution: "execution("func_signature")"
 set: "set("CNAME")"
-infile: "infile("")"
+infile: "infile(" ANY_STRING ")"
+ANY_STRING: /[^)]+/
 
 func_signature: CNAME func_name "("func_args")"
 func_name: CNAME
 func_args: (CNAME ("," CNAME)*)?
-body: (/[^{^}]+;/ | block)+
-block: ANY_DECLARATOR (/[^{^}]+;/ | block)+ BLOCK_END
-ANY_DECLARATOR: /.+{/
+body: ( /[^{^}]+/ | block)*
+block: BLOCK_START body BLOCK_END
+BLOCK_START: /.*{/
 BLOCK_END: "}"
-
-
 
 %import common (CNAME, WS, C_COMMENT, CPP_COMMENT)
 %ignore WS

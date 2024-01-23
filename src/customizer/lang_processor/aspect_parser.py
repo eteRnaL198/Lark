@@ -5,7 +5,7 @@ from lark import Lark
 from src.customizer.aspect.aspect import Aspect
 from src.customizer.aspect.basic_aspect import BasicAspect
 from src.customizer.lang_processor.aspect_transformer import AspectTransformer
-from src.util.file_util import generate_full_path
+from src.util.file_util import generate_abs_path
 
 
 class AspectParser:
@@ -21,7 +21,7 @@ class AspectParser:
         return self.__parse()
 
     def __extract_aspect_containers(self, src):
-        grammar_path = generate_full_path("src/customizer/lang_processor/aspect.lark")
+        grammar_path = generate_abs_path("src/customizer/lang_processor/aspect.lark")
         aspect_containers: Union[
             List[BasicAspect],
             BasicAspect,
@@ -43,12 +43,12 @@ class AspectParser:
         Returns:
             aspects (list[Aspect]): アスペクトのリスト
         """
-        print("Start parsing aspects...")
+        print("Parsing aspects...", end="  ")
         aspect_containers: List[BasicAspect] = []
         for src in self.sources:
             aspect_containers += self.__extract_aspect_containers(src)
         aspects: List[Aspect] = []
         for container in aspect_containers:
             aspects += container.get_aspects()
-        print("Complete parsing aspects!!")
+        print("Complete!")
         return aspects

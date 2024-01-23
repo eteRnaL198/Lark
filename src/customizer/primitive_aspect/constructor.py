@@ -1,3 +1,6 @@
+from src.customizer.primitive_aspect.super_constructor import SuperConstructor
+
+
 class Constructor:
     """コンストラクタ"""
 

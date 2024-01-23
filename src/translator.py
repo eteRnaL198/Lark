@@ -8,7 +8,7 @@ from src.customizer.aspect.aspect import Aspect
 from src.customizer.lang_processor.aspect_parser import AspectParser
 from src.customizer.lang_processor.preprocessor import AspectPreprocessor
 from src.customizer.src import Src
-from src.util.file_util import backup_file, generate_full_path
+from src.util.file_util import backup_file
 
 
 class Translator:
@@ -16,7 +16,7 @@ class Translator:
         self.aspect_files: list[str] = []
         self.base_files: list[str] = []
         for arg in sys.argv[1:]:
-            if arg.endswith(".acc"):
+            if arg.endswith(".aspect"):
                 self.aspect_files.append(arg)
             elif arg.endswith(".c"):
                 self.base_files.append(arg)
@@ -25,6 +25,8 @@ class Translator:
 
     def parse_aspects(self):
         preprocessed_sources = AspectPreprocessor(self.aspect_files)()
+        # for l in preprocessed_sources:  # TODO delete: print preprocessed source
+        #     print(l)
         aspects = (AspectParser(preprocessed_sources))()
         return aspects
 
@@ -37,15 +39,15 @@ class Translator:
     def translate(self, aspects: List[Aspect], c_asts):
         for i in range(len(self.base_files)):
             backup_file(self.base_files[i])
-            target_path = generate_full_path(self.base_files[i])
+            target_path = self.base_files[i]
             with open(target_path, mode="r") as f:
                 target_src = Src(f.readlines())
             for asp in aspects:
                 asp.weave(target_src, c_asts[i])
-            for l in target_src.get():
-                print(l, end="")
-            # with open(target_path, mode="w") as f:
-            #     f.writelines(target_src.get())
+            # for l in target_src.get():  # TODO delete: print translated source
+            #     print(l, end="")
+            with open(target_path, mode="w") as f:
+                f.writelines(target_src.get())
 
 
 def main():

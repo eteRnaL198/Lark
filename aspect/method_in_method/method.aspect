@@ -1,0 +1,25 @@
+abstract aspect Base {
+  constructor(param) 
+
+  abstract void method()
+  void method2() {
+    printf("Base.method2");
+  }
+  void method3() {
+    this.method();
+    this.method2();
+    printf("this.param");
+  }
+}
+
+aspect Aspect extends Base {
+  super(Hello World\n)
+
+  before(): execution(int main()) {
+    this.method3();
+  }
+  
+  void method() {
+    printf("Aspect.method");
+  }
+}

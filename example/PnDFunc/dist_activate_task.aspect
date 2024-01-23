@@ -1,0 +1,14 @@
+// 並列分散RTOS機能部分散ActivateTask向けアスペクト
+
+aspect DistActivateTask extends AbstractFunc {
+  super(
+    ActivateTask_common_aspect.c,
+    CALL_DIST,
+    DIST_SET_FLG,
+    request_sending_service,
+    OSServiceId_ActivateTask,
+    0xFFFFFFFF,
+    ercd,
+    get_return_value,
+  )
+}

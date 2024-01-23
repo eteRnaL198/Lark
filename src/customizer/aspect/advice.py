@@ -6,7 +6,7 @@ class Advice:
             body (list[str]): アドバイスの中身
         """
         self.type = type
-        self.body: str = "{ /* Start of advice*/\n" + body + "} /* End of advice */\n"
+        self.body: str = "/* Start of advice */\n" + body + "\n/* End of advice */\n"
 
     def __str__(self):
         return self.body

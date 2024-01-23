@@ -2,24 +2,24 @@ from pathlib import Path
 from shutil import copy2
 
 
-def generate_full_path(path):
+def generate_abs_path(path: str):
     """絶対パスを生成
 
     Arg:
-      path (str): プロジェクトのルートからの相対パス
-      e.g. "acc/aspect.acc"
+      path (str): プロジェクトのルートからのパス
+      e.g. "/src/util/file_util.py"
 
     Return:
       str: 引数pathへの絶対パス
     """
-    return str(Path(__file__).parents[2]) + "/" + path
+    path.lstrip("/")  # 補完を効かせるため"/"付きで受け取り､内部で削除
+    return Path(__file__).resolve().parents[2].joinpath(path)
 
 
 def backup_file(path):
     """バックアップファイルを作成
     Args:
-      path (str): プロジェクトのルートからの相対パス
+      path (str): ファイルのパス
     """
-    target_path = generate_full_path(path)
-    backup_path = target_path + ".bak"
-    copy2(target_path, backup_path)
+    backup_path = path + ".bak"
+    copy2(path, backup_path)

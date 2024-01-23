@@ -1,0 +1,18 @@
+abstract aspect GrandParent {
+  constructor()
+  void method() {
+    printf("GrandParent\n");
+  }
+}
+
+abstract aspect Parent extends GrandParent {
+  super()
+  constructor()
+}
+
+aspect Child extends Parent {
+  super()
+  before(): execution(int main()) {
+    this.method();
+  }
+}

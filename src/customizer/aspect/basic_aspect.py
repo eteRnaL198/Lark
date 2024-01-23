@@ -23,9 +23,16 @@ class BasicAspect:
 
     def __bind_methods(self):
         for method in self.methods:
+            body = "{\n" + method.body + "\n}" if method.body else ""
+            called_format = method.get_called_format()
             for aspect in self.aspects:
-                aspect.advice.replace(
-                    method.get_called_format(), "{\n" + method.body + "\n}"
+                aspect.advice.replace(called_format, body)
+            for method in self.methods:
+                method.replace(called_format, body)
+        for aspect in self.aspects:
+            if "this." in aspect.advice.body:
+                raise Exception(
+                    "The following methods were not binded: {}".format(aspect.advice)
                 )
 
     def get_aspects(self):

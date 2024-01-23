@@ -1,0 +1,10 @@
+aspect foo {
+  after(): execution(int add(int, int)) {
+    this.empty_method();
+    this.method();
+  }
+  void empty_method() { }
+  void method() {
+    printf("I'm method in Foo\n");
+  }
+}

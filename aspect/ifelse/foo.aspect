@@ -1,0 +1,10 @@
+aspect Foo {
+  before(): execution(int main()) {
+    if (1) {
+      printf("Hello, world!\n");
+    }
+    else {
+      printf("Goodbye, world!\n");
+    }
+  }
+}

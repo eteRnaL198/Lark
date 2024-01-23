@@ -1,0 +1,14 @@
+aspect Foo {
+  void method() {
+    printf("I'm Foo\n");
+  }
+
+  around(): execution(int main()) {
+    this.method();
+    return 0;
+  }
+  around(): execution(int add(int, int)) {
+    this.method();
+    return 0;
+  }
+}
